@@ -1,0 +1,188 @@
+{
+  "contact": {
+    "name": "Jordan Martinez",
+    "email": "jordan.martinez@email.com",
+    "phone": "555-456-7890",
+    "location": "Austin, TX",
+    "linkedin": "linkedin.com/in/jordanmartinez",
+    "github": "github.com/jmartinez",
+    "website": "jmartinez.dev"
+  },
+  "headline": "DevOps Engineer | Platform Architect | Infrastructure Automation",
+  "professional_summary": "DevOps Engineer with 6+ years architecting cloud infrastructure and automating deployment pipelines for high-scale applications. Expert in Kubernetes, Terraform, and CI/CD implementation. Reduced deployment times by 85% and infrastructure costs by 40% through innovative automation solutions. Strong advocate for infrastructure-as-code and GitOps methodologies.",
+  "technical_proficiencies": {
+    "Cloud Platforms": {
+      "items": ["AWS (EC2, ECS, Lambda, RDS, S3)", "Google Cloud Platform", "Azure"],
+      "level": "Expert"
+    },
+    "Container & Orchestration": {
+      "items": ["Docker", "Kubernetes", "Helm", "Istio", "OpenShift"],
+      "level": "Expert"
+    },
+    "Infrastructure as Code": {
+      "items": ["Terraform", "CloudFormation", "Ansible", "Pulumi"],
+      "level": "Expert"
+    },
+    "CI/CD Tools": {
+      "items": ["Jenkins", "GitLab CI", "GitHub Actions", "CircleCI", "ArgoCD"],
+      "level": "Advanced"
+    },
+    "Monitoring & Observability": {
+      "items": ["Prometheus", "Grafana", "ELK Stack", "Datadog", "New Relic"],
+      "level": "Advanced"
+    },
+    "Programming": {
+      "items": ["Python", "Go", "Bash", "JavaScript/Node.js"],
+      "level": "Advanced"
+    },
+    "Databases": {
+      "items": ["PostgreSQL", "MongoDB", "Redis", "Cassandra"],
+      "level": "Intermediate"
+    }
+  },
+  "featured_projects": [
+    {
+      "name": "Kubernetes Multi-Tenant Platform",
+      "role": "Lead DevOps Engineer",
+      "timeline": "2023",
+      "description": "Designed and implemented multi-tenant Kubernetes platform serving 50+ development teams",
+      "challenges": "Needed to provide isolated environments while maintaining cost efficiency and security",
+      "solution": "Built custom operators for namespace provisioning, implemented RBAC with OPA policies, and created self-service portal",
+      "technologies": ["Kubernetes", "Go", "Terraform", "Prometheus", "Grafana", "OPA"],
+      "impact": [
+        "Reduced environment provisioning time from 2 days to 5 minutes",
+        "Achieved 99.99% platform availability",
+        "Saved $500K annually through resource optimization"
+      ],
+      "github": "github.com/jmartinez/k8s-platform"
+    },
+    {
+      "name": "Zero-Downtime Migration Framework",
+      "role": "Technical Lead",
+      "timeline": "2022",
+      "description": "Orchestrated migration of 200+ microservices from on-premise to AWS cloud",
+      "challenges": "Migrate production services without customer impact while maintaining data consistency",
+      "solution": "Implemented blue-green deployment strategy with automated rollback capabilities and real-time sync",
+      "technologies": ["AWS", "Terraform", "Python", "Docker", "RDS", "DynamoDB"],
+      "impact": [
+        "Completed migration with zero customer-facing downtime",
+        "Reduced infrastructure costs by 35%",
+        "Improved application performance by 40%"
+      ]
+    },
+    {
+      "name": "GitOps CI/CD Pipeline Automation",
+      "role": "DevOps Engineer",
+      "timeline": "2022",
+      "description": "Revolutionized deployment process using GitOps principles and automated pipelines",
+      "challenges": "Manual deployments were error-prone and took 4+ hours per release",
+      "solution": "Implemented ArgoCD with GitHub Actions, automated testing, and progressive delivery",
+      "technologies": ["ArgoCD", "GitHub Actions", "Helm", "Kubernetes", "Flagger"],
+      "impact": [
+        "Reduced deployment time from 4 hours to 15 minutes",
+        "Decreased failed deployments by 90%",
+        "Enabled 10x increase in deployment frequency"
+      ],
+      "github": "github.com/jmartinez/gitops-pipeline"
+    },
+    {
+      "name": "Infrastructure Cost Optimization Tool",
+      "role": "Creator",
+      "timeline": "2021",
+      "description": "Open-source tool for analyzing and optimizing cloud infrastructure costs",
+      "challenges": "Teams lacked visibility into resource usage and cost allocation",
+      "solution": "Built Python-based analyzer with recommendations engine and Slack integration",
+      "technologies": ["Python", "AWS Cost Explorer API", "Pandas", "FastAPI", "React"],
+      "impact": [
+        "1,500+ GitHub stars, 50+ contributors",
+        "Helped organizations save average of 30% on cloud costs",
+        "Featured in DevOps Weekly newsletter"
+      ],
+      "github": "github.com/jmartinez/cloud-optimizer"
+    }
+  ],
+  "experience": [
+    {
+      "company": "TechScale Inc.",
+      "title": "Senior DevOps Engineer",
+      "location": "Austin, TX",
+      "dates": "Jan 2021 - Present",
+      "highlights": [
+        "Architected Kubernetes-based platform supporting 1B+ requests daily with 99.99% uptime",
+        "Led infrastructure team of 4 engineers, mentoring on IaC best practices and automation",
+        "Implemented comprehensive monitoring stack reducing MTTR from 45 to 8 minutes",
+        "Automated security scanning in CI/CD pipeline, catching 95% of vulnerabilities pre-production"
+      ]
+    },
+    {
+      "company": "CloudFirst Solutions",
+      "title": "DevOps Engineer",
+      "location": "Remote",
+      "dates": "Jun 2019 - Dec 2020",
+      "highlights": [
+        "Migrated 50+ applications to containerized architecture using Docker and Kubernetes",
+        "Built Terraform modules for standardized infrastructure provisioning across teams",
+        "Reduced AWS costs by 40% through reserved instances and spot fleet optimization",
+        "Established disaster recovery procedures with RTO of 1 hour and RPO of 15 minutes"
+      ]
+    },
+    {
+      "company": "DataFlow Systems",
+      "title": "Junior DevOps Engineer",
+      "location": "Dallas, TX",
+      "dates": "Aug 2018 - May 2019",
+      "highlights": [
+        "Automated server provisioning using Ansible, reducing setup time from days to hours",
+        "Implemented centralized logging with ELK stack for 100+ servers",
+        "Maintained Jenkins pipelines for continuous integration and deployment"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.S. Computer Science",
+      "institution": "University of Texas at Austin",
+      "graduation": "May 2018",
+      "relevant_coursework": ["Distributed Systems", "Cloud Computing", "Network Security", "Database Systems"]
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Certified Kubernetes Administrator (CKA)",
+      "issuer": "Cloud Native Computing Foundation",
+      "date": "2023"
+    },
+    {
+      "name": "AWS Solutions Architect Professional",
+      "issuer": "Amazon Web Services",
+      "date": "2022"
+    },
+    {
+      "name": "HashiCorp Certified: Terraform Associate",
+      "issuer": "HashiCorp",
+      "date": "2021"
+    }
+  ],
+  "open_source": [
+    {
+      "project": "Kubernetes",
+      "contribution": "Contributed to ingress-nginx controller, fixing memory leak issue",
+      "pr": "#8234"
+    },
+    {
+      "project": "Terraform AWS Modules",
+      "contribution": "Maintainer of terraform-aws-eks module with 2M+ downloads",
+      "role": "Core Maintainer"
+    },
+    {
+      "project": "Prometheus Operator",
+      "contribution": "Added custom metrics support for StatefulSets",
+      "pr": "#4567"
+    }
+  ],
+  "speaking": [
+    "KubeCon 2023: 'Scaling Kubernetes to 10,000 Nodes'",
+    "DevOps Days Austin 2022: 'GitOps in Practice'",
+    "AWS re:Invent 2022: 'Cost Optimization at Scale'"
+  ]
+}

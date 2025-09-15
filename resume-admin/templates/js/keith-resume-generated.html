@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Keith Krenek Resume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #111; background: #fff; line-height: 1.5;
+      max-width: 8.5in; margin: 0 auto; padding: 0.45in;
+      font-size: 10.5pt;
+    }
+
+    .header { border-bottom: 3px solid #0d3775; padding-bottom: 12px; margin-bottom: 18px; }
+    .name { font-size: 22pt; font-weight: 800; letter-spacing: -0.2px; }
+    .tagline { margin-top: 2px; font-size: 11pt; color: #0d3775; font-weight: 600; }
+    .contact {
+      margin-top: 6px; display: flex; flex-wrap: wrap; align-items: center; font-size: 9.5pt; color: #444;
+    }
+    .contact a { color: #111; text-decoration: none; }
+    .contact span + span::before { content: "•"; color: #111; margin: 0 0.75em; }
+
+    .section { margin-bottom: 16px; }
+    .title {
+      font-size: 11.5pt; font-weight: 800; letter-spacing: .8px; text-transform: uppercase;
+      border-bottom: 1.5px solid #d7dbe0; padding-bottom: 4px; margin-bottom: 10px;
+    }
+    .summary { font-size: 10pt; color: #111; }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+    .section-grid .section { margin-bottom: 0; }
+    /* NEW: Adds space between stacked sections in the right column */
+    .section-grid > div > .section + .section { margin-top: 16px; }
+
+
+    .label { font-weight: 700; margin-bottom: 2px; font-size: 9.5pt; color: #111; }
+    .items { font-size: 9.5pt; color: #222; }
+    .skill-group { margin-bottom: 8px; }
+
+    .xp {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border: 1px solid #e8edf3;
+      border-radius: 8px;
+      background: #f9fbff;
+    }
+    .xp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+    .xp-role { font-weight: 800; font-size: 10.5pt; color: #111; }
+    .xp-company { color: #0d3775; font-weight: 700; }
+    .xp-dates, .xp-loc { font-size: 9.5pt; color: #666; white-space: nowrap; }
+    .xp-meta { font-size: 9.5pt; color: #666; margin: 4px 0 6px 0; }
+    .bullets { margin-left: 18px; font-size: 9.5pt; }
+    .bullets li { margin-bottom: 3px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; justify-content: center; }
+    .tag { border: 1px solid #cfd6dd; padding: 1px 6px; border-radius: 999px; font-size: 8.8pt; color: #333; }
+
+    .proj { margin-bottom: 20px; }
+    .proj:last-child { margin-bottom: 0; }
+    .proj-head { display: flex; justify-content: space-between; gap: 12px; }
+    .proj-name { font-weight: 800; font-size: 10.5pt; color: #0d3775; }
+    .proj-link a { font-size: 9.5pt; color: #0d3775; text-decoration: none; }
+    .proj-impact { font-style: italic; color: #444; font-size: 9.5pt; margin: 2px 0; }
+    .proj-sections { margin-top: 6px; }
+    .proj-section { font-size: 9.5pt; margin-top: 2px; }
+    .proj-section-title { font-weight: 800; color: #444; }
+    .proj .label { font-weight: 800; color: #444; }
+    .proj .items { margin-top: 4px; }
+
+    .pub { margin-bottom: 8px; font-size: 9.5pt; }
+    .pub:last-child { margin-bottom: 0; }
+    .pub-title { font-weight: 700; color: #111; }
+    .pub-venue { color: #0d3775; font-style: italic; }
+    .pub-meta { color: #666; }
+    .pub a { color: #0d3775; text-decoration: none; }
+
+    .edu { margin-bottom: 12px; }
+    .edu:last-child { margin-bottom: 0; }
+    .edu-top { display: flex; justify-content: space-between; }
+    .edu-degree { font-weight: 800; }
+    .edu-inst { color: #0d3775; font-weight: 700; margin-top: 2px; }
+    .edu .xp-meta { margin: 2px 0 0 0; }
+
+    .list { margin-left: 18px; }
+    .list li { margin-bottom: 3px; }
+
+    .ats { display: none; font-size: 1pt; color: #fff; }
+
+    @media print {
+      body { padding: 0.3in; font-size: 10pt; }
+      .section, .section-grid { break-inside: avoid; page-break-inside: avoid; }
+      .xp, .proj, .edu, .pub { break-inside: avoid; page-break-inside: avoid; }
+      .title { break-after: avoid; page-break-after: avoid; }
+      .xp { background: #fbfcff; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="name">Keith Krenek</div>
+      <div class="tagline">ML Systems Leader &amp; Cross-Functional Team Manager</div>
+    <div class="contact">
+      <span><a href="mailto:keith.krenek@gmail.com">keith.krenek@gmail.com</a></span>
+      <span><a href="tel:832-814-9078">832-814-9078</a></span>
+      <span>Boston, MA</span>
+      <span><a href="https://linkedin.com/in/keith-krenek">linkedin.com/in/keith-krenek</a></span>
+      <span><a href="https://github.com/KeithKrenek">github.com/KeithKrenek</a></span>
+      
+    </div>
+  </header>
+
+  <div class="section-grid">
+    <div>
+      <section class="section">
+        <div class="title">Summary</div>
+        <p class="summary">Engineering Manager (2+ yrs) building production AI systems and leading cross-functional ML teams. Led 4-engineer AI team delivering 100x design cycle improvements. Achieved &gt;90% predictive accuracy in mission-critical manufacturing. Expertise: Python, LLMs, production ML systems, team leadership, responsible AI development, cross-functional collaboration.</p>
+      </section>
+    </div>
+    <div>
+      <section class="section">
+        <div class="title">Core Skills</div>
+        <div>
+          <div class="skill-group">
+            <div class="label">AI &amp; Machine Learning</div>
+            <div class="items">Python, LLMs, NLP, Deep Learning, Transformers, MLOps, Production AI Systems</div>
+          </div>
+          <div class="skill-group">
+            <div class="label">Technical Leadership</div>
+            <div class="items">Team Management, Technical Vision, Cross-functional Collaboration, Program Management, Stakeholder Alignment, Research Planning</div>
+          </div>
+          <div class="skill-group">
+            <div class="label">Engineering Systems</div>
+            <div class="items">MATLAB, Computer Vision, Data Pipelines, System Integration, Automation, Scalable Architecture</div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="title">Work Experience</div>
+      <div class="xp">
+        <div class="xp-head">
+          <div>
+            <span class="xp-role">Senior Technical Staff</span>
+            <span class="xp-company"> @ Draper Lab</span>
+          </div>
+        </div>
+        <div class="xp-meta"><span class="xp-dates">Oct 2019 – Present</span>, <span class="xp-loc">Cambridge, MA</span></div>
+        <ul class="bullets">
+          <li>Led 4-engineer AI team building physics-based generative design tools for photonics ICs, achieving 100x faster design cycles while maintaining optical performance requirements</li><li>Built production ML system predicting optical fiber radiation performance with &gt;90% accuracy, protecting $10M+ program schedules from costly delays</li><li>Developed AI-powered code analysis platform reducing manual analysis from weeks to hours with &gt;90% accuracy in similarity detection</li><li>Directed cross-functional programs across user, IT, infosec, portfolio, and executive stakeholders with research planning</li><li>Engineered OCR/CV pipeline achieving 95%+ page identification and 90%+ text extraction accuracy on large-scale document processing</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">Python</span><span class="tag">MATLAB</span><span class="tag">Machine Learning</span><span class="tag">Computer Vision</span><span class="tag">MLOps</span><span class="tag">COMSOL</span><span class="tag">Automation Systems</span>
+        </div>
+      </div>
+      <div class="xp">
+        <div class="xp-head">
+          <div>
+            <span class="xp-role">AI Trainer</span>
+            <span class="xp-company"> @ Scale AI via Outlier</span>
+          </div>
+        </div>
+        <div class="xp-meta"><span class="xp-dates">Feb 2024 – Apr 2024</span>, <span class="xp-loc">Remote</span></div>
+        <ul class="bullets">
+          <li>Engineered math/physics prompt families and adversarial variants for LLM robustness testing and benchmarking</li><li>Implemented systematic audits increasing prompt diversity and reducing bias in RLHF training data for production AI systems</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">Prompt Engineering</span><span class="tag">LLM Evaluation</span><span class="tag">RLHF</span><span class="tag">AI Safety</span><span class="tag">Adversarial Testing</span>
+        </div>
+      </div>
+      <div class="xp">
+        <div class="xp-head">
+          <div>
+            <span class="xp-role">AI Strategy Consultant</span>
+            <span class="xp-company"> @ Elementsist</span>
+          </div>
+        </div>
+        <div class="xp-meta"><span class="xp-dates">Nov 2021 – Present</span>, <span class="xp-loc">Remote</span></div>
+        <ul class="bullets">
+          <li>Shipped production SaaS platform conducting AI-driven interviews, compressing 8-hour workflows to &lt;30 minutes with high user satisfaction</li><li>Architected full-stack AI integration with React/TypeScript, Firebase, and OpenAI API enabling scalable consultation automation</li><li>Instrumented end-to-end funnel with click/view/submit events and Meta Pixel data analysis for drop-off identification</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">React</span><span class="tag">TypeScript</span><span class="tag">OpenAI API</span><span class="tag">Firebase</span><span class="tag">Full-stack Development</span><span class="tag">SaaS Architecture</span>
+        </div>
+      </div>
+      <div class="xp">
+        <div class="xp-head">
+          <div>
+            <span class="xp-role">Research Staff</span>
+            <span class="xp-company"> @ MIT Lincoln Lab</span>
+          </div>
+        </div>
+        <div class="xp-meta"><span class="xp-dates">Summer 2013 – Jun 2018</span>, <span class="xp-loc">Lexington, MA</span></div>
+        <ul class="bullets">
+          <li>Built computer vision-guided systems achieving sub-micron precision and preventing equipment damage while enabling uninterrupted testing sessions</li><li>Designed radiation tests quantifying ionizing-radiation effects for deep-space communications systems</li>
+        </ul>
+        <div class="tags">
+          <span class="tag">Computer Vision</span><span class="tag">Automation</span><span class="tag">Test Engineering</span><span class="tag">Precision Control</span><span class="tag">Data Analysis</span>
+        </div>
+      </div>
+  </section>
+
+  <div class="section-grid">
+    <div>
+      <section class="section">
+        <div class="title">Selected Projects</div>
+          <div class="proj">
+            <div class="proj-head">
+              <div class="proj-name">AI-Powered Code Intelligence Platform</div>
+              
+            </div>
+            <div class="proj-desc">Spearheaded development of enterprise MLOps infrastructure that overcomes &#x27;reality gap&#x27; in AI code evaluation through execution-grounded benchmarking</div>
+            
+              <div class="proj-sections">
+                  <div class="proj-section"><span class="proj-section-title">Approach:</span> Engineered multi-language processor with semantic clustering and automated benchmark generation producing 100s-1000s of Q&amp;A sets</div>
+                  <div class="proj-section"><span class="proj-section-title">Impact:</span> Reduced manual code analysis by 90% (weeks to hours) with &gt;90% accuracy in similarity detection across Python, MATLAB, and C++</div>
+              </div>
+              <div class="items"><span class="label">Technologies:</span> Python, AST Parsing, SentenceTransformers, DBSCAN Clustering, RAG Systems, MLOps</div>
+          </div>
+          <div class="proj">
+            <div class="proj-head">
+              <div class="proj-name">Statistical ML Framework for Radiation Hardness</div>
+              
+            </div>
+            <div class="proj-desc">Built automated modeling platform combining statistical methods with economic optimization for mission-critical manufacturing decisions</div>
+            
+              <div class="proj-sections">
+                  <div class="proj-section"><span class="proj-section-title">Approach:</span> Implemented comprehensive diagnostic suite to evaluate decisions and quantify assumptions with uncertainty estimation and automated parameter optimization</div>
+                  <div class="proj-section"><span class="proj-section-title">Impact:</span> Enabled insightful &#x27;What If?&#x27; analysis of historical financial, production, and test data to inform next generation decision-making</div>
+              </div>
+              <div class="items"><span class="label">Technologies:</span> MATLAB, Statistical Computing, Monte Carlo Analysis, Economic Optimization, Mathematical Optimization</div>
+          </div>
+          <div class="proj">
+            <div class="proj-head">
+              <div class="proj-name">Generative Design for Photonic ICs</div>
+              
+            </div>
+            <div class="proj-desc">Architected physics-based AI tools for photonic integrated circuit design with comprehensive stakeholder alignment across research and product teams</div>
+            
+              <div class="proj-sections">
+                  <div class="proj-section"><span class="proj-section-title">Approach:</span> Custom tools that smoothly integrate with existing workflows, maintain information security, and are compatible with current and future IT standards</div>
+                  <div class="proj-section"><span class="proj-section-title">Impact:</span> Delivered 100x faster design cycles (weeks to hours) without sacrificing performance, using custom workflow that integrates with existing tools</div>
+              </div>
+              <div class="items"><span class="label">Technologies:</span> Python, Genetic Algorithms, Inverse Design, COMSOL, Lumerical, Physics-informed ML</div>
+          </div>
+      </section>
+    </div>
+    <div>
+      <section class="section">
+        <div class="title">Publications</div>
+          <div class="pub">
+            <div>
+              <span class="pub-title">Humanity&#x27;s Last Exam</span>
+              <span class="pub-venue"> — arXiv:2501.14249</span>
+              <span class="pub-meta"> (2025)</span>
+            </div>
+            
+          </div>
+          <div class="pub">
+            <div>
+              <span class="pub-title">A nanoelectrode array for obtaining intracellular recordings from thousands of connected neurons</span>
+              <span class="pub-venue"> — Nature Biomedical Engineering</span>
+              <span class="pub-meta"> (2020)</span>
+            </div>
+            
+          </div>
+          <div class="pub">
+            <div>
+              <span class="pub-title">The design of a CMOS nanoelectrode array with 4096 current-clamp/voltage-clamp amplifiers</span>
+              <span class="pub-venue"> — IEEE Journal of Solid-State Circuits</span>
+              <span class="pub-meta"> (2020)</span>
+            </div>
+            
+          </div>
+      </section>
+
+      <section class="section">
+        <div class="title">Education</div>
+          <div class="edu">
+            <div class="edu-top">
+              <div class="edu-degree">Ph.D. in Applied Physics</div>
+              <div class="xp-dates">Jul 2019</div>
+            </div>
+            <div class="edu-inst">Harvard University — Cambridge, MA</div>
+            <div class="xp-meta">GPA: 3.57/4.00</div>
+            <div class="xp-meta">Thesis: Leveraging CMOS technologies in neuronal studies</div>
+            <div class="xp-meta">Honors: Distinction in Teaching Award, Kao Fellowship</div>
+          </div>
+          <div class="edu">
+            <div class="edu-top">
+              <div class="edu-degree">M.S. in Electrical Engineering</div>
+              <div class="xp-dates">May 2015</div>
+            </div>
+            <div class="edu-inst">Texas A&amp;M University — College Station, TX</div>
+            <div class="xp-meta">GPA: 4.00/4.00</div>
+            <div class="xp-meta">Thesis: High-throughput microfluidic acoustic system for aging studies</div>
+            
+          </div>
+          <div class="edu">
+            <div class="edu-top">
+              <div class="edu-degree">B.S. in Electrical Engineering</div>
+              <div class="xp-dates">May 2014</div>
+            </div>
+            <div class="edu-inst">Texas A&amp;M University — College Station, TX</div>
+            <div class="xp-meta">GPA: 4.00/4.00</div>
+            
+            <div class="xp-meta">Honors: Summa Cum Laude, University Honors</div>
+          </div>
+      </section>
+
+      <section class="section">
+        <div class="title">Leadership & Mentoring</div>
+        <ul class="list">
+            <li>Provided years-long mentorship for 5+ engineering teammates focusing on technical skill development, career progression, and cross-functional collaboration</li><li>Assisted in strategic hiring initiative that doubled technical group&#x27;s size and strengthened team capabilities</li><li>Presented seminars ranging from radiation physics for Navy leadership to brain-machine interfaces for K-12 students, translating complex concepts for diverse audiences</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+
+
+
+
+  <div class="ats">
+    Python, LLMs, NLP, Deep Learning, Transformers, MLOps, Production AI Systems Team Management, Technical Vision, Cross-functional Collaboration, Program Management, Stakeholder Alignment, Research Planning MATLAB, Computer Vision, Data Pipelines, System Integration, Automation, Scalable Architecture 
+    
+    Python, MATLAB, Machine Learning, Computer Vision, MLOps, COMSOL, Automation Systems Prompt Engineering, LLM Evaluation, RLHF, AI Safety, Adversarial Testing React, TypeScript, OpenAI API, Firebase, Full-stack Development, SaaS Architecture Computer Vision, Automation, Test Engineering, Precision Control, Data Analysis 
+        Python, AST Parsing, SentenceTransformers, DBSCAN Clustering, RAG Systems, MLOps 
+        
+        Engineered multi-language processor with semantic clustering and automated benchmark generation producing 100s-1000s of Q&amp;A sets Reduced manual code analysis by 90% (weeks to hours) with &gt;90% accuracy in similarity detection across Python, MATLAB, and C++ 
+        MATLAB, Statistical Computing, Monte Carlo Analysis, Economic Optimization, Mathematical Optimization 
+        
+        Implemented comprehensive diagnostic suite to evaluate decisions and quantify assumptions with uncertainty estimation and automated parameter optimization Enabled insightful &#x27;What If?&#x27; analysis of historical financial, production, and test data to inform next generation decision-making 
+        Python, Genetic Algorithms, Inverse Design, COMSOL, Lumerical, Physics-informed ML 
+        
+        Custom tools that smoothly integrate with existing workflows, maintain information security, and are compatible with current and future IT standards Delivered 100x faster design cycles (weeks to hours) without sacrificing performance, using custom workflow that integrates with existing tools 
+    
+    
+  </div>
+</body>
+</html>

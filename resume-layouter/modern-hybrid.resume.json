@@ -1,0 +1,105 @@
+{
+  "contact": {
+    "name": "Alex Chen",
+    "email": "alex.chen@email.com",
+    "phone": "555-987-6543",
+    "location": "San Francisco, CA",
+    "linkedin": "linkedin.com/in/alexchen",
+    "github": "github.com/alexchen",
+    "portfolio": "alexchen.dev"
+  },
+  "tagline": "Full-Stack Engineer | Cloud Architecture | Team Leadership",
+  "professional_summary": "Versatile Full-Stack Engineer with 7 years building scalable web applications and leading technical teams. Expertise in React, Node.js, and AWS cloud architecture. Passionate about creating elegant solutions to complex problems while mentoring junior developers. Recently architected microservices platform handling 50M+ requests daily with 99.99% uptime.",
+  "technical_skills": {
+    "Languages": ["JavaScript/TypeScript", "Python", "Go", "Java"],
+    "Frontend": ["React", "Vue.js", "Next.js", "GraphQL", "Redux"],
+    "Backend": ["Node.js", "Express", "Django", "Spring Boot"],
+    "Database": ["PostgreSQL", "MongoDB", "Redis", "Elasticsearch"],
+    "Cloud/DevOps": ["AWS", "Docker", "Kubernetes", "CI/CD", "Terraform"],
+    "Tools": ["Git", "Jira", "Datadog", "New Relic", "Jenkins"]
+  },
+  "experience": [
+    {
+      "company": "TechVentures Inc.",
+      "title": "Senior Full-Stack Engineer",
+      "location": "San Francisco, CA",
+      "dates": "Mar 2021 - Present",
+      "highlights": [
+        "Architected and led development of microservices platform serving 10M+ active users, improving response times by 40%",
+        "Mentored team of 5 junior engineers, conducting code reviews and establishing best practices that reduced bugs by 35%",
+        "Implemented automated CI/CD pipeline using GitHub Actions and AWS CodeDeploy, reducing deployment time from 2 hours to 15 minutes",
+        "Designed GraphQL API layer that unified 12 backend services, improving frontend development velocity by 50%",
+        "Led migration from monolith to microservices architecture, resulting in 60% reduction in infrastructure costs"
+      ],
+      "technologies": ["React", "Node.js", "AWS", "Docker", "GraphQL"]
+    },
+    {
+      "company": "DataFlow Systems",
+      "title": "Full-Stack Developer",
+      "location": "San Francisco, CA",
+      "dates": "Jun 2018 - Feb 2021",
+      "highlights": [
+        "Built real-time analytics dashboard using React and WebSockets, processing 1M+ events per minute",
+        "Developed RESTful APIs serving 500+ requests/second with sub-100ms response times",
+        "Implemented automated testing suite with 85% code coverage, reducing production bugs by 45%",
+        "Optimized database queries and implemented caching strategy, improving application performance by 3x"
+      ],
+      "technologies": ["Vue.js", "Python", "PostgreSQL", "Redis", "AWS"]
+    },
+    {
+      "company": "StartupHub",
+      "title": "Junior Developer",
+      "location": "Palo Alto, CA",
+      "dates": "Jul 2017 - May 2018",
+      "highlights": [
+        "Developed features for e-commerce platform serving 100K+ daily users",
+        "Collaborated with design team to implement responsive UI components",
+        "Participated in agile development process with 2-week sprints"
+      ],
+      "technologies": ["JavaScript", "React", "Node.js", "MongoDB"]
+    }
+  ],
+  "projects": [
+    {
+      "name": "OpenAPI Generator",
+      "description": "Open-source tool for generating API documentation from OpenAPI specs",
+      "impact": "2.5K GitHub stars, 100+ contributors, used by Fortune 500 companies",
+      "technologies": ["TypeScript", "Node.js", "React"],
+      "url": "github.com/alexchen/openapi-gen"
+    },
+    {
+      "name": "CloudCost Optimizer",
+      "description": "SaaS platform for analyzing and optimizing AWS spending",
+      "impact": "Helped clients save average of 30% on cloud costs, $2M+ total savings",
+      "technologies": ["Python", "React", "AWS Lambda", "DynamoDB"],
+      "url": "cloudcost.io"
+    },
+    {
+      "name": "Real-Time Collaborative Editor",
+      "description": "WebRTC-based collaborative text editor with conflict resolution",
+      "impact": "Handles 1000+ concurrent users with <50ms latency",
+      "technologies": ["WebRTC", "CRDT", "Node.js", "Redis"],
+      "url": "github.com/alexchen/collab-edit"
+    }
+  ],
+  "education": [
+    {
+      "degree": "B.S. Computer Science",
+      "institution": "UC Berkeley",
+      "graduation": "May 2017",
+      "gpa": "3.8/4.0",
+      "coursework": ["Distributed Systems", "Machine Learning", "Algorithms", "Database Systems"]
+    }
+  ],
+  "certifications": [
+    "AWS Certified Solutions Architect - Professional",
+    "Google Cloud Professional Cloud Developer",
+    "Certified Kubernetes Administrator (CKA)"
+  ],
+  "achievements": [
+    "Speaker at React Summit 2023 - 'Scaling React Applications'",
+    "Winner - TechCrunch Disrupt Hackathon 2022",
+    "Technical Blog with 50K+ monthly readers",
+    "Open Source Contributor - React, Node.js, Kubernetes"
+  ]
+}

@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{contact.name}} Resume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #111; background: #fff; line-height: 1.5;
+      max-width: 8.5in; margin: 0 auto; padding: 0.45in;
+      font-size: 10.5pt;
+    }
+
+    .header { border-bottom: 3px solid #0d3775; padding-bottom: 12px; margin-bottom: 18px; }
+    .name { font-size: 22pt; font-weight: 800; letter-spacing: -0.2px; }
+    .tagline { margin-top: 2px; font-size: 11pt; color: #0d3775; font-weight: 600; }
+    .contact {
+      margin-top: 6px; display: flex; flex-wrap: wrap; align-items: center; font-size: 9.5pt; color: #444;
+    }
+    .contact a { color: #111; text-decoration: none; }
+    .contact span + span::before { content: "•"; color: #111; margin: 0 0.75em; }
+
+    .section { margin-bottom: 16px; }
+    .title {
+      font-size: 11.5pt; font-weight: 800; letter-spacing: .8px; text-transform: uppercase;
+      border-bottom: 1.5px solid #d7dbe0; padding-bottom: 4px; margin-bottom: 10px;
+    }
+    .summary { font-size: 10pt; color: #111; }
+
+    .section-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      align-items: start;
+      margin-bottom: 16px;
+    }
+    .section-grid .section { margin-bottom: 0; }
+    /* NEW: Adds space between stacked sections in the right column */
+    .section-grid > div > .section + .section { margin-top: 16px; }
+
+
+    .label { font-weight: 700; margin-bottom: 2px; font-size: 9.5pt; color: #111; }
+    .items { font-size: 9.5pt; color: #222; }
+    .skill-group { margin-bottom: 8px; }
+
+    .xp {
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border: 1px solid #e8edf3;
+      border-radius: 8px;
+      background: #f9fbff;
+    }
+    .xp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+    .xp-role { font-weight: 800; font-size: 10.5pt; color: #111; }
+    .xp-company { color: #0d3775; font-weight: 700; }
+    .xp-dates, .xp-loc { font-size: 9.5pt; color: #666; white-space: nowrap; }
+    .xp-meta { font-size: 9.5pt; color: #666; margin: 4px 0 6px 0; }
+    .bullets { margin-left: 18px; font-size: 9.5pt; }
+    .bullets li { margin-bottom: 3px; }
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; justify-content: center; }
+    .tag { border: 1px solid #cfd6dd; padding: 1px 6px; border-radius: 999px; font-size: 8.8pt; color: #333; }
+
+    .proj { margin-bottom: 20px; }
+    .proj:last-child { margin-bottom: 0; }
+    .proj-head { display: flex; justify-content: space-between; gap: 12px; }
+    .proj-name { font-weight: 800; font-size: 10.5pt; color: #0d3775; }
+    .proj-link a { font-size: 9.5pt; color: #0d3775; text-decoration: none; }
+    .proj-impact { font-style: italic; color: #444; font-size: 9.5pt; margin: 2px 0; }
+    .proj-sections { margin-top: 6px; }
+    .proj-section { font-size: 9.5pt; margin-top: 2px; }
+    .proj-section-title { font-weight: 800; color: #444; }
+    .proj .label { font-weight: 800; color: #444; }
+    .proj .items { margin-top: 4px; }
+
+    .pub { margin-bottom: 8px; font-size: 9.5pt; }
+    .pub:last-child { margin-bottom: 0; }
+    .pub-title { font-weight: 700; color: #111; }
+    .pub-venue { color: #0d3775; font-style: italic; }
+    .pub-meta { color: #666; }
+    .pub a { color: #0d3775; text-decoration: none; }
+
+    .edu { margin-bottom: 12px; }
+    .edu:last-child { margin-bottom: 0; }
+    .edu-top { display: flex; justify-content: space-between; }
+    .edu-degree { font-weight: 800; }
+    .edu-inst { color: #0d3775; font-weight: 700; margin-top: 2px; }
+    .edu .xp-meta { margin: 2px 0 0 0; }
+
+    .list { margin-left: 18px; }
+    .list li { margin-bottom: 3px; }
+
+    .ats { display: none; font-size: 1pt; color: #fff; }
+
+    @media print {
+      body { padding: 0.3in; font-size: 10pt; }
+      .section, .section-grid { break-inside: avoid; page-break-inside: avoid; }
+      .xp, .proj, .edu, .pub { break-inside: avoid; page-break-inside: avoid; }
+      .title { break-after: avoid; page-break-after: avoid; }
+      .xp { background: #fbfcff; }
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="name">{{contact.name}}</div>
+    {{#if contact.tagline}}
+      <div class="tagline">{{formatMaybeList contact.tagline " | "}}</div>
+    {{/if}}
+    <div class="contact">
+      {{#if contact.email}}<span><a href="mailto:{{contact.email}}">{{contact.email}}</a></span>{{/if}}
+      {{#if contact.phone}}<span><a href="tel:{{contact.phone}}">{{contact.phone}}</a></span>{{/if}}
+      {{#if contact.location}}<span>{{contact.location}}</span>{{/if}}
+      {{#if contact.linkedin}}<span><a href="{{ensureProtocol contact.linkedin}}">{{contact.linkedin}}</a></span>{{/if}}
+      {{#if contact.github}}<span><a href="{{ensureProtocol contact.github}}">{{contact.github}}</a></span>{{/if}}
+      {{#if contact.portfolio}}<span><a href="{{ensureProtocol contact.portfolio}}">{{contact.portfolio}}</a></span>{{/if}}
+    </div>
+  </header>
+
+  <div class="section-grid">
+    <div>
+      {{#if professional_summary}}
+      <section class="section">
+        <div class="title">Summary</div>
+        <p class="summary">{{professional_summary}}</p>
+      </section>
+      {{/if}}
+    </div>
+    <div>
+      {{#if core_skills_all}}
+      <section class="section">
+        <div class="title">Core Skills</div>
+        <div>
+          {{#each core_skills_all}}
+          <div class="skill-group">
+            <div class="label">{{@key}}</div>
+            <div class="items">{{formatList this}}</div>
+          </div>
+          {{/each}}
+        </div>
+      </section>
+      {{/if}}
+    </div>
+  </div>
+
+  {{#if experience}}
+  <section class="section">
+    <div class="title">Work Experience</div>
+    {{#each experience}}
+      <div class="xp">
+        <div class="xp-head">
+          <div>
+            <span class="xp-role">{{title}}</span>
+            <span class="xp-company"> @ {{company}}</span>
+          </div>
+        </div>
+        <div class="xp-meta"><span class="xp-dates">{{dates}}</span>, <span class="xp-loc">{{location}}</span></div>
+        {{#if highlights}}
+        <ul class="bullets">
+          {{#each highlights}}<li>{{this}}</li>{{/each}}
+        </ul>
+        {{/if}}
+        {{#if technologies}}
+        <div class="tags">
+          {{#each technologies}}<span class="tag">{{this}}</span>{{/each}}
+        </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  <div class="section-grid">
+    <div>
+      {{#if projects_all}}
+      <section class="section">
+        <div class="title">{{projects_title}}</div>
+        {{#each projects_all}}
+          <div class="proj">
+            <div class="proj-head">
+              <div class="proj-name">{{title}}</div>
+              {{#if url}}<div class="proj-link"><a href="{{ensureProtocol url}}">{{url}}</a></div>{{/if}}
+            </div>
+            {{#if description}}<div class="proj-desc">{{description}}</div>{{/if}}
+            {{#if impact}}{{#unless hasImpactSection}}<div class="proj-impact">Impact: {{impact}}</div>{{/unless}}{{/if}}
+            {{#if sections}}
+              <div class="proj-sections">
+                {{#each sections}}
+                  <div class="proj-section"><span class="proj-section-title">{{title}}:</span> {{content}}</div>
+                {{/each}}
+              </div>
+            {{/if}}
+            {{#if technologies}}
+              <div class="items"><span class="label">Technologies:</span> {{formatList technologies}}</div>
+            {{/if}}
+            {{#if methods}}
+              <div class="items"><span class="label">Methods:</span> {{formatList methods}}</div>
+            {{/if}}
+          </div>
+        {{/each}}
+      </section>
+      {{/if}}
+    </div>
+    <div>
+      {{#if publications}}
+      <section class="section">
+        <div class="title">Publications</div>
+        {{#each publications}}
+          <div class="pub">
+            <div>
+              <span class="pub-title">{{title}}</span>
+              {{#if journal}}<span class="pub-venue"> — {{journal}}</span>{{/if}}
+              <span class="pub-meta"> ({{year}})</span>
+            </div>
+            {{#if doi}}<div><a href="{{doiUrl doi}}">{{doi}}</a></div>{{/if}}
+          </div>
+        {{/each}}
+      </section>
+      {{/if}}
+
+      {{#if education}}
+      <section class="section">
+        <div class="title">Education</div>
+        {{#each education}}
+          <div class="edu">
+            <div class="edu-top">
+              <div class="edu-degree">{{degree}}</div>
+              <div class="xp-dates">{{graduation}}</div>
+            </div>
+            <div class="edu-inst">{{institution}}{{#if location}} — {{location}}{{/if}}</div>
+            {{#if gpa}}<div class="xp-meta">GPA: {{gpa}}</div>{{/if}}
+            {{#if thesis}}<div class="xp-meta">Thesis: {{thesis}}</div>{{/if}}
+            {{#if honors}}<div class="xp-meta">Honors: {{#each honors}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</div>{{/if}}
+          </div>
+        {{/each}}
+      </section>
+      {{/if}}
+
+      {{#if leadership_mentoring}}
+      <section class="section">
+        <div class="title">Leadership & Mentoring</div>
+        <ul class="list">
+            {{#each leadership_mentoring}}<li>{{this}}</li>{{/each}}
+        </ul>
+      </section>
+      {{/if}}
+    </div>
+  </div>
+
+  {{#if certifications}}
+  <section class="section">
+    <div class="title">Certifications</div>
+    <ul class="list">
+      {{#each certifications}}<li>{{this}}</li>{{/each}}
+    </ul>
+  </section>
+  {{/if}}
+
+  {{#if achievements}}
+  <section class="section">
+    <div class="title">Achievements</div>
+    <ul class="list">
+      {{#each achievements}}<li>{{this}}</li>{{/each}}
+    </ul>
+  </section>
+  {{/if}}
+
+  {{#if awards_recognition}}
+  <section class="section">
+    <div class="title">Awards & Recognition</div>
+    <ul class="list">
+        {{#each awards_recognition}}<li>{{this}}</li>{{/each}}
+    </ul>
+  </section>
+  {{/if}}
+
+  <div class="ats">
+    {{#if core_skills_all}}{{#each core_skills_all}}{{formatList this}} {{/each}}{{/if}}
+    {{#if technical_skills}}{{#each technical_skills}}{{formatList this}} {{/each}}{{/if}}
+    {{#if experience}}{{#each experience}}{{#if technologies}}{{formatList technologies}} {{/if}}{{/each}}{{/if}}
+    {{#if projects_all}}
+      {{#each projects_all}}
+        {{#if technologies}}{{formatList technologies}} {{/if}}
+        {{#if methods}}{{formatList methods}} {{/if}}
+        {{#if sections}}{{#each sections}}{{content}} {{/each}}{{/if}}
+      {{/each}}
+    {{/if}}
+    {{#if certifications}}{{formatList certifications}} {{/if}}
+    {{#if achievements}}{{formatList achievements}} {{/if}}
+  </div>
+</body>
+</html>

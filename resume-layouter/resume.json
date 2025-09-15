@@ -1,0 +1,246 @@
+{
+  "contact": {
+    "name": "Keith Krenek",
+    "email": "keith.krenek@gmail.com",
+    "phone": "832-814-9078",
+    "location": "Billerica, MA",
+    "linkedin": "linkedin.com/in/keith-krenek",
+    "github": "github.com/KeithKrenek"
+  },
+  "professional_summary": "Senior Technical Staff and applied physicist (PhD) building reliable, interpretable algorithms state estimation, photonics, and biomed. At Draper (2019–now) I deliver production-ready dynamical models, Kalman/Bayesian estimation, and physics‑ML systems that fuse real‑world sensors for mission‑critical navigation and biomedical platforms. Results include >90% radiation‑performance prediction accuracy, ~100× design‑cycle reductions, and validated specifications for FOG navigation.",
+  "core_competencies": {
+    "State Estimation Control": [
+      "Kalman Filtering & Bayesian Inference",
+      "Model Identification & Validation",
+      "Particle Filters & Monte Carlo",
+      "Navigation Systems & Requirements",
+      "Sensor Fusion & Uncertainty Quantification"
+    ],
+    "Biomedical Systems": [
+      "Physiologic Signal Processing",
+      "Biosensor Integration (CMOS, Microfluidics)",
+      "Real‑time Data Acquisition & Control",
+      "Cell/Particle Analysis & Morphology Tracking",
+      "Medical Device Development & Validation"
+    ],
+    "ML/Hybrid Modeling": [
+      "Physics‑Informed ML",
+      "Hybrid Models for Time‑Series",
+      "Computer Vision for Microscopy & Medical Imaging",
+      "Production MLOps & Automated Retraining"
+    ],
+    "Tech Leadership": [
+      "AI/ML Team Leadership (4+ engineers)",
+      "Mentoring & Technical Direction",
+      "Cross‑functional Collaboration & Stakeholder Alignment",
+      "Documentation & Validation Protocols"
+    ]
+  },
+  "experience": [
+    {
+      "company": "Draper Lab",
+      "title": "Senior Technical Staff - Sensors & Imaging Systems",
+      "location": "Cambridge, MA",
+      "dates": "Oct 2019 – now",
+      "highlights": [
+        "Developed navigation algorithms and error models for mission-critical gyroscopes and accelerometers; implemented Kalman/Bayesian state estimation to evaluate accuracy in harsh environments.",
+        "Built physics‑ML model for radiation‑exposed optical fiber manufacturing; >90% predictive accuracy avoided program delays and reduced costs.",
+        "Authored radiation‑hardness assurance framework (non‑central t‑distributions, tolerance factors) to define program specifications.",
+        "Designed multiphysics optimization platform across 5+ coupled domains (electrical, mechanical, fluidic, thermal, acoustic) to optimize microfluidics device design and operation.",
+        "Led a 4‑engineer team delivering physics‑informed generative‑design tools for photonics ICs; ~100× faster design cycles without sacrificing optical performance.",
+        "Shipped computer‑vision pipeline for microfluidic cell tracking, reconstructing 3D trajectories from 2D microscopy."
+      ],
+      "technologies": [
+        "Python",
+        "MATLAB",
+        "COMSOL Multiphysics",
+        "Kalman/Bayesian Estimation",
+        "Monte Carlo",
+        "OpenCV"
+      ]
+    },
+    {
+      "company": "MIT Lincoln Lab",
+      "title": "Research Staff — Advanced Imaging Systems",
+      "location": "Lexington, MA",
+      "dates": "2013 – 2018 (Summers + part‑time)",
+      "highlights": [
+        "Engineered vision‑guided automated electrical probe platform for photodiode arrays with sub‑µm precision and autonomous operation (zero damage incidents).",
+        "Designed and executed radiation‑effects testing establishing performance bounds and qualification criteria for deep‑space optical communications sensors.",
+        "Developed closed‑loop controls and real‑time error detection for microfabrication processes, improving repeatability and yield stability."
+      ],
+      "technologies": [
+        "Computer Vision",
+        "Precision Motion Control",
+        "Automation/Test Systems",
+        "Radiation Testing",
+        "Signal Processing"
+      ]
+    },
+    {
+      "company": "Harvard University - Donhee Ham Research Group",
+      "title": "PhD Researcher",
+      "location": "Cambridge, MA",
+      "dates": "Sep 2015 - Jul 2019",
+      "highlights": [
+        "Pioneered CMOS‑integrated bioelectronic platform for high‑density neural recording (4096 channels), spanning process development, packaging, and signal processing.",
+        "Invented novel nanopipette-electrode process for CMOS biointerfaces, leading complete R&D cycle from concept to validated manufacturing method.",
+        "Published 3+ peer‑reviewed papers (Nature BME, IEEE JSSC); filed patent on electronic circuits for electrogenic cell analysis."
+      ],
+      "technologies": [
+        "CMOS Integration",
+        "Bioelectronics",
+        "Microfluidics",
+        "Signal Processing",
+        "Nanofabrication",
+        "Electrochemical Analysis"
+      ]
+    },
+    {
+      "company": "Texas A&M University - NanoBio Systems Lab",
+      "title": "Graduate Researcher",
+      "location": "College Station, TX",
+      "dates": "Aug 2013 - May 2015",
+      "highlights": [
+        "Built automated cell‑morphology analysis system; ~10× throughput improvement via computer vision with time‑series tracking and population statistics.",
+        "Designed/fabricated 100+ custom microfluidic devices with validation protocols and QC standards.",
+        "Developed CMOS‑microfluidics integration platform with automated fluid control and real‑time data acquisition."
+      ],
+      "technologies": [
+        "Computer Vision",
+        "MATLAB",
+        "Microfluidic Design",
+        "Automated Analysis",
+        "Time-Series Analysis",
+        "Statistical Validation"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Ph.D. in Applied Physics",
+      "institution": "Harvard University",
+      "location": "Cambridge, MA",
+      "graduation": "Jul 2019",
+      "gpa": "3.57/4.00",
+      "thesis": "Leveraging CMOS technologies in neuronal studies",
+      "advisor": "Donhee Ham",
+      "focus": "Applied Physics"
+    },
+    {
+      "degree": "M.S. in Electrical Engineering",
+      "institution": "Texas A&M University",
+      "location": "College Station, TX",
+      "graduation": "May 2015",
+      "gpa": "4.00/4.00",
+      "thesis": "High-throughput microfluidic acoustic system to generate yeast cells for aging studies",
+      "focus": "Bio‑MEMS, Microfluidics, Systems Automation"
+    },
+    {
+      "degree": "B.S. in Electrical Engineering (Mathematics Minor)",
+      "institution": "Texas A&M University",
+      "location": "College Station, TX",
+      "graduation": "May 2014",
+      "gpa": "4.00/4.00",
+      "honors": [
+        "Summa Cum Laude",
+        "University Honors",
+        "Engineering Scholars"
+      ]
+    }
+  ],
+  "selected_projects": [
+    {
+      "title": "Machine Learning for Radiation-Hardened Optical Fiber Manufacturing",
+      "description": "Production physics‑ML system predicting radiation performance using engineered features and ensemble models; integrated automated retraining and SPC.",
+      "impact": "Avoided schedule slip; >90% prediction accuracy; sustained multi‑year production guidance.",
+      "methods": [
+        "High-Dimensional Data Analysis",
+        "Ensemble Modeling",
+        "Feature Engineering",
+        "Automated Retraining",
+        "Statistical Process Control"
+      ]
+    },
+    {
+      "title": "FOG Navigation Accuracy Simulation & Requirements",
+      "description": "End‑to‑end simulation of FOG navigation performance with environmental factors, drift, and error propagation; translated findings into requirements and validation criteria.",
+      "impact": "Established performance specifications and acceptance tests for mission‑profile scenarios; reduced technical risk.",
+      "methods": [
+        "Kalman/Bayesian Estimation",
+        "Monte Carlo",
+        "Uncertainty Quantification",
+        "System Modeling"
+      ]
+    },
+    {
+      "title": "Automated Cell Tracking in Microfluidic Devices",
+      "description": "Automated CV pipeline converting 2D microscopy into 3D particle/cell trajectories with physics‑informed reconstruction and force/velocity readouts.",
+      "impact": "Quantified acoustic‑manipulation effects for immunotherapy workflows; improved study reproducibility.",
+      "methods": [
+        "Object Detection/Tracking",
+        "Physics‑Informed Reconstruction",
+        "Real‑time Processing",
+        "Statistical Validation"
+      ]
+    }
+  ],
+  "publications": [
+    {
+      "title": "A nanoelectrode array for obtaining intracellular recordings from thousands of connected neurons",
+      "journal": "Nature Biomedical Engineering",
+      "year": 2020,
+      "doi": "10.1038/s41551-019-0455-7"
+    },
+    {
+      "title": "The design of a CMOS nanoelectrode array with 4096 current-clamp/voltage-clamp amplifiers",
+      "journal": "IEEE Journal of Solid-State Circuits",
+      "year": 2020,
+      "volume": 55,
+      "pages": 2567
+    }
+  ],
+  "technical_skills": {
+    "programming": [
+      "Python",
+      "MATLAB",
+      "TypeScript"
+    ],
+    "modeling_simulation": [
+      "COMSOL Multiphysics",
+      "Simulink",
+      "Monte Carlo Methods",
+      "Lumerical",
+      "LTspice"
+    ],
+    "ml_frameworks": [
+      "PyTorch",
+      "TensorFlow",
+      "scikit-learn",
+      "XGBoost",
+      "OpenCV"
+    ],
+    "data_systems": [
+      "Real‑time DAQ",
+      "Signal Processing",
+      "Time‑Series Analysis"
+    ],
+    "regulatory": [
+      "Quality Assurance",
+      "DoD Standards",
+      "Active Top Secret Clearance"
+    ]
+  },
+  "awards_recognition": [
+    "Analog Devices Outstanding Student Designer Award",
+    "Harvard Distinction in Teaching Award",
+    "Lockheed Martin Excellent Participation Award",
+    "NSF Graduate Research Fellowship"
+  ],
+  "leadership_mentoring": [
+    "Draper Lab Mentor Program",
+    "Harvard SEAS Summer Intern Supervisor",
+    "Team Lead - Photonics generative design tools",
+    "Graduate Student Mentor"
+  ]
+}

@@ -1,0 +1,133 @@
+{
+  "contact": {
+    "name": "Dr. Sarah Mitchell",
+    "email": "sarah.mitchell@email.com",
+    "phone": "555-123-4567",
+    "location": "Boston, MA",
+    "linkedin": "linkedin.com/in/sarahmitchell",
+    "github": "github.com/smitchell"
+  },
+  "professional_summary": "Senior Data Scientist with 8+ years developing machine learning solutions for healthcare and biotech. Expert in predictive modeling, deep learning, and clinical data analysis. Led teams delivering FDA-validated algorithms that improved diagnostic accuracy by 35% and reduced false positives by 42%. Strong track record translating complex research into production systems serving 10M+ patients.",
+  "core_skills": {
+    "Machine Learning": [
+      "PyTorch",
+      "TensorFlow",
+      "Scikit-learn",
+      "XGBoost",
+      "Deep Learning",
+      "NLP",
+      "Computer Vision"
+    ],
+    "Data Engineering": [
+      "Python",
+      "SQL",
+      "Spark",
+      "Airflow",
+      "Docker",
+      "Kubernetes",
+      "AWS"
+    ],
+    "Clinical/Bio": [
+      "Clinical Trial Design",
+      "Biostatistics",
+      "HIPAA Compliance",
+      "FDA Validation",
+      "Electronic Health Records"
+    ],
+    "Tools & Platforms": [
+      "Git",
+      "Jupyter",
+      "MLflow",
+      "Databricks",
+      "Tableau",
+      "Power BI"
+    ]
+  },
+  "experience": [
+    {
+      "company": "BioTech Innovations Inc.",
+      "title": "Senior Data Scientist",
+      "location": "Cambridge, MA",
+      "dates": "Jan 2021 - Present",
+      "highlights": [
+        "Developed deep learning model for early cancer detection from medical imaging, achieving 94% sensitivity and 89% specificity on 500K patient dataset",
+        "Built end-to-end MLOps pipeline using Kubernetes and MLflow, reducing model deployment time from 2 weeks to 3 days",
+        "Led cross-functional team of 6 engineers and clinicians to deliver FDA 510(k) cleared diagnostic algorithm",
+        "Implemented automated data quality monitoring system that reduced data errors by 67% and saved $1.2M annually",
+        "Mentored 4 junior data scientists and established team-wide best practices for reproducible research"
+      ]
+    },
+    {
+      "company": "HealthTech Solutions",
+      "title": "Data Scientist",
+      "location": "Boston, MA",
+      "dates": "Jun 2018 - Dec 2020",
+      "highlights": [
+        "Created predictive models for patient readmission risk using ensemble methods, reducing 30-day readmissions by 23%",
+        "Designed and implemented real-time anomaly detection system for ICU monitoring, processing 1M+ data points per minute",
+        "Developed NLP pipeline to extract insights from 2M clinical notes, improving diagnosis coding accuracy by 45%",
+        "Collaborated with product team to integrate ML models into clinical decision support tools used by 500+ physicians"
+      ]
+    },
+    {
+      "company": "Medical Research Institute",
+      "title": "Research Data Analyst",
+      "location": "Boston, MA",
+      "dates": "Aug 2016 - May 2018",
+      "highlights": [
+        "Analyzed genomic and clinical data for precision medicine study with 10,000 participants",
+        "Built statistical models identifying novel biomarkers associated with treatment response (p<0.001)",
+        "Automated data processing workflows using Python and R, reducing analysis time by 60%",
+        "Co-authored 3 peer-reviewed publications in high-impact journals (Nature Medicine, JAMA)"
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "Ph.D. in Computational Biology",
+      "institution": "MIT",
+      "location": "Cambridge, MA",
+      "graduation": "May 2016",
+      "thesis": "Machine Learning Methods for Multi-Modal Clinical Data Integration"
+    },
+    {
+      "degree": "B.S. in Computer Science",
+      "institution": "Stanford University",
+      "location": "Stanford, CA",
+      "graduation": "May 2012",
+      "gpa": "3.9/4.0",
+      "honors": ["Magna Cum Laude", "Phi Beta Kappa"]
+    }
+  ],
+  "selected_projects": [
+    {
+      "title": "COVID-19 Risk Prediction Model",
+      "description": "Open-source model predicting severe COVID-19 outcomes using clinical and demographic data",
+      "impact": "Deployed in 15 hospitals, helped prioritize care for 50,000+ patients during surge periods",
+      "technologies": ["Python", "XGBoost", "FastAPI", "Docker"],
+      "url": "github.com/smitchell/covid-risk-model"
+    },
+    {
+      "title": "Medical Image Segmentation Library",
+      "description": "PyTorch-based library for automated segmentation of medical images with state-of-the-art architectures",
+      "impact": "1,200+ GitHub stars, adopted by 3 major research institutions",
+      "technologies": ["PyTorch", "OpenCV", "MONAI", "CUDA"],
+      "url": "github.com/smitchell/medseg"
+    }
+  ],
+  "publications": [
+    "Mitchell S, et al. 'Deep Learning for Automated Detection of Diabetic Retinopathy.' Nature Medicine, 2020.",
+    "Mitchell S, et al. 'Multi-Modal Data Integration for Precision Oncology.' JAMA Network Open, 2019.",
+    "Mitchell S, et al. 'Federated Learning in Healthcare: A Systematic Review.' Journal of Biomedical Informatics, 2021."
+  ],
+  "certifications": [
+    "AWS Certified Machine Learning - Specialty",
+    "Google Cloud Professional Data Engineer",
+    "HIPAA Compliance Certification"
+  ],
+  "leadership": [
+    "Technical Lead - ML Community of Practice (2021-Present)",
+    "Mentor - Women in Data Science Program (2019-Present)",
+    "Conference Speaker - NeurIPS, ICML, AMIA (2018-2023)"
+  ]
+}

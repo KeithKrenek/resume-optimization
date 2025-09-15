@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{contact.name}} - Technical Resume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Technical Excellence: Projects and skills focused design */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 10pt;
+      line-height: 1.5;
+      color: #1a1a1a;
+      background: #ffffff;
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.4in;
+    }
+    
+    /* Header */
+    .header {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #0066cc;
+    }
+    
+    .name {
+      font-size: 24pt;
+      font-weight: 700;
+      color: #0066cc;
+      margin-bottom: 5px;
+    }
+    
+    .headline {
+      font-size: 12pt;
+      color: #666;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px;
+      font-size: 10pt;
+    }
+    
+    .contact-item {
+      color: #333;
+    }
+    
+    .contact-item a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Section Headers */
+    .section {
+      margin-bottom: 18px;
+    }
+    
+    .section-title {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #0066cc;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+    }
+    
+    /* Summary */
+    .summary {
+      font-size: 10.5pt;
+      color: #333;
+      text-align: left;
+      margin-bottom: 15px;
+    }
+    
+    /* Technical Proficiencies */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .tech-category {
+      background: #f8f8f8;
+      padding: 8px;
+      border-left: 3px solid #0066cc;
+    }
+    
+    .tech-category-name {
+      font-weight: 600;
+      color: #0066cc;
+      font-size: 10pt;
+      margin-bottom: 3px;
+    }
+    
+    .tech-level {
+      display: inline-block;
+      font-size: 8pt;
+      color: #666;
+      font-style: italic;
+      margin-left: 5px;
+    }
+    
+    .tech-items {
+      font-size: 9.5pt;
+      color: #444;
+      line-height: 1.4;
+    }
+    
+    /* Featured Projects */
+    .project {
+      margin-bottom: 16px;
+      padding: 12px;
+      background: #fafafa;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+    
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    
+    .project-name {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #0066cc;
+    }
+    
+    .project-timeline {
+      font-size: 9pt;
+      color: #666;
+    }
+    
+    .project-role {
+      font-size: 10pt;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 5px;
+    }
+    
+    .project-description {
+      font-size: 10pt;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    
+    .project-section {
+      margin-bottom: 8px;
+    }
+    
+    .project-label {
+      font-weight: 600;
+      color: #0066cc;
+      font-size: 9.5pt;
+      margin-bottom: 3px;
+    }
+    
+    .project-content {
+      font-size: 9.5pt;
+      color: #444;
+      padding-left: 10px;
+    }
+    
+    .impact-list {
+      list-style: none;
+      padding-left: 10px;
+    }
+    
+    .impact-list li {
+      position: relative;
+      padding-left: 15px;
+      margin-bottom: 3px;
+      font-size: 9.5pt;
+      color: #333;
+    }
+    
+    .impact-list li:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #0066cc;
+    }
+    
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 5px;
+    }
+    
+    .tech-chip {
+      background: #e8f0fe;
+      color: #0066cc;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 8.5pt;
+      font-weight: 500;
+    }
+    
+    .project-link {
+      font-size: 9pt;
+      color: #0066cc;
+      text-decoration: none;
+      margin-top: 5px;
+      display: inline-block;
+    }
+    
+    /* Experience */
+    .job {
+      margin-bottom: 14px;
+    }
+    
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 3px;
+    }
+    
+    .job-title {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .job-dates {
+      font-size: 9.5pt;
+      color: #666;
+    }
+    
+    .job-company {
+      font-size: 10pt;
+      color: #0066cc;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .job-highlights {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .job-highlights li {
+      position: relative;
+      padding-left: 15px;
+      margin-bottom: 4px;
+      font-size: 10pt;
+    }
+    
+    .job-highlights li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #0066cc;
+    }
+    
+    /* Education & Certifications */
+    .edu-cert-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .education-item {
+      margin-bottom: 8px;
+    }
+    
+    .degree {
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .institution {
+      color: #0066cc;
+    }
+    
+    .edu-meta {
+      font-size: 9.5pt;
+      color: #666;
+    }
+    
+    .cert-item {
+      margin-bottom: 8px;
+      padding-left: 15px;
+      position: relative;
+    }
+    
+    .cert-item:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #0066cc;
+    }
+    
+    .cert-name {
+      font-weight: 600;
+      color: #333;
+      display: block;
+    }
+    
+    .cert-meta {
+      font-size: 9pt;
+      color: #666;
+    }
+    
+    /* Open Source & Speaking */
+    .contribution-item {
+      margin-bottom: 6px;
+      font-size: 9.5pt;
+    }
+    
+    .contribution-project {
+      font-weight: 600;
+      color: #0066cc;
+    }
+    
+    .speaking-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .speaking-list li {
+      position: relative;
+      padding-left: 15px;
+      margin-bottom: 4px;
+      font-size: 9.5pt;
+    }
+    
+    .speaking-list li:before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #0066cc;
+    }
+    
+    /* Print Optimization */
+    @media print {
+      body {
+        font-size: 9.5pt;
+        padding: 0.3in;
+      }
+      
+      .project {
+        background: #f5f5f5;
+        page-break-inside: avoid;
+      }
+      
+      .tech-category {
+        background: #f5f5f5;
+      }
+      
+      .tech-chip {
+        background: #e5e5e5;
+        color: #000;
+      }
+      
+      .section {
+        page-break-inside: avoid;
+      }
+      
+      .job {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <h1 class="name">{{contact.name}}</h1>
+    {{#if headline}}<div class="headline">{{headline}}</div>{{/if}}
+    <div class="contact-grid">
+      <div class="contact-item">📧 <a href="mailto:{{contact.email}}">{{contact.email}}</a></div>
+      <div class="contact-item">📱 {{contact.phone}}</div>
+      <div class="contact-item">📍 {{contact.location}}</div>
+      <div class="contact-item">💼 <a href="https://{{contact.linkedin}}">LinkedIn</a></div>
+      <div class="contact-item">🔗 <a href="https://{{contact.github}}">GitHub</a></div>
+      {{#if contact.website}}<div class="contact-item">🌐 <a href="https://{{contact.website}}">{{contact.website}}</a></div>{{/if}}
+    </div>
+  </header>
+
+  <!-- Professional Summary -->
+  {{#if professional_summary}}
+  <section class="section">
+    <h2 class="section-title">Professional Summary</h2>
+    <div class="summary">{{professional_summary}}</div>
+  </section>
+  {{/if}}
+
+  <!-- Technical Proficiencies -->
+  {{#if technical_proficiencies}}
+  <section class="section">
+    <h2 class="section-title">Technical Proficiencies</h2>
+    <div class="tech-grid">
+      {{#each technical_proficiencies}}
+      <div class="tech-category">
+        <div class="tech-category-name">
+          {{@key}}
+          {{#if this.level}}<span class="tech-level">({{this.level}})</span>{{/if}}
+        </div>
+        <div class="tech-items">
+          {{#each this.items}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}
+        </div>
+      </div>
+      {{/each}}
+    </div>
+  </section>
+  {{/if}}
+
+  <!-- Featured Projects -->
+  {{#if featured_projects}}
+  <section class="section">
+    <h2 class="section-title">Featured Projects</h2>
+    {{#each featured_projects}}
+    <div class="project">
+      <div class="project-header">
+        <div class="project-name">{{name}}</div>
+        <div class="project-timeline">{{timeline}}</div>
+      </div>
+      {{#if role}}<div class="project-role">{{role}}</div>{{/if}}
+      <div class="project-description">{{description}}</div>
+      
+      {{#if challenges}}
+      <div class="project-section">
+        <div class="project-label">Challenge:</div>
+        <div class="project-content">{{challenges}}</div>
+      </div>
+      {{/if}}
+      
+      {{#if solution}}
+      <div class="project-section">
+        <div class="project-label">Solution:</div>
+        <div class="project-content">{{solution}}</div>
+      </div>
+      {{/if}}
+      
+      {{#if impact}}
+      <div class="project-section">
+        <div class="project-label">Impact:</div>
+        <ul class="impact-list">
+          {{#each impact}}
+          <li>{{this}}</li>
+          {{/each}}
+        </ul>
+      </div>
+      {{/if}}
+      
+      {{#if technologies}}
+      <div class="tech-stack">
+        {{#each technologies}}
+        <span class="tech-chip">{{this}}</span>
+        {{/each}}
+      </div>
+      {{/if}}
+      
+      {{#if github}}
+      <a href="https://{{github}}" class="project-link">🔗 {{github}}</a>
+      {{/if}}
+    </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  <!-- Professional Experience -->
+  {{#if experience}}
+  <section class="section">
+    <h2 class="section-title">Professional Experience</h2>
+    {{#each experience}}
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">{{title}}</div>
+        <div class="job-dates">{{dates}}</div>
+      </div>
+      <div class="job-company">{{company}} - {{location}}</div>
+      {{#if highlights}}
+      <ul class="job-highlights">
+        {{#each highlights}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      {{/if}}
+    </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  <!-- Education & Certifications Grid -->
+  <div class="edu-cert-grid">
+    {{#if education}}
+    <section class="section">
+      <h2 class="section-title">Education</h2>
+      {{#each education}}
+      <div class="education-item">
+        <div class="degree">{{degree}}</div>
+        <div class="institution">{{institution}}</div>
+        {{#if graduation}}<div class="edu-meta">{{graduation}}</div>{{/if}}
+        {{#if relevant_coursework}}
+        <div class="edu-meta">Coursework: {{#each relevant_coursework}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</div>
+        {{/if}}
+      </div>
+      {{/each}}
+    </section>
+    {{/if}}
+
+    {{#if certifications}}
+    <section class="section">
+      <h2 class="section-title">Certifications</h2>
+      {{#each certifications}}
+      <div class="cert-item">
+        <span class="cert-name">{{name}}</span>
+        <span class="cert-meta">{{issuer}}{{#if date}}, {{date}}{{/if}}</span>
+      </div>
+      {{/each}}
+    </section>
+    {{/if}}
+  </div>
+
+  <!-- Open Source Contributions -->
+  {{#if open_source}}
+  <section class="section">
+    <h2 class="section-title">Open Source Contributions</h2>
+    {{#each open_source}}
+    <div class="contribution-item">
+      <span class="contribution-project">{{project}}</span>: 
+      {{contribution}}
+      {{#if pr}} (PR {{pr}}){{/if}}
+      {{#if role}} - {{role}}{{/if}}
+    </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  <!-- Speaking Engagements -->
+  {{#if speaking}}
+  <section class="section">
+    <h2 class="section-title">Speaking Engagements</h2>
+    <ul class="speaking-list">
+      {{#each speaking}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}}
+</body>
+</html>

@@ -1,0 +1,225 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+h1, h2, h3 {
+    color: #2c3e50;
+}
+.intro-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+}
+.key-point {
+    background-color: #f0f8ff;
+    border-left: 5px solid #3498db;
+    padding: 10px;
+    margin: 15px 0;
+}
+.interactive-element {
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+    padding: 15px;
+    margin: 20px 0;
+    border-radius: 5px;
+}
+.chapter-image {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+}
+.tool-card {
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #f0f8ff;
+}
+.pro-tip {
+    background-color: #fff3e0;
+    border-left: 5px solid #ff9800;
+    padding: 10px;
+    margin: 15px 0;
+}
+.key-concept {
+    background-color: #e8f5e9;
+    border-left: 5px solid #4caf50;
+    padding: 10px;
+    margin: 15px 0;
+}
+.interactive-demo {
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+}
+.best-practices {
+    background-color: #e1f5fe;
+    border: 1px solid #03a9f4;
+    padding: 15px;
+    margin: 20px 0;
+}
+.interactive-diagram {
+    border: 1px solid #3498db;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+}
+.example {
+    font-style: italic;
+    margin-left: 20px;
+    color: #555;
+}
+.step-card {
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #f0f8ff;
+}
+.stem-tip {
+    background-color: #e8f5e9;
+    border-left: 5px solid #4caf50;
+    padding: 10px;
+    margin: 15px 0;
+}
+.interactive-tool {
+    background-color: #fff3e0;
+    border: 1px solid #ff9800;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+}
+.process-diagram {
+    width: 100%;
+    max-width: 600px;
+    height: auto;
+    display: block;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+}
+.technique-card {
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #f0f8ff;
+}
+.stem-application {
+    background-color: #e8f5e9;
+    border-left: 5px solid #4caf50;
+    padding: 10px;
+    margin: 15px 0;
+}
+.interactive-demo {
+    background-color: #fff3e0;
+    border: 1px solid #ff9800;
+    padding: 15px;
+    margin: 20px 0;
+    text-align: center;
+}
+.ethics-card {
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #f0f8ff;
+}
+.stem-example {
+    background-color: #e8f5e9;
+    border-left: 5px solid #4caf50;
+    padding: 10px;
+    margin: 15px 0;
+}
+.case-study {
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #f0f8ff;
+}
+.resume-comparison {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+}
+.resume-version {
+    width: 48%;
+    padding: 10px;
+    background-color: #e8f5e9;
+    border: 1px solid #4caf50;
+}
+.key-takeaway {
+    background-color: #fff3e0;
+    border-left: 5px solid #ff9800;
+    padding: 10px;
+    margin: 15px 0;
+}
+.trend-card {
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #f0f8ff;
+}
+.action-item {
+    background-color: #e1f5fe;
+    border: 1px solid #03a9f4;
+    padding: 15px;
+    margin: 15px 0;
+}
+.strategy-card {
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #f0f8ff;
+}
+.final-thoughts {
+    background-color: #f9f9f9;
+    border: 2px solid #2c3e50;
+    padding: 20px;
+    margin-top: 30px;
+}
+.resource-section {
+    border: 1px solid #3498db;
+    border-radius: 5px;
+    padding: 15px;
+    margin: 20px 0;
+    background-color: #f0f8ff;
+}
+.glossary-term {
+    background-color: #e8f5e9;
+    border-left: 5px solid #4caf50;
+    padding: 10px;
+    margin: 10px 0;
+}
+.tool-category {
+    background-color: #fff3e0;
+    border-left: 5px solid #ff9800;
+    padding: 10px;
+    margin: 10px 0;
+}
+.resource-list {
+    list-style-type: none;
+    padding-left: 0;
+}
+.resource-list li {
+    margin-bottom: 10px;
+}
+.resource-list li:before {
+    content: "•";
+    color: #3498db;
+    display: inline-block;
+    width: 1em;
+    margin-left: -1em;
+}

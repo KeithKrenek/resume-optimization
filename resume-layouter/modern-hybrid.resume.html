@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Alex Chen - Resume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Modern Hybrid: Visual appeal with ATS compatibility */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-size: 10.5pt;
+      line-height: 1.5;
+      color: #2c3e50;
+      background: #ffffff;
+      max-width: 8.5in;
+      margin: 0 auto;
+    }
+    
+    .container {
+      padding: 0.5in;
+    }
+    
+    /* Header Section */
+    .header {
+      text-align: center;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
+      border-bottom: 3px solid #3498db;
+    }
+    
+    .name {
+      font-size: 26pt;
+      font-weight: 700;
+      color: #2c3e50;
+      letter-spacing: -0.5px;
+      margin-bottom: 5px;
+    }
+    
+    .tagline {
+      font-size: 12pt;
+      color: #7f8c8d;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+    
+    .contact-row {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      font-size: 10pt;
+      margin-top: 10px;
+    }
+    
+    .contact-item {
+      color: #34495e;
+    }
+    
+    .contact-item a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Section Styling */
+    .section {
+      margin-bottom: 20px;
+    }
+    
+    .section-title {
+      font-size: 13pt;
+      font-weight: 700;
+      color: #3498db;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      border-bottom: 2px solid #ecf0f1;
+      padding-bottom: 5px;
+      margin-bottom: 12px;
+    }
+    
+    /* Summary */
+    .summary {
+      font-size: 11pt;
+      color: #34495e;
+      text-align: justify;
+      margin-bottom: 15px;
+    }
+    
+    /* Two Column Layout for Skills */
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+    
+    .skill-category {
+      background: #f8f9fa;
+      padding: 8px;
+      border-radius: 4px;
+    }
+    
+    .skill-label {
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 10pt;
+      margin-bottom: 5px;
+      display: block;
+    }
+    
+    .skill-items {
+      font-size: 9.5pt;
+      color: #5a6c7d;
+      line-height: 1.4;
+    }
+    
+    /* Experience Section */
+    .job {
+      margin-bottom: 18px;
+      padding-left: 12px;
+      border-left: 3px solid #3498db;
+    }
+    
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 5px;
+    }
+    
+    .job-title {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #2c3e50;
+    }
+    
+    .job-dates {
+      font-size: 10pt;
+      color: #7f8c8d;
+      white-space: nowrap;
+    }
+    
+    .job-company {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #3498db;
+      margin-bottom: 3px;
+    }
+    
+    .job-location {
+      font-size: 10pt;
+      color: #7f8c8d;
+      margin-bottom: 8px;
+    }
+    
+    .highlights {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .highlights li {
+      position: relative;
+      padding-left: 18px;
+      margin-bottom: 5px;
+      color: #34495e;
+      font-size: 10.5pt;
+    }
+    
+    .highlights li:before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #3498db;
+    }
+    
+    .tech-tags {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    
+    .tech-tag {
+      background: #ecf0f1;
+      color: #34495e;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 9pt;
+    }
+    
+    /* Projects Section */
+    .project {
+      margin-bottom: 15px;
+      background: #f8f9fa;
+      padding: 10px;
+      border-radius: 4px;
+    }
+    
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 5px;
+    }
+    
+    .project-name {
+      font-weight: 600;
+      color: #2c3e50;
+      font-size: 11pt;
+    }
+    
+    .project-name a {
+      color: #3498db;
+      text-decoration: none;
+    }
+    
+    .project-description {
+      color: #34495e;
+      margin-bottom: 5px;
+    }
+    
+    .project-impact {
+      font-style: italic;
+      color: #27ae60;
+      font-size: 10pt;
+      margin-bottom: 5px;
+    }
+    
+    .project-tech {
+      font-size: 9pt;
+      color: #7f8c8d;
+    }
+    
+    /* Education */
+    .education-item {
+      margin-bottom: 10px;
+    }
+    
+    .degree-line {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+    
+    .degree {
+      font-weight: 600;
+      color: #2c3e50;
+    }
+    
+    .graduation {
+      color: #7f8c8d;
+      font-size: 10pt;
+    }
+    
+    .institution {
+      color: #3498db;
+      margin-bottom: 3px;
+    }
+    
+    .edu-meta {
+      font-size: 10pt;
+      color: #7f8c8d;
+    }
+    
+    /* Lists */
+    .compact-list {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 5px;
+      list-style: none;
+      padding: 0;
+    }
+    
+    .compact-list li {
+      position: relative;
+      padding-left: 15px;
+      font-size: 10pt;
+      color: #34495e;
+    }
+    
+    .compact-list li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #3498db;
+    }
+    
+    /* Print Optimization */
+    @media print {
+      body {
+        font-size: 10pt;
+        color: #000;
+      }
+      
+      .header {
+        border-bottom-color: #000;
+      }
+      
+      .section-title {
+        color: #000;
+        border-bottom-color: #ccc;
+      }
+      
+      .job {
+        border-left-color: #666;
+      }
+      
+      .contact-item a,
+      .job-company,
+      .project-name a {
+        color: #000;
+      }
+      
+      .skill-category,
+      .project {
+        background: #f5f5f5;
+      }
+      
+      .section {
+        page-break-inside: avoid;
+      }
+      
+      .job, .project {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <h1 class="name">Alex Chen</h1>
+      <div class="tagline">Full-Stack Engineer | Cloud Architecture | Team Leadership</div>
+      <div class="contact-row">
+        <span class="contact-item">📧 <a href="mailto:alex.chen@email.com">alex.chen@email.com</a></span>
+        <span class="contact-item">📱 555-987-6543</span>
+        <span class="contact-item">📍 San Francisco, CA</span>
+        <span class="contact-item">🔗 <a href="https://linkedin.com/in/alexchen">LinkedIn</a></span>
+        <span class="contact-item">💻 <a href="https://github.com/alexchen">GitHub</a></span>
+        <span class="contact-item">🌐 <a href="https://alexchen.dev">Portfolio</a></span>
+      </div>
+    </header>
+
+    <!-- Professional Summary -->
+    <section class="section">
+      <h2 class="section-title">Professional Summary</h2>
+      <div class="summary">Versatile Full-Stack Engineer with 7 years building scalable web applications and leading technical teams. Expertise in React, Node.js, and AWS cloud architecture. Passionate about creating elegant solutions to complex problems while mentoring junior developers. Recently architected microservices platform handling 50M+ requests daily with 99.99% uptime.</div>
+    </section>
+
+    <!-- Technical Skills -->
+    <section class="section">
+      <h2 class="section-title">Technical Skills</h2>
+      <div class="skills-grid">
+        <div class="skill-category">
+          <div class="skill-label">Languages</div>
+          <div class="skill-items">
+            JavaScript/TypeScript, Python, Go, Java
+          </div>
+        </div>
+        <div class="skill-category">
+          <div class="skill-label">Frontend</div>
+          <div class="skill-items">
+            React, Vue.js, Next.js, GraphQL, Redux
+          </div>
+        </div>
+        <div class="skill-category">
+          <div class="skill-label">Backend</div>
+          <div class="skill-items">
+            Node.js, Express, Django, Spring Boot
+          </div>
+        </div>
+        <div class="skill-category">
+          <div class="skill-label">Database</div>
+          <div class="skill-items">
+            PostgreSQL, MongoDB, Redis, Elasticsearch
+          </div>
+        </div>
+        <div class="skill-category">
+          <div class="skill-label">Cloud/DevOps</div>
+          <div class="skill-items">
+            AWS, Docker, Kubernetes, CI/CD, Terraform
+          </div>
+        </div>
+        <div class="skill-category">
+          <div class="skill-label">Tools</div>
+          <div class="skill-items">
+            Git, Jira, Datadog, New Relic, Jenkins
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Professional Experience -->
+    <section class="section">
+      <h2 class="section-title">Professional Experience</h2>
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Senior Full-Stack Engineer</div>
+          <div class="job-dates">Mar 2021 - Present</div>
+        </div>
+        <div class="job-company">TechVentures Inc.</div>
+        <div class="job-location">San Francisco, CA</div>
+        <ul class="highlights">
+          <li>Architected and led development of microservices platform serving 10M+ active users, improving response times by 40%</li>
+          <li>Mentored team of 5 junior engineers, conducting code reviews and establishing best practices that reduced bugs by 35%</li>
+          <li>Implemented automated CI/CD pipeline using GitHub Actions and AWS CodeDeploy, reducing deployment time from 2 hours to 15 minutes</li>
+          <li>Designed GraphQL API layer that unified 12 backend services, improving frontend development velocity by 50%</li>
+          <li>Led migration from monolith to microservices architecture, resulting in 60% reduction in infrastructure costs</li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">AWS</span>
+          <span class="tech-tag">Docker</span>
+          <span class="tech-tag">GraphQL</span>
+        </div>
+      </div>
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Full-Stack Developer</div>
+          <div class="job-dates">Jun 2018 - Feb 2021</div>
+        </div>
+        <div class="job-company">DataFlow Systems</div>
+        <div class="job-location">San Francisco, CA</div>
+        <ul class="highlights">
+          <li>Built real-time analytics dashboard using React and WebSockets, processing 1M+ events per minute</li>
+          <li>Developed RESTful APIs serving 500+ requests/second with sub-100ms response times</li>
+          <li>Implemented automated testing suite with 85% code coverage, reducing production bugs by 45%</li>
+          <li>Optimized database queries and implemented caching strategy, improving application performance by 3x</li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">Vue.js</span>
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">PostgreSQL</span>
+          <span class="tech-tag">Redis</span>
+          <span class="tech-tag">AWS</span>
+        </div>
+      </div>
+      <div class="job">
+        <div class="job-header">
+          <div class="job-title">Junior Developer</div>
+          <div class="job-dates">Jul 2017 - May 2018</div>
+        </div>
+        <div class="job-company">StartupHub</div>
+        <div class="job-location">Palo Alto, CA</div>
+        <ul class="highlights">
+          <li>Developed features for e-commerce platform serving 100K+ daily users</li>
+          <li>Collaborated with design team to implement responsive UI components</li>
+          <li>Participated in agile development process with 2-week sprints</li>
+        </ul>
+        <div class="tech-tags">
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">React</span>
+          <span class="tech-tag">Node.js</span>
+          <span class="tech-tag">MongoDB</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="section">
+      <h2 class="section-title">Featured Projects</h2>
+      <div class="project">
+        <div class="project-header">
+          <div class="project-name">
+            <a href="https://github.com/alexchen/openapi-gen">OpenAPI Generator</a>
+          </div>
+        </div>
+        <div class="project-description">Open-source tool for generating API documentation from OpenAPI specs</div>
+        <div class="project-impact">Impact: 2.5K GitHub stars, 100+ contributors, used by Fortune 500 companies</div>
+        <div class="project-tech">
+          Tech Stack: TypeScript, Node.js, React
+        </div>
+      </div>
+      <div class="project">
+        <div class="project-header">
+          <div class="project-name">
+            <a href="https://cloudcost.io">CloudCost Optimizer</a>
+          </div>
+        </div>
+        <div class="project-description">SaaS platform for analyzing and optimizing AWS spending</div>
+        <div class="project-impact">Impact: Helped clients save average of 30% on cloud costs, $2M+ total savings</div>
+        <div class="project-tech">
+          Tech Stack: Python, React, AWS Lambda, DynamoDB
+        </div>
+      </div>
+      <div class="project">
+        <div class="project-header">
+          <div class="project-name">
+            <a href="https://github.com/alexchen/collab-edit">Real-Time Collaborative Editor</a>
+          </div>
+        </div>
+        <div class="project-description">WebRTC-based collaborative text editor with conflict resolution</div>
+        <div class="project-impact">Impact: Handles 1000+ concurrent users with &lt;50ms latency</div>
+        <div class="project-tech">
+          Tech Stack: WebRTC, CRDT, Node.js, Redis
+        </div>
+      </div>
+    </section>
+
+    <!-- Education -->
+    <section class="section">
+      <h2 class="section-title">Education</h2>
+      <div class="education-item">
+        <div class="degree-line">
+          <div class="degree">B.S. Computer Science</div>
+          <div class="graduation">May 2017</div>
+        </div>
+        <div class="institution">UC Berkeley</div>
+        <div class="edu-meta">GPA: 3.8/4.0</div>
+        <div class="edu-meta">Relevant Coursework: Distributed Systems, Machine Learning, Algorithms, Database Systems</div>
+      </div>
+    </section>
+
+    <!-- Certifications & Achievements -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+      <section class="section">
+        <h2 class="section-title">Certifications</h2>
+        <ul class="compact-list">
+          <li>AWS Certified Solutions Architect - Professional</li>
+          <li>Google Cloud Professional Cloud Developer</li>
+          <li>Certified Kubernetes Administrator (CKA)</li>
+        </ul>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">Achievements</h2>
+        <ul class="compact-list">
+          <li>Speaker at React Summit 2023 - &#x27;Scaling React Applications&#x27;</li>
+          <li>Winner - TechCrunch Disrupt Hackathon 2022</li>
+          <li>Technical Blog with 50K+ monthly readers</li>
+          <li>Open Source Contributor - React, Node.js, Kubernetes</li>
+        </ul>
+      </section>
+    </div>
+  </div>
+</body>
+</html>

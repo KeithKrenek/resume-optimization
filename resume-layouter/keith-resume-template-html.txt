@@ -1,0 +1,263 @@
+<!-- File: keith-resume-template.html (fixed) -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>{{contact.name}} — Resume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    /* ---- Base ---- */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      color: #111; background: #fff; line-height: 1.5;
+      max-width: 8.5in; margin: 0 auto; padding: 0.45in;
+      font-size: 10.5pt;
+    }
+
+    /* ---- Header ---- */
+    .header { border-bottom: 3px solid #174a97; padding-bottom: 12px; margin-bottom: 18px; }
+    .name { font-size: 22pt; font-weight: 800; letter-spacing: -0.2px; }
+    .contact {
+      margin-top: 6px; display: flex; flex-wrap: wrap; gap: 10px; font-size: 9.5pt; color: #444;
+    }
+    .contact a { color: #174a97; text-decoration: none; }
+    .contact span::before { content: "•"; margin: 0 6px; color: #174a97; }
+    .contact span:first-child::before { content: ""; margin: 0; }
+
+    /* ---- Sections ---- */
+    .section { margin-bottom: 16px; }
+    .title {
+      font-size: 11.5pt; font-weight: 800; letter-spacing: .8px; text-transform: uppercase;
+      border-bottom: 1.5px solid #d7dbe0; padding-bottom: 4px; margin-bottom: 10px;
+    }
+    .summary { font-size: 10pt; color: #111; }
+
+    /* ---- Grids ---- */
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+    .label { font-weight: 700; margin-bottom: 2px; font-size: 9.5pt; color: #111; }
+    .items { font-size: 9.5pt; color: #222; }
+
+    /* ---- Experience ---- */
+    .xp { margin-bottom: 12px; }
+    .xp-head { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; }
+    .xp-role { font-weight: 800; font-size: 10.5pt; color: #111; }
+    .xp-company { color: #174a97; font-weight: 700; }
+    .xp-dates, .xp-loc { font-size: 9.5pt; color: #666; white-space: nowrap; }
+    .xp-meta { font-size: 9.5pt; color: #666; margin-bottom: 5px; }
+    .bullets { margin-left: 18px; font-size: 9.5pt; }
+    .bullets li { margin-bottom: 3px; }
+
+    .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+    .tag { border: 1px solid #cfd6dd; padding: 1px 6px; border-radius: 999px; font-size: 8.8pt; color: #333; }
+
+    /* ---- Projects ---- */
+    .proj { margin-bottom: 10px; }
+    .proj-head { display: flex; justify-content: space-between; gap: 12px; }
+    .proj-name { font-weight: 800; font-size: 10.5pt; }
+    .proj-impact { font-style: italic; color: #444; font-size: 9.5pt; margin: 2px 0; }
+
+    /* ---- Publications ---- */
+    .pub { margin-bottom: 8px; font-size: 9.5pt; }
+    .pub-title { font-weight: 700; color: #111; }
+    .pub-venue { color: #174a97; font-style: italic; }
+    .pub-meta { color: #666; }
+    .pub a { color: #174a97; text-decoration: none; }
+
+    /* ---- Education ---- */
+    .edu { margin-bottom: 8px; }
+    .edu-top { display: flex; justify-content: space-between; }
+    .edu-degree { font-weight: 800; }
+    .edu-inst { color: #174a97; font-weight: 700; }
+
+    /* ---- Lists ---- */
+    .list { margin-left: 18px; }
+    .list li { margin-bottom: 3px; }
+
+    /* ---- Hidden ATS keywords ---- */
+    .ats { display: none; font-size: 1pt; color: #fff; }
+
+    /* ---- Print fixes ---- */
+    @media print {
+      body { padding: 0.3in; font-size: 10pt; }
+      /* Allow sections to break across pages to avoid large blank areas */
+      .section { break-inside: auto; page-break-inside: auto; }
+      /* Keep atomic blocks together */
+      .xp, .proj, .edu, .pub { break-inside: avoid; page-break-inside: avoid; }
+      /* Keep headings with the content that follows */
+      .title { break-after: avoid; page-break-after: avoid; }
+      /* Prevent URLs (mailto:/tel:/http) from printing after link text */
+      a[href]:after { content: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="name">{{contact.name}}</div>
+    <div class="contact">
+      {{#if contact.email}}<span><a href="mailto:{{contact.email}}">{{contact.email}}</a></span>{{/if}}
+      {{#if contact.phone}}<span><a href="tel:{{contact.phone}}">{{contact.phone}}</a></span>{{/if}}
+      {{#if contact.location}}<span>{{contact.location}}</span>{{/if}}
+      {{#if contact.linkedin}}<span><a href="{{ensureProtocol contact.linkedin}}">{{contact.linkedin}}</a></span>{{/if}}
+      {{#if contact.github}}<span><a href="{{ensureProtocol contact.github}}">{{contact.github}}</a></span>{{/if}}
+    </div>
+  </header>
+
+  <!-- Summary -->
+  {{#if professional_summary}}
+  <section class="section">
+    <div class="title">Summary</div>
+    <p class="summary">{{professional_summary}}</p>
+  </section>
+  {{/if}}
+
+  <!-- Core Competencies -->
+  {{#if core_competencies}}
+  <section class="section">
+    <div class="title">Core Competencies</div>
+    <div class="grid-2">
+      {{#each core_competencies}}
+      <div>
+        <div class="label">{{@key}}</div>
+        <div class="items">{{formatList this}}</div>
+      </div>
+      {{/each}}
+    </div>
+  </section>
+  {{/if}}
+
+  <!-- Experience -->
+  {{#if experience}}
+  <section class="section">
+    <div class="title">Work Experience</div>
+    {{#each experience}}
+      <div class="xp">
+        <div class="xp-head">
+          <div>
+            <span class="xp-role">{{title}}</span>
+            <span class="xp-company"> @ {{company}}</span>
+          </div>
+          <div class="xp-dates">{{dates}}</div>
+        </div>
+        <div class="xp-meta">{{location}}</div>
+        {{#if highlights}}
+        <ul class="bullets">
+          {{#each highlights}}<li>{{this}}</li>{{/each}}
+        </ul>
+        {{/if}}
+        {{#if technologies}}
+        <div class="tags">
+          {{#each technologies}}<span class="tag">{{this}}</span>{{/each}}
+        </div>
+        {{/if}}
+      </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  <!-- Selected Projects -->
+  {{#if selected_projects}}
+  <section class="section">
+    <div class="title">Selected Projects</div>
+    {{#each selected_projects}}
+      <div class="proj">
+        <div class="proj-head">
+          <div class="proj-name">{{title}}</div>
+        </div>
+        <div class="proj-desc">{{description}}</div>
+        {{#if impact}}<div class="proj-impact">Impact: {{impact}}</div>{{/if}}
+        {{#if methods}}
+        <div class="items"><span class="label">Methods:</span> {{formatList methods}}</div>
+        {{/if}}
+      </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  <!-- Publications -->
+  <!-- {{#if publications}}
+  <section class="section">
+    <div class="title">Publications</div>
+    {{#each publications}}
+      <div class="pub">
+        <div>
+          <span class="pub-title">{{title}}</span>
+          <span class="pub-venue"> — {{journal}}</span>
+          <span class="pub-meta"> ({{year}}{{#if volume}}, vol. {{volume}}{{/if}}{{#if pages}}, p. {{pages}}{{/if}})</span>
+        </div>
+        {{#if doi}}<div><a href="{{doiUrl doi}}">{{doi}}</a></div>{{/if}}
+      </div>
+    {{/each}}
+  </section>
+  {{/if}} -->
+
+  <!-- Education -->
+  {{#if education}}
+  <section class="section">
+    <div class="title">Education</div>
+    {{#each education}}
+      <div class="edu">
+        <div class="edu-top">
+          <div class="edu-degree">{{degree}}</div>
+          <div class="xp-dates">{{graduation}}</div>
+        </div>
+        <div class="edu-inst">{{institution}} — {{location}}</div>
+        {{#if gpa}}<div class="xp-meta">GPA: {{gpa}}</div>{{/if}}
+        {{#if thesis}}<div class="xp-meta">Thesis: {{thesis}}</div>{{/if}}
+        <!-- {{#if advisor}}<div class="xp-meta">Advisor: {{advisor}}</div>{{/if}}
+        {{#if focus}}<div class="xp-meta">Focus: {{focus}}</div>{{/if}} -->
+        {{#if honors}}
+          <div class="xp-meta">Honors: {{#each honors}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</div>
+        {{/if}}
+      </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  <!-- Technical Skills -->
+  <!-- {{#if technical_skills}}
+  <section class="section">
+    <div class="title">Technical Skills</div>
+    <div class="grid-3">
+      {{#each technical_skills}}
+      <div>
+        <div class="label">{{@key}}</div>
+        <div class="items">{{formatList this}}</div>
+      </div>
+      {{/each}}
+    </div>
+  </section>
+  {{/if}} -->
+
+  <!-- Awards & Leadership -->
+  <section class="section">
+    <div class="grid-2">
+      {{#if awards_recognition}}
+      <div>
+        <div class="title">Awards & Recognition</div>
+        <ul class="list">
+          {{#each awards_recognition}}<li>{{this}}</li>{{/each}}
+        </ul>
+      </div>
+      {{/if}}
+
+      {{#if leadership_mentoring}}
+      <div>
+        <div class="title">Leadership & Mentoring</div>
+        <ul class="list">
+          {{#each leadership_mentoring}}<li>{{this}}</li>{{/each}}
+        </ul>
+      </div>
+      {{/if}}
+    </div>
+  </section>
+
+  <!-- Hidden ATS keywords -->
+  <div class="ats">
+    {{#if core_competencies}}{{#each core_competencies}}{{formatList this}} {{/each}}{{/if}}
+    {{#if technical_skills}}{{#each technical_skills}}{{formatList this}} {{/each}}{{/if}}
+  </div>
+</body>
+</html>

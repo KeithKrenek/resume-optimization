@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Optimizer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 600px;
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #333;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input[type="text"], textarea {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 12px;
+            font-size: 16px;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            background: #f8f9fa;
+        }
+        
+        input[type="text"]:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            background: white;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px dashed #667eea;
+            border-radius: 12px;
+            background: #f8f9fa;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .file-input:hover {
+            background: #e3f2fd;
+            border-color: #1976d2;
+        }
+        
+        input[type="file"] {
+            position: absolute;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+        
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #667eea;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .result {
+            display: none;
+            margin-top: 30px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .error {
+            background: #fee;
+            border-left-color: #e53e3e;
+            color: #c53030;
+        }
+        
+        .success {
+            background: #f0fff4;
+            border-left-color: #38a169;
+            color: #2f855a;
+        }
+        
+        .download-btn {
+            margin-top: 15px;
+            padding: 12px 24px;
+            background: #38a169;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        pre {
+            background: #f1f3f4;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Resume Optimizer</h1>
+        
+        <form id="resumeForm" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="jobDescription">Job Description</label>
+                <textarea id="jobDescription" name="jobDescription" placeholder="Paste the complete job description here..." required></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="companyURL">Company URL</label>
+                <input type="text" id="companyURL" name="companyURL" placeholder="https://company.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="resume">Resume File</label>
+                <div class="file-upload">
+                    <div class="file-input">
+                        <span id="fileText">Choose file (PDF, TXT, Markdown, JSON)</span>
+                        <input type="file" id="resume" name="resume" accept=".pdf,.txt,.md,.json" required>
+                    </div>
+                </div>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="submitBtn">
+                Optimize Resume
+            </button>
+        </form>
+        
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <p>Optimizing your resume... This may take 30-60 seconds.</p>
+        </div>
+        
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById('resumeForm');
+        const loading = document.getElementById('loading');
+        const result = document.getElementById('result');
+        const submitBtn = document.getElementById('submitBtn');
+        const fileInput = document.getElementById('resume');
+        const fileText = document.getElementById('fileText');
+        
+        // File upload UI feedback
+        fileInput.addEventListener('change', function() {
+            if (this.files[0]) {
+                fileText.textContent = this.files[0].name;
+            }
+        });
+        
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            // Reset UI
+            loading.style.display = 'block';
+            result.style.display = 'none';
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Processing...';
+            
+            try {
+                const formData = new FormData(form);
+                
+                const response = await fetch('/optimize-resume', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showResult(data, 'success');
+                } else {
+                    showResult({ error: data.error || 'Unknown error occurred' }, 'error');
+                }
+                
+            } catch (error) {
+                showResult({ error: 'Network error: ' + error.message }, 'error');
+            } finally {
+                loading.style.display = 'none';
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Optimize Resume';
+            }
+        });
+        
+        function showResult(data, type) {
+            result.style.display = 'block';
+            result.className = 'result ' + type;
+            
+            if (type === 'success') {
+                result.innerHTML = `
+                    <h3>✅ Resume Optimized Successfully!</h3>
+                    <p>Your resume has been optimized for the target position.</p>
+                    <button class="download-btn" onclick="downloadJSON()">Download JSON</button>
+                    <pre id="jsonOutput">${JSON.stringify(data.optimizedResume, null, 2)}</pre>
+                `;
+                window.optimizedResume = data.optimizedResume;
+            } else {
+                result.innerHTML = `
+                    <h3>❌ Error</h3>
+                    <p>${data.error}</p>
+                `;
+            }
+        }
+        
+        function downloadJSON() {
+            const dataStr = JSON.stringify(window.optimizedResume, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = 'optimized-resume.json';
+            link.click();
+        }
+    </script>
+</body>
+</html>

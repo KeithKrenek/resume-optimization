@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Jordan Martinez - Technical Resume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* Technical Excellence: Projects and skills focused design */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-size: 10pt;
+      line-height: 1.5;
+      color: #1a1a1a;
+      background: #ffffff;
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.4in;
+    }
+    
+    /* Header */
+    .header {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 2px solid #0066cc;
+    }
+    
+    .name {
+      font-size: 24pt;
+      font-weight: 700;
+      color: #0066cc;
+      margin-bottom: 5px;
+    }
+    
+    .headline {
+      font-size: 12pt;
+      color: #666;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+    
+    .contact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 8px;
+      font-size: 10pt;
+    }
+    
+    .contact-item {
+      color: #333;
+    }
+    
+    .contact-item a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+    
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+    
+    /* Section Headers */
+    .section {
+      margin-bottom: 18px;
+    }
+    
+    .section-title {
+      font-size: 12pt;
+      font-weight: 700;
+      color: #0066cc;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #e0e0e0;
+      padding-bottom: 4px;
+      margin-bottom: 10px;
+    }
+    
+    /* Summary */
+    .summary {
+      font-size: 10.5pt;
+      color: #333;
+      text-align: left;
+      margin-bottom: 15px;
+    }
+    
+    /* Technical Proficiencies */
+    .tech-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-bottom: 15px;
+    }
+    
+    .tech-category {
+      background: #f8f8f8;
+      padding: 8px;
+      border-left: 3px solid #0066cc;
+    }
+    
+    .tech-category-name {
+      font-weight: 600;
+      color: #0066cc;
+      font-size: 10pt;
+      margin-bottom: 3px;
+    }
+    
+    .tech-level {
+      display: inline-block;
+      font-size: 8pt;
+      color: #666;
+      font-style: italic;
+      margin-left: 5px;
+    }
+    
+    .tech-items {
+      font-size: 9.5pt;
+      color: #444;
+      line-height: 1.4;
+    }
+    
+    /* Featured Projects */
+    .project {
+      margin-bottom: 16px;
+      padding: 12px;
+      background: #fafafa;
+      border: 1px solid #e0e0e0;
+      border-radius: 4px;
+    }
+    
+    .project-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+    
+    .project-name {
+      font-size: 11pt;
+      font-weight: 700;
+      color: #0066cc;
+    }
+    
+    .project-timeline {
+      font-size: 9pt;
+      color: #666;
+    }
+    
+    .project-role {
+      font-size: 10pt;
+      font-weight: 600;
+      color: #444;
+      margin-bottom: 5px;
+    }
+    
+    .project-description {
+      font-size: 10pt;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    
+    .project-section {
+      margin-bottom: 8px;
+    }
+    
+    .project-label {
+      font-weight: 600;
+      color: #0066cc;
+      font-size: 9.5pt;
+      margin-bottom: 3px;
+    }
+    
+    .project-content {
+      font-size: 9.5pt;
+      color: #444;
+      padding-left: 10px;
+    }
+    
+    .impact-list {
+      list-style: none;
+      padding-left: 10px;
+    }
+    
+    .impact-list li {
+      position: relative;
+      padding-left: 15px;
+      margin-bottom: 3px;
+      font-size: 9.5pt;
+      color: #333;
+    }
+    
+    .impact-list li:before {
+      content: "→";
+      position: absolute;
+      left: 0;
+      color: #0066cc;
+    }
+    
+    .tech-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 5px;
+    }
+    
+    .tech-chip {
+      background: #e8f0fe;
+      color: #0066cc;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-size: 8.5pt;
+      font-weight: 500;
+    }
+    
+    .project-link {
+      font-size: 9pt;
+      color: #0066cc;
+      text-decoration: none;
+      margin-top: 5px;
+      display: inline-block;
+    }
+    
+    /* Experience */
+    .job {
+      margin-bottom: 14px;
+    }
+    
+    .job-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 3px;
+    }
+    
+    .job-title {
+      font-size: 11pt;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .job-dates {
+      font-size: 9.5pt;
+      color: #666;
+    }
+    
+    .job-company {
+      font-size: 10pt;
+      color: #0066cc;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    
+    .job-highlights {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .job-highlights li {
+      position: relative;
+      padding-left: 15px;
+      margin-bottom: 4px;
+      font-size: 10pt;
+    }
+    
+    .job-highlights li:before {
+      content: "•";
+      position: absolute;
+      left: 0;
+      color: #0066cc;
+    }
+    
+    /* Education & Certifications */
+    .edu-cert-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .education-item {
+      margin-bottom: 8px;
+    }
+    
+    .degree {
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .institution {
+      color: #0066cc;
+    }
+    
+    .edu-meta {
+      font-size: 9.5pt;
+      color: #666;
+    }
+    
+    .cert-item {
+      margin-bottom: 8px;
+      padding-left: 15px;
+      position: relative;
+    }
+    
+    .cert-item:before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      color: #0066cc;
+    }
+    
+    .cert-name {
+      font-weight: 600;
+      color: #333;
+      display: block;
+    }
+    
+    .cert-meta {
+      font-size: 9pt;
+      color: #666;
+    }
+    
+    /* Open Source & Speaking */
+    .contribution-item {
+      margin-bottom: 6px;
+      font-size: 9.5pt;
+    }
+    
+    .contribution-project {
+      font-weight: 600;
+      color: #0066cc;
+    }
+    
+    .speaking-list {
+      list-style: none;
+      padding-left: 0;
+    }
+    
+    .speaking-list li {
+      position: relative;
+      padding-left: 15px;
+      margin-bottom: 4px;
+      font-size: 9.5pt;
+    }
+    
+    .speaking-list li:before {
+      content: "▸";
+      position: absolute;
+      left: 0;
+      color: #0066cc;
+    }
+    
+    /* Print Optimization */
+    @media print {
+      body {
+        font-size: 9.5pt;
+        padding: 0.3in;
+      }
+      
+      .project {
+        background: #f5f5f5;
+        page-break-inside: avoid;
+      }
+      
+      .tech-category {
+        background: #f5f5f5;
+      }
+      
+      .tech-chip {
+        background: #e5e5e5;
+        color: #000;
+      }
+      
+      .section {
+        page-break-inside: avoid;
+      }
+      
+      .job {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <h1 class="name">Jordan Martinez</h1>
+    <div class="headline">DevOps Engineer | Platform Architect | Infrastructure Automation</div>
+    <div class="contact-grid">
+      <div class="contact-item">📧 <a href="mailto:jordan.martinez@email.com">jordan.martinez@email.com</a></div>
+      <div class="contact-item">📱 555-456-7890</div>
+      <div class="contact-item">📍 Austin, TX</div>
+      <div class="contact-item">💼 <a href="https://linkedin.com/in/jordanmartinez">LinkedIn</a></div>
+      <div class="contact-item">🔗 <a href="https://github.com/jmartinez">GitHub</a></div>
+      <div class="contact-item">🌐 <a href="https://jmartinez.dev">jmartinez.dev</a></div>
+    </div>
+  </header>
+
+  <!-- Professional Summary -->
+  <section class="section">
+    <h2 class="section-title">Professional Summary</h2>
+    <div class="summary">DevOps Engineer with 6+ years architecting cloud infrastructure and automating deployment pipelines for high-scale applications. Expert in Kubernetes, Terraform, and CI/CD implementation. Reduced deployment times by 85% and infrastructure costs by 40% through innovative automation solutions. Strong advocate for infrastructure-as-code and GitOps methodologies.</div>
+  </section>
+
+  <!-- Technical Proficiencies -->
+  <section class="section">
+    <h2 class="section-title">Technical Proficiencies</h2>
+    <div class="tech-grid">
+      <div class="tech-category">
+        <div class="tech-category-name">
+          Cloud Platforms
+          <span class="tech-level">(Expert)</span>
+        </div>
+        <div class="tech-items">
+          AWS (EC2, ECS, Lambda, RDS, S3), Google Cloud Platform, Azure
+        </div>
+      </div>
+      <div class="tech-category">
+        <div class="tech-category-name">
+          Container &amp; Orchestration
+          <span class="tech-level">(Expert)</span>
+        </div>
+        <div class="tech-items">
+          Docker, Kubernetes, Helm, Istio, OpenShift
+        </div>
+      </div>
+      <div class="tech-category">
+        <div class="tech-category-name">
+          Infrastructure as Code
+          <span class="tech-level">(Expert)</span>
+        </div>
+        <div class="tech-items">
+          Terraform, CloudFormation, Ansible, Pulumi
+        </div>
+      </div>
+      <div class="tech-category">
+        <div class="tech-category-name">
+          CI/CD Tools
+          <span class="tech-level">(Advanced)</span>
+        </div>
+        <div class="tech-items">
+          Jenkins, GitLab CI, GitHub Actions, CircleCI, ArgoCD
+        </div>
+      </div>
+      <div class="tech-category">
+        <div class="tech-category-name">
+          Monitoring &amp; Observability
+          <span class="tech-level">(Advanced)</span>
+        </div>
+        <div class="tech-items">
+          Prometheus, Grafana, ELK Stack, Datadog, New Relic
+        </div>
+      </div>
+      <div class="tech-category">
+        <div class="tech-category-name">
+          Programming
+          <span class="tech-level">(Advanced)</span>
+        </div>
+        <div class="tech-items">
+          Python, Go, Bash, JavaScript/Node.js
+        </div>
+      </div>
+      <div class="tech-category">
+        <div class="tech-category-name">
+          Databases
+          <span class="tech-level">(Intermediate)</span>
+        </div>
+        <div class="tech-items">
+          PostgreSQL, MongoDB, Redis, Cassandra
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects -->
+  <section class="section">
+    <h2 class="section-title">Featured Projects</h2>
+    <div class="project">
+      <div class="project-header">
+        <div class="project-name">Kubernetes Multi-Tenant Platform</div>
+        <div class="project-timeline">2023</div>
+      </div>
+      <div class="project-role">Lead DevOps Engineer</div>
+      <div class="project-description">Designed and implemented multi-tenant Kubernetes platform serving 50+ development teams</div>
+      
+      <div class="project-section">
+        <div class="project-label">Challenge:</div>
+        <div class="project-content">Needed to provide isolated environments while maintaining cost efficiency and security</div>
+      </div>
+      
+      <div class="project-section">
+        <div class="project-label">Solution:</div>
+        <div class="project-content">Built custom operators for namespace provisioning, implemented RBAC with OPA policies, and created self-service portal</div>
+      </div>
+      
+      <div class="project-section">
+        <div class="project-label">Impact:</div>
+        <ul class="impact-list">
+          <li>Reduced environment provisioning time from 2 days to 5 minutes</li>
+          <li>Achieved 99.99% platform availability</li>
+          <li>Saved $500K annually through resource optimization</li>
+        </ul>
+      </div>
+      
+      <div class="tech-stack">
+        <span class="tech-chip">Kubernetes</span>
+        <span class="tech-chip">Go</span>
+        <span class="tech-chip">Terraform</span>
+        <span class="tech-chip">Prometheus</span>
+        <span class="tech-chip">Grafana</span>
+        <span class="tech-chip">OPA</span>
+      </div>
+      
+      <a href="https://github.com/jmartinez/k8s-platform" class="project-link">🔗 github.com/jmartinez/k8s-platform</a>
+    </div>
+    <div class="project">
+      <div class="project-header">
+        <div class="project-name">Zero-Downtime Migration Framework</div>
+        <div class="project-timeline">2022</div>
+      </div>
+      <div class="project-role">Technical Lead</div>
+      <div class="project-description">Orchestrated migration of 200+ microservices from on-premise to AWS cloud</div>
+      
+      <div class="project-section">
+        <div class="project-label">Challenge:</div>
+        <div class="project-content">Migrate production services without customer impact while maintaining data consistency</div>
+      </div>
+      
+      <div class="project-section">
+        <div class="project-label">Solution:</div>
+        <div class="project-content">Implemented blue-green deployment strategy with automated rollback capabilities and real-time sync</div>
+      </div>
+      
+      <div class="project-section">
+        <div class="project-label">Impact:</div>
+        <ul class="impact-list">
+          <li>Completed migration with zero customer-facing downtime</li>
+          <li>Reduced infrastructure costs by 35%</li>
+          <li>Improved application performance by 40%</li>
+        </ul>
+      </div>
+      
+      <div class="tech-stack">
+        <span class="tech-chip">AWS</span>
+        <span class="tech-chip">Terraform</span>
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">Docker</span>
+        <span class="tech-chip">RDS</span>
+        <span class="tech-chip">DynamoDB</span>
+      </div>
+      
+    </div>
+    <div class="project">
+      <div class="project-header">
+        <div class="project-name">GitOps CI/CD Pipeline Automation</div>
+        <div class="project-timeline">2022</div>
+      </div>
+      <div class="project-role">DevOps Engineer</div>
+      <div class="project-description">Revolutionized deployment process using GitOps principles and automated pipelines</div>
+      
+      <div class="project-section">
+        <div class="project-label">Challenge:</div>
+        <div class="project-content">Manual deployments were error-prone and took 4+ hours per release</div>
+      </div>
+      
+      <div class="project-section">
+        <div class="project-label">Solution:</div>
+        <div class="project-content">Implemented ArgoCD with GitHub Actions, automated testing, and progressive delivery</div>
+      </div>
+      
+      <div class="project-section">
+        <div class="project-label">Impact:</div>
+        <ul class="impact-list">
+          <li>Reduced deployment time from 4 hours to 15 minutes</li>
+          <li>Decreased failed deployments by 90%</li>
+          <li>Enabled 10x increase in deployment frequency</li>
+        </ul>
+      </div>
+      
+      <div class="tech-stack">
+        <span class="tech-chip">ArgoCD</span>
+        <span class="tech-chip">GitHub Actions</span>
+        <span class="tech-chip">Helm</span>
+        <span class="tech-chip">Kubernetes</span>
+        <span class="tech-chip">Flagger</span>
+      </div>
+      
+      <a href="https://github.com/jmartinez/gitops-pipeline" class="project-link">🔗 github.com/jmartinez/gitops-pipeline</a>
+    </div>
+    <div class="project">
+      <div class="project-header">
+        <div class="project-name">Infrastructure Cost Optimization Tool</div>
+        <div class="project-timeline">2021</div>
+      </div>
+      <div class="project-role">Creator</div>
+      <div class="project-description">Open-source tool for analyzing and optimizing cloud infrastructure costs</div>
+      
+      <div class="project-section">
+        <div class="project-label">Challenge:</div>
+        <div class="project-content">Teams lacked visibility into resource usage and cost allocation</div>
+      </div>
+      
+      <div class="project-section">
+        <div class="project-label">Solution:</div>
+        <div class="project-content">Built Python-based analyzer with recommendations engine and Slack integration</div>
+      </div>
+      
+      <div class="project-section">
+        <div class="project-label">Impact:</div>
+        <ul class="impact-list">
+          <li>1,500+ GitHub stars, 50+ contributors</li>
+          <li>Helped organizations save average of 30% on cloud costs</li>
+          <li>Featured in DevOps Weekly newsletter</li>
+        </ul>
+      </div>
+      
+      <div class="tech-stack">
+        <span class="tech-chip">Python</span>
+        <span class="tech-chip">AWS Cost Explorer API</span>
+        <span class="tech-chip">Pandas</span>
+        <span class="tech-chip">FastAPI</span>
+        <span class="tech-chip">React</span>
+      </div>
+      
+      <a href="https://github.com/jmartinez/cloud-optimizer" class="project-link">🔗 github.com/jmartinez/cloud-optimizer</a>
+    </div>
+  </section>
+
+  <!-- Professional Experience -->
+  <section class="section">
+    <h2 class="section-title">Professional Experience</h2>
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">Senior DevOps Engineer</div>
+        <div class="job-dates">Jan 2021 - Present</div>
+      </div>
+      <div class="job-company">TechScale Inc. - Austin, TX</div>
+      <ul class="job-highlights">
+        <li>Architected Kubernetes-based platform supporting 1B+ requests daily with 99.99% uptime</li>
+        <li>Led infrastructure team of 4 engineers, mentoring on IaC best practices and automation</li>
+        <li>Implemented comprehensive monitoring stack reducing MTTR from 45 to 8 minutes</li>
+        <li>Automated security scanning in CI/CD pipeline, catching 95% of vulnerabilities pre-production</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">DevOps Engineer</div>
+        <div class="job-dates">Jun 2019 - Dec 2020</div>
+      </div>
+      <div class="job-company">CloudFirst Solutions - Remote</div>
+      <ul class="job-highlights">
+        <li>Migrated 50+ applications to containerized architecture using Docker and Kubernetes</li>
+        <li>Built Terraform modules for standardized infrastructure provisioning across teams</li>
+        <li>Reduced AWS costs by 40% through reserved instances and spot fleet optimization</li>
+        <li>Established disaster recovery procedures with RTO of 1 hour and RPO of 15 minutes</li>
+      </ul>
+    </div>
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">Junior DevOps Engineer</div>
+        <div class="job-dates">Aug 2018 - May 2019</div>
+      </div>
+      <div class="job-company">DataFlow Systems - Dallas, TX</div>
+      <ul class="job-highlights">
+        <li>Automated server provisioning using Ansible, reducing setup time from days to hours</li>
+        <li>Implemented centralized logging with ELK stack for 100+ servers</li>
+        <li>Maintained Jenkins pipelines for continuous integration and deployment</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Education & Certifications Grid -->
+  <div class="edu-cert-grid">
+    <section class="section">
+      <h2 class="section-title">Education</h2>
+      <div class="education-item">
+        <div class="degree">B.S. Computer Science</div>
+        <div class="institution">University of Texas at Austin</div>
+        <div class="edu-meta">May 2018</div>
+        <div class="edu-meta">Coursework: Distributed Systems, Cloud Computing, Network Security, Database Systems</div>
+      </div>
+    </section>
+
+    <section class="section">
+      <h2 class="section-title">Certifications</h2>
+      <div class="cert-item">
+        <span class="cert-name">Certified Kubernetes Administrator (CKA)</span>
+        <span class="cert-meta">Cloud Native Computing Foundation, 2023</span>
+      </div>
+      <div class="cert-item">
+        <span class="cert-name">AWS Solutions Architect Professional</span>
+        <span class="cert-meta">Amazon Web Services, 2022</span>
+      </div>
+      <div class="cert-item">
+        <span class="cert-name">HashiCorp Certified: Terraform Associate</span>
+        <span class="cert-meta">HashiCorp, 2021</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- Open Source Contributions -->
+  <section class="section">
+    <h2 class="section-title">Open Source Contributions</h2>
+    <div class="contribution-item">
+      <span class="contribution-project">Kubernetes</span>: 
+      Contributed to ingress-nginx controller, fixing memory leak issue
+       (PR #8234)
+      
+    </div>
+    <div class="contribution-item">
+      <span class="contribution-project">Terraform AWS Modules</span>: 
+      Maintainer of terraform-aws-eks module with 2M+ downloads
+      
+       - Core Maintainer
+    </div>
+    <div class="contribution-item">
+      <span class="contribution-project">Prometheus Operator</span>: 
+      Added custom metrics support for StatefulSets
+       (PR #4567)
+      
+    </div>
+  </section>
+
+  <!-- Speaking Engagements -->
+  <section class="section">
+    <h2 class="section-title">Speaking Engagements</h2>
+    <ul class="speaking-list">
+      <li>KubeCon 2023: &#x27;Scaling Kubernetes to 10,000 Nodes&#x27;</li>
+      <li>DevOps Days Austin 2022: &#x27;GitOps in Practice&#x27;</li>
+      <li>AWS re:Invent 2022: &#x27;Cost Optimization at Scale&#x27;</li>
+    </ul>
+  </section>
+</body>
+</html>

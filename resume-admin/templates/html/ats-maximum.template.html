@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{contact.name}} - Resume</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    /* ATS-Maximum: Single column, maximum compatibility */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 11pt;
+      line-height: 1.4;
+      color: #000000;
+      background: #ffffff;
+      max-width: 8.5in;
+      margin: 0 auto;
+      padding: 0.5in;
+    }
+    
+    /* Header */
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #000000;
+      padding-bottom: 10px;
+    }
+    
+    .name {
+      font-size: 20pt;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+    
+    .contact-info {
+      font-size: 10pt;
+      margin-top: 5px;
+    }
+    
+    .contact-info span {
+      margin: 0 8px;
+    }
+    
+    .contact-info a {
+      color: #000000;
+      text-decoration: none;
+    }
+    
+    /* Section Headers */
+    .section {
+      margin-bottom: 15px;
+    }
+    
+    .section-title {
+      font-size: 12pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      border-bottom: 1px solid #000000;
+      padding-bottom: 3px;
+      margin-bottom: 8px;
+    }
+    
+    /* Content */
+    .summary {
+      margin-bottom: 10px;
+      text-align: justify;
+    }
+    
+    /* Skills */
+    .skills-container {
+      margin-bottom: 10px;
+    }
+    
+    .skill-category {
+      margin-bottom: 5px;
+    }
+    
+    .skill-label {
+      font-weight: bold;
+      display: inline;
+    }
+    
+    .skill-items {
+      display: inline;
+      margin-left: 5px;
+    }
+    
+    /* Experience */
+    .job {
+      margin-bottom: 12px;
+    }
+    
+    .job-header {
+      margin-bottom: 5px;
+    }
+    
+    .job-title {
+      font-weight: bold;
+      font-size: 11pt;
+    }
+    
+    .job-company {
+      font-weight: bold;
+    }
+    
+    .job-meta {
+      font-size: 10pt;
+      color: #333333;
+      margin-bottom: 5px;
+    }
+    
+    .highlights {
+      margin-left: 20px;
+      list-style-type: disc;
+    }
+    
+    .highlights li {
+      margin-bottom: 3px;
+    }
+    
+    /* Education */
+    .education-item {
+      margin-bottom: 8px;
+    }
+    
+    .degree {
+      font-weight: bold;
+    }
+    
+    .institution {
+      font-weight: bold;
+    }
+    
+    .edu-meta {
+      font-size: 10pt;
+      color: #333333;
+    }
+    
+    /* Projects */
+    .project {
+      margin-bottom: 10px;
+    }
+    
+    .project-title {
+      font-weight: bold;
+    }
+    
+    .project-description {
+      margin: 2px 0;
+    }
+    
+    .project-impact {
+      font-style: italic;
+      margin: 2px 0;
+    }
+    
+    .project-tech {
+      font-size: 10pt;
+      color: #333333;
+    }
+    
+    /* Lists */
+    .pub-list, .cert-list, .leader-list {
+      margin-left: 20px;
+      list-style-type: disc;
+    }
+    
+    .pub-list li, .cert-list li, .leader-list li {
+      margin-bottom: 3px;
+    }
+    
+    /* Print Optimization */
+    @media print {
+      body {
+        font-size: 10.5pt;
+        padding: 0.4in;
+      }
+      .section {
+        page-break-inside: avoid;
+      }
+      .job, .project, .education-item {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Contact Information -->
+  <header class="header">
+    <div class="name">{{contact.name}}</div>
+    <div class="contact-info">
+      <span>{{contact.email}}</span> |
+      <span>{{contact.phone}}</span> |
+      <span>{{contact.location}}</span> |
+      <span><a href="https://{{contact.linkedin}}">{{contact.linkedin}}</a></span> |
+      <span><a href="https://{{contact.github}}">{{contact.github}}</a></span>
+    </div>
+  </header>
+
+  <!-- Professional Summary -->
+  {{#if professional_summary}}
+  <section class="section">
+    <h2 class="section-title">Professional Summary</h2>
+    <div class="summary">{{professional_summary}}</div>
+  </section>
+  {{/if}}
+
+  <!-- Core Skills -->
+  {{#if core_skills}}
+  <section class="section">
+    <h2 class="section-title">Skills</h2>
+    <div class="skills-container">
+      {{#each core_skills}}
+      <div class="skill-category">
+        <span class="skill-label">{{@key}}:</span>
+        <span class="skill-items">{{#each this}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</span>
+      </div>
+      {{/each}}
+    </div>
+  </section>
+  {{/if}}
+
+  <!-- Professional Experience -->
+  {{#if experience}}
+  <section class="section">
+    <h2 class="section-title">Professional Experience</h2>
+    {{#each experience}}
+    <div class="job">
+      <div class="job-header">
+        <div class="job-title">{{title}}</div>
+        <div class="job-company">{{company}}</div>
+        <div class="job-meta">{{location}} | {{dates}}</div>
+      </div>
+      {{#if highlights}}
+      <ul class="highlights">
+        {{#each highlights}}
+        <li>{{this}}</li>
+        {{/each}}
+      </ul>
+      {{/if}}
+    </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  <!-- Education -->
+  {{#if education}}
+  <section class="section">
+    <h2 class="section-title">Education</h2>
+    {{#each education}}
+    <div class="education-item">
+      <div class="degree">{{degree}}</div>
+      <div class="institution">{{institution}}, {{location}}</div>
+      {{#if graduation}}<div class="edu-meta">Graduated: {{graduation}}</div>{{/if}}
+      {{#if thesis}}<div class="edu-meta">Thesis: {{thesis}}</div>{{/if}}
+      {{#if gpa}}<div class="edu-meta">GPA: {{gpa}}</div>{{/if}}
+      {{#if honors}}<div class="edu-meta">Honors: {{#each honors}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</div>{{/if}}
+    </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  <!-- Selected Projects -->
+  {{#if selected_projects}}
+  <section class="section">
+    <h2 class="section-title">Selected Projects</h2>
+    {{#each selected_projects}}
+    <div class="project">
+      <div class="project-title">{{title}}{{#if url}} - <a href="https://{{url}}">{{url}}</a>{{/if}}</div>
+      <div class="project-description">{{description}}</div>
+      {{#if impact}}<div class="project-impact">Impact: {{impact}}</div>{{/if}}
+      {{#if technologies}}<div class="project-tech">Technologies: {{#each technologies}}{{this}}{{#unless @last}}, {{/unless}}{{/each}}</div>{{/if}}
+    </div>
+    {{/each}}
+  </section>
+  {{/if}}
+
+  <!-- Publications -->
+  {{#if publications}}
+  <section class="section">
+    <h2 class="section-title">Publications</h2>
+    <ul class="pub-list">
+      {{#each publications}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}}
+
+  <!-- Certifications -->
+  {{#if certifications}}
+  <section class="section">
+    <h2 class="section-title">Certifications</h2>
+    <ul class="cert-list">
+      {{#each certifications}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}}
+
+  <!-- Leadership -->
+  {{#if leadership}}
+  <section class="section">
+    <h2 class="section-title">Leadership & Community</h2>
+    <ul class="leader-list">
+      {{#each leadership}}
+      <li>{{this}}</li>
+      {{/each}}
+    </ul>
+  </section>
+  {{/if}}
+</body>
+</html>

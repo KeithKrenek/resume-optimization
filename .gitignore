@@ -1,0 +1,9 @@
+node_modules
+dist
+.DS_Store
+.vite
+.pnpm-store
+*.log
+.env
+package-lock.json
+.venv
