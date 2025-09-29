@@ -202,7 +202,7 @@ class JobAppOrganizer(tk.Tk):
             self.status1_var.set("Error fetching URL. Please try again.")
             return
 
-        folder_name = f"{datetime.now().strftime('%Y%m%d')}_{self._sanitize_company_name(company_url)}"
+        folder_name = f"{datetime.now().strftime('%Y%m%d%H%M%S')}_{self._sanitize_company_name(company_url)}"
         
         try:
             new_dir_path = os.path.join(save_path, folder_name)
