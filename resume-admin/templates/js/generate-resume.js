@@ -10,6 +10,7 @@ const puppeteer = require('puppeteer');
 const handlebars = require('handlebars');
 const fs = require('fs').promises;
 const path = require('path');
+const { exec } = require('child_process');
 
 // --- USER CONFIGURATION ---
 // IMPORTANT: Set this to the same path as "save_path" in your app.py defaults.
@@ -170,6 +171,32 @@ async function generatePDF({
   }
 }
 
+/* ---------------- NEW: Open PDF in System Viewer ---------------- */
+/**
+ * Opens a file using the system's default application.
+ * @param {string} filePath The absolute path to the file to open.
+ */
+function openFile(filePath) {
+  let command;
+  switch (process.platform) {
+    case 'darwin': // macOS
+      command = `open "${filePath}"`;
+      break;
+    case 'win32': // Windows
+      command = `start "" "${filePath}"`;
+      break;
+    default: // Linux
+      command = `xdg-open "${filePath}"`;
+      break;
+  }
+
+  exec(command, (error) => {
+    if (error) {
+      console.error(`\n⚠️  Could not open the PDF automatically: ${error.message}`);
+    }
+  });
+}
+
 /* ---------------- NEW: Dynamic File Discovery ---------------- */
 /**
  * Finds the most recently modified subdirectory in a base directory.
@@ -253,6 +280,7 @@ async function findFileByPattern(dir, pattern, fileType) {
     });
 
     console.log(`\n✅ PDF successfully generated: ${pdfPath}`);
+    openFile(pdfPath);
   } catch (err) {
     console.error(`\n❌ Failed to generate resume: ${err.message}`);
     process.exit(1);

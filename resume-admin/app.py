@@ -242,7 +242,7 @@ class JobAppOrganizer(tk.Tk):
 
             final_prompt = (
                 "--- TASK ---\n"
-                "As described in the following system message, please review the job description, research the company, and create an optimized resume from the attached database file that is expertly tailored to the job description."
+                "As described in the following system message, please review the job description, research the company, and create an optimized resume from the attached database file that is expertly tailored to the job description.\n"
                 f"--- SYSTEM INSTRUCTIONS ---\n{instructions_text}\n --- END INSTRUCTIONS ---\n\n"
                 f"--- JOB DESCRIPTION ---\n{jd_text}\n --- END JOB DESCRIPTION ---\n\n"
                 f"--- COMPANY URL ---\n{self.company_url_var.get().strip()}\n\n"
