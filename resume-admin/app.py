@@ -210,7 +210,7 @@ class JobAppOrganizer(tk.Tk):
             self.jd_file_path_from_step1 = os.path.join(new_dir_path, "job_description.md")
             
             with open(self.jd_file_path_from_step1, 'w', encoding='utf-8') as f: f.write(jd_text)
-            shutil.copy2(os.path.join("templates/html", html_file), new_dir_path)
+            # shutil.copy2(os.path.join("templates/html", html_file), new_dir_path)
             
             self.status1_var.set(f"Success! Files saved. Proceeding to Step 2.")
             self.jd_path_var.set(self.jd_file_path_from_step1)
