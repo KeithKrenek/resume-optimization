@@ -272,6 +272,12 @@ class JobAppOrganizer(tk.Tk):
             if not os.path.exists(other_questions_filepath):
                 with open(other_questions_filepath, 'w', encoding='utf-8') as f:
                     f.write('No other questions requested.')
+
+            removed_from_json_filename = "removed_from_json.txt"
+            removed_from_json_filename = os.path.join(save_folder, removed_from_json_filename)
+            if not os.path.exists(removed_from_json_filename):
+                with open(removed_from_json_filename, 'w', encoding='utf-8') as f:
+                    f.write('CONTENT REMOVED FROM JSON DUE TO LENGTH LIMITS:\n\n')
             
             # --- Open AI website ---
             ai_urls = {"ChatGPT": "https://chat.openai.com/", "Claude": "https://claude.ai/", "Gemini": "https://gemini.google.com/"}
