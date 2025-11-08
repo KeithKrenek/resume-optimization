@@ -264,7 +264,7 @@ class PipelineState(BaseModel):
     job_folder: str
     company_name: str
     job_title: str
-    
+
     # Agent outputs (Phases 1-3)
     job_analysis: Optional[JobAnalysis] = None
     content_selection: Optional[ContentSelection] = None
@@ -272,16 +272,22 @@ class PipelineState(BaseModel):
     validation_result: Optional[ValidationResult] = None
     edited_resume: Optional[ResumeDraft] = None  # After Agent 5
     qa_report: Optional[QAReport] = None  # After Agent 6
-    
+
+    # Workflow configuration (NEW for Phase 3 - dynamic workflows)
+    workflow_config: Optional[Dict[str, Any]] = Field(
+        default=None,
+        description="Dynamic workflow configuration with enabled sections and agents"
+    )
+
     # Status tracking
     current_stage: str = "initialized"
     completed_stages: List[str] = Field(default_factory=list)
     errors: List[str] = Field(default_factory=list)
-    
+
     # Timestamps
     started_at: Optional[str] = None
     completed_at: Optional[str] = None
-    
+
     # Metadata
     pdf_generated: bool = False
     pdf_path: Optional[str] = None

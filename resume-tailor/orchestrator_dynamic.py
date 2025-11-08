@@ -177,8 +177,9 @@ class DynamicResumeOrchestrator(ResumeOrchestrator):
         if job_analysis:
             self.workflow_config = self.configure_workflow(job_analysis)
 
-            # Store workflow config in state for later phases
+            # Store workflow config in state for later phases (NEW for Phase 3)
             if self.state_manager:
+                self.state_manager.state.workflow_config = self.workflow_config
                 self.state_manager.state.current_stage = "workflow_configured"
                 self.state_manager.save_state()
 
@@ -217,9 +218,7 @@ class DynamicResumeOrchestrator(ResumeOrchestrator):
         """
         Run Phase 2 with dynamic schema
 
-        Note: For now, this uses the standard phase2 since the resume_drafter
-        doesn't yet fully support dynamic schemas. This will be enhanced in
-        future iterations.
+        This now fully integrates dynamic schemas with the resume drafter.
 
         Args:
             job_folder: Optional folder path (resume from existing)
@@ -235,13 +234,104 @@ class DynamicResumeOrchestrator(ResumeOrchestrator):
                     self.workflow_config = json.load(f)
                 console.print("[green]✓ Loaded workflow configuration[/green]")
 
-        # Build dynamic schema (for future use)
-        # Note: resume_drafter currently uses hardcoded schema, but we're preparing for migration
+        # Build dynamic schema based on workflow configuration
         dynamic_schema = self.build_dynamic_schema()
 
-        # For now, run standard Phase 2
-        # TODO: Pass dynamic_schema to resume_drafter in future iteration
-        return super().run_phase2(job_folder)
+        # Initialize or restore state manager
+        if job_folder:
+            self.state_manager = StateManager(job_folder)
+
+        if not self.state_manager:
+            raise ValueError("No job folder - must run Phase 1 first or provide job_folder")
+
+        console.print("\n[bold cyan]" + "="*70 + "[/bold cyan]")
+        console.print(Panel.fit(
+            "[bold white]Phase 2: Resume Generation + Validation (Dynamic)[/bold white]\n"
+            "[dim]Using dynamic schema with configured sections[/dim]",
+            border_style="cyan"
+        ))
+        console.print("[bold cyan]" + "="*70 + "[/bold cyan]\n")
+
+        try:
+            # Load Phase 1 results
+            from schemas import JobAnalysis, ContentSelection
+            if not self.state_manager.state.job_analysis:
+                job_analysis_data = self.state_manager.load_agent_output("job_analyzer")
+                self.state_manager.state.job_analysis = JobAnalysis(**job_analysis_data)
+
+            if not self.state_manager.state.content_selection:
+                content_data = self.state_manager.load_agent_output("content_selector")
+                self.state_manager.state.content_selection = ContentSelection(**content_data)
+
+            job_analysis = self.state_manager.state.job_analysis
+            content_selection = self.state_manager.state.content_selection
+
+            # Load target format example
+            target_format = self.load_target_format_example()
+
+            # AGENT 3 + 4: Generate and validate with dynamic schema
+            validation_passed = False
+            resume_draft = None
+            validation_result = None
+
+            for attempt in range(self.max_validation_retries + 1):
+                if attempt > 0:
+                    console.print(f"\n[yellow]Retry {attempt}/{self.max_validation_retries}: Regenerating resume...[/yellow]")
+
+                # AGENT 3: Generate resume with dynamic schema
+                if attempt == 0 and self.state_manager.can_skip_stage("draft_complete"):
+                    console.print("\n[yellow]⊳ Using existing draft[/yellow]")
+                    draft_data = self.state_manager.load_agent_output("resume_drafter")
+                    # Validate with dynamic schema
+                    resume_draft = dynamic_schema(**draft_data)
+                else:
+                    # Generate with dynamic schema
+                    resume_draft = self.resume_drafter.draft(
+                        job_analysis=job_analysis,
+                        content_selection=content_selection,
+                        target_format_example=target_format,
+                        dynamic_schema=dynamic_schema  # NEW: Pass dynamic schema!
+                    )
+                    self.state_manager.set_resume_draft(resume_draft)
+
+                # AGENT 4: Validate
+                validation_result = self.fabrication_validator.validate(
+                    resume_draft=resume_draft,
+                    content_selection=content_selection
+                )
+                self.state_manager.set_validation_result(validation_result)
+
+                if validation_result.is_valid:
+                    validation_passed = True
+                    console.print("\n[bold green]✓ Validation Passed[/bold green]")
+                    break
+                else:
+                    console.print(f"\n[bold red]✗ Validation Failed (Attempt {attempt + 1})[/bold red]")
+
+                    if attempt >= self.max_validation_retries:
+                        console.print("[bold red]Maximum retries reached[/bold red]")
+                        break
+
+            if not validation_passed:
+                raise ValueError("Resume validation failed after all retries")
+
+            # Save validated resume with Unicode cleaning
+            resume_path = os.path.join(self.state_manager.job_folder, "resume_validated.json")
+            self.save_resume_json(resume_draft.model_dump(), resume_path, clean_unicode=True)
+
+            # Save state
+            self.state_manager.state.current_stage = "phase2_complete"
+            self.state_manager.save_state()
+
+            # Show summary
+            self._show_phase2_summary(resume_draft, validation_result)
+
+            return self.state_manager.state
+
+        except Exception as e:
+            self.state_manager.add_error(f"Phase 2 failed: {str(e)}")
+            console.print(f"[bold red]✗ Phase 2 Failed:[/bold red] {e}")
+            raise
 
     def generate_resume_dynamic(
         self,

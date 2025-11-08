@@ -4,16 +4,17 @@ Generates complete resume JSON using ONLY provided content with source citations
 """
 
 import json
-from typing import Dict, Any
+from typing import Dict, Any, Optional, Type
 from pathlib import Path
 
 from base_agent import BaseAgent
 from schemas import JobAnalysis, ContentSelection, ResumeDraft
+from pydantic import BaseModel
 
 
 class ResumeDrafterAgent(BaseAgent):
     """Generates resume JSON from selected content with strict source citation"""
-    
+
     def __init__(self, client, model: str):
         super().__init__(
             client=client,
@@ -21,11 +22,14 @@ class ResumeDrafterAgent(BaseAgent):
             agent_name="Resume Drafter Agent",
             agent_description="Generates complete resume JSON with source citations - NO fabrication"
         )
-        
+
         # Load prompt template
         prompt_path = Path(__file__).parent / "resume_drafter.md"
         with open(prompt_path, 'r', encoding='utf-8') as f:
             self.prompt_template = f.read()
+
+        # Dynamic schema support (NEW for Phase 3)
+        self.dynamic_schema: Optional[Type[BaseModel]] = None
     
     def build_prompt(
         self,
@@ -104,23 +108,23 @@ Return ONLY the JSON, no additional text or markdown formatting.
         
         return prompt
     
-    def parse_response(self, response: str) -> ResumeDraft:
+    def parse_response(self, response: str) -> BaseModel:
         """
-        Parse JSON response into ResumeDraft schema
-        
+        Parse JSON response into ResumeDraft schema (or dynamic schema if set)
+
         Args:
             response: Raw response from Claude
-            
+
         Returns:
-            Validated ResumeDraft object
+            Validated ResumeDraft object (or dynamic schema instance)
         """
         # Extract JSON from response
         json_str = self.extract_json_from_response(response)
-        
+
         if not json_str:
             # Try the whole response as JSON
             json_str = response.strip()
-        
+
         # Parse JSON
         try:
             data = json.loads(json_str)
@@ -128,43 +132,68 @@ Return ONLY the JSON, no additional text or markdown formatting.
             self.console.print(f"[red]JSON parsing error: {e}[/red]")
             self.console.print(f"[dim]Response preview: {response[:500]}...[/dim]")
             raise
-        
+
         # Build citations map (for validation)
         citations = self._extract_citations(data)
         data['citations'] = citations
-        
+
+        # Choose schema: dynamic if set, otherwise standard ResumeDraft
+        schema_to_use = self.dynamic_schema if self.dynamic_schema else ResumeDraft
+
         # Validate with Pydantic
         try:
-            draft = ResumeDraft(**data)
+            draft = schema_to_use(**data)
+            if self.dynamic_schema:
+                self.console.print(f"[dim]Using dynamic schema: {schema_to_use.__name__}[/dim]")
         except Exception as e:
             self.console.print(f"[red]Validation error: {e}[/red]")
             self.console.print(f"[yellow]Data keys: {list(data.keys())}[/yellow]")
+            self.console.print(f"[yellow]Expected schema: {schema_to_use.__name__}[/yellow]")
             raise
         
-        # Show summary
-        exp_count = len(draft.experience)
-        proj_count = len(draft.bulleted_projects)
-        total_achievements = sum(len(exp.get('achievements', [])) for exp in draft.experience)
-        
-        self.show_summary({
-            "Experiences": exp_count,
-            "Projects": proj_count,
-            "Total Achievement Bullets": total_achievements,
-            "Citations": len(citations),
-            "Summary Length": f"{len(draft.professional_summary)} chars",
-            "Skill Categories": len(draft.technical_expertise)
-        })
-        
+        # Show summary (flexible for dynamic schemas)
+        summary = {}
+
+        # Safe field access for both standard and dynamic schemas
+        if hasattr(draft, 'experience'):
+            exp_count = len(draft.experience) if draft.experience else 0
+            summary["Experiences"] = exp_count
+            total_achievements = sum(len(exp.get('achievements', [])) for exp in draft.experience) if draft.experience else 0
+            summary["Total Achievement Bullets"] = total_achievements
+
+        if hasattr(draft, 'bulleted_projects'):
+            proj_count = len(draft.bulleted_projects) if draft.bulleted_projects else 0
+            summary["Projects"] = proj_count
+
+        summary["Citations"] = len(citations)
+
+        if hasattr(draft, 'professional_summary') and draft.professional_summary:
+            summary["Summary Length"] = f"{len(draft.professional_summary)} chars"
+
+        if hasattr(draft, 'technical_expertise') and draft.technical_expertise:
+            summary["Skill Categories"] = len(draft.technical_expertise)
+
+        # Show sections included (for dynamic schemas)
+        if self.dynamic_schema:
+            included_sections = [k for k in draft.model_dump().keys() if k != 'citations' and draft.model_dump()[k]]
+            summary["Sections Included"] = len(included_sections)
+
+        self.show_summary(summary)
+
         # Show source citations
         self.console.print("\n[cyan]Source Citations:[/cyan]")
         source_ids = set()
-        for exp in draft.experience:
-            if 'source_id' in exp:
-                source_ids.add(exp['source_id'])
-        for proj in draft.bulleted_projects:
-            if 'source_id' in proj:
-                source_ids.add(proj['source_id'])
-        
+
+        if hasattr(draft, 'experience') and draft.experience:
+            for exp in draft.experience:
+                if 'source_id' in exp:
+                    source_ids.add(exp['source_id'])
+
+        if hasattr(draft, 'bulleted_projects') and draft.bulleted_projects:
+            for proj in draft.bulleted_projects:
+                if 'source_id' in proj:
+                    source_ids.add(proj['source_id'])
+
         for sid in sorted(source_ids):
             self.console.print(f"  • {sid}")
         
@@ -204,19 +233,26 @@ Return ONLY the JSON, no additional text or markdown formatting.
         self,
         job_analysis: JobAnalysis,
         content_selection: ContentSelection,
-        target_format_example: Dict[str, Any] = None
-    ) -> ResumeDraft:
+        target_format_example: Dict[str, Any] = None,
+        dynamic_schema: Optional[Type[BaseModel]] = None
+    ) -> BaseModel:
         """
         Convenience method for external callers
-        
+
         Args:
             job_analysis: Structured job analysis
             content_selection: Selected content
             target_format_example: Optional format example
-            
+            dynamic_schema: Optional dynamic Pydantic schema to use instead of ResumeDraft
+
         Returns:
-            ResumeDraft object
+            ResumeDraft object (or dynamic schema instance)
         """
+        # Set dynamic schema if provided (NEW for Phase 3)
+        if dynamic_schema:
+            self.dynamic_schema = dynamic_schema
+            self.console.print(f"[cyan]Using dynamic schema: {dynamic_schema.__name__}[/cyan]")
+
         return self.execute(
             job_analysis=job_analysis,
             content_selection=content_selection,
