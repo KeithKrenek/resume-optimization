@@ -69,12 +69,27 @@ class WorkflowConfigurator:
                 self.job_analysis.role_type
             )
 
-        # If sections not recommended, use template defaults
-        if not recommendations['sections'] and recommendations['template']:
+        # Merge recommended sections with template sections
+        if recommendations['template']:
             template = self.template_registry['templates'].get(recommendations['template'])
             if template:
-                recommendations['sections'] = template['sections']
-                recommendations['section_priorities'] = template.get('section_priorities', {})
+                template_sections = template['sections']
+
+                # If sections were recommended, merge them with template sections
+                if recommendations['sections']:
+                    # Merge: start with template sections, add recommended ones
+                    all_sections = self.schema_builder.merge_section_lists(
+                        template_sections,
+                        recommendations['sections']
+                    )
+                    recommendations['sections'] = all_sections
+                else:
+                    # No recommendations, use template as-is
+                    recommendations['sections'] = template_sections
+
+                # Merge section priorities
+                if not recommendations['section_priorities']:
+                    recommendations['section_priorities'] = template.get('section_priorities', {})
 
         # If agents not recommended, use template defaults
         if not recommendations['agents'] and recommendations['template']:
