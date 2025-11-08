@@ -20,10 +20,14 @@ from pathlib import Path
 from datetime import datetime
 from urllib.parse import urlparse
 
+# Import orchestrator - try dynamic first, fall back to standard
+try:
+    from orchestrator_dynamic import DynamicResumeOrchestrator
 # Import orchestrator
 try:
     from orchestrator import ResumeOrchestrator
     ORCHESTRATOR_AVAILABLE = True
+    DYNAMIC_ORCHESTRATOR = True
 except ImportError:
     ORCHESTRATOR_AVAILABLE = False
     print("Warning: orchestrator.py not found - demo mode only")
@@ -476,6 +480,9 @@ class ResumeGeneratorGUI(tk.Tk):
     
     def __init__(self):
         super().__init__()
+        self.title("AI Resume Generator - Dynamic Multi-Agent Pipeline")
+        self.geometry("950x850")
+
         self.title("AI Resume Generator - Multi-Agent Pipeline v3.0")
         self.geometry("800x850")
         
@@ -483,6 +490,8 @@ class ResumeGeneratorGUI(tk.Tk):
         self.job_folder = None
         self.orchestrator = None
         self.current_resume_json = None
+        self.workflow_config = None  # NEW: Store workflow configuration
+        self.job_analysis = None  # NEW: Store job analysis results
         self.json_edited = False
         self.current_layout_config = None
         
@@ -501,9 +510,17 @@ class ResumeGeneratorGUI(tk.Tk):
         
         # Create tabs
         self.tab_job_input = ttk.Frame(self.notebook, padding=15)
+        self.tab_workflow = ttk.Frame(self.notebook, padding=15)  # NEW: Workflow configuration
         self.tab_pipeline = ttk.Frame(self.notebook, padding=15)
         self.tab_layout = ttk.Frame(self.notebook, padding=15)
         self.tab_generate = ttk.Frame(self.notebook, padding=15)
+
+        self.notebook.add(self.tab_job_input, text="1. Job Description")
+        self.notebook.add(self.tab_workflow, text="2. Workflow Config")  # NEW
+        self.notebook.add(self.tab_pipeline, text="3. Run Pipeline")
+        self.notebook.add(self.tab_layout, text="4. Customize Layout")
+        self.notebook.add(self.tab_generate, text="5. Generate PDF")
+
         self.tab_console = ttk.Frame(self.notebook, padding=15)
         
         self.notebook.add(self.tab_job_input, text="1. Job Description")
@@ -513,9 +530,10 @@ class ResumeGeneratorGUI(tk.Tk):
         self.notebook.add(self.tab_console, text="Console")
         
         self.notebook.pack(expand=True, fill="both", padx=10, pady=10)
-        
+
         # Build each tab
         self._create_job_input_tab()
+        self._create_workflow_tab()  # NEW
         self._create_pipeline_tab()
         self._create_layout_tab()
         self._create_generate_tab()
@@ -700,6 +718,7 @@ class ResumeGeneratorGUI(tk.Tk):
         button_frame.pack(fill="x", pady=(10, 0))
         
         ttk.Button(button_frame, text="Clear All", command=self._clear_job_input).pack(side="left", padx=5)
+        ttk.Button(button_frame, text="Next: Configure Workflow →", command=self._proceed_to_workflow, style="Primary.TButton").pack(side="right", padx=5)
         ttk.Button(button_frame, text="Next: Run Pipeline →", command=self._proceed_to_pipeline, 
                   style="Primary.TButton").pack(side="right", padx=5)
         
@@ -810,9 +829,13 @@ class ResumeGeneratorGUI(tk.Tk):
         self.company_url_var.set("")
         self._log_console("Cleared all input fields", "dim")
     
-    def _proceed_to_pipeline(self):
-        """Validate input and move to pipeline tab"""
+    def _proceed_to_workflow(self):
+        """Validate input and move to workflow configuration tab"""
         method = self.input_method.get()
+
+        if method == "url" and not self.jd_url_var.get().strip():
+            messagebox.showwarning("Missing Input", "Please enter a job description URL")
+            return
         
         if method == "url_or_text":
             text = self.jd_url_text.get("1.0", tk.END).strip()
@@ -825,6 +848,190 @@ class ResumeGeneratorGUI(tk.Tk):
         elif method == "folder" and not self.job_folder_var.get().strip():
             messagebox.showwarning("Missing Input", "Please select an existing job folder")
             return
+
+        # Move to workflow configuration tab
+        self.notebook.select(self.tab_workflow)
+
+        # If dynamic orchestrator available, offer to run job analysis
+        if DYNAMIC_ORCHESTRATOR and method != "folder":
+            response = messagebox.askyesno(
+                "Analyze Job Description",
+                "Would you like to analyze the job description now to get AI-powered workflow recommendations?\n\n" +
+                "This will help configure the optimal resume sections for this role.\n\n" +
+                "(You can also skip and use the default workflow)"
+            )
+            if response:
+                self._run_job_analysis()
+    
+    # ========================================================================
+    # TAB 2: WORKFLOW CONFIGURATION
+    # ========================================================================
+
+    def _create_workflow_tab(self):
+        """Create workflow configuration interface"""
+        parent = self.tab_workflow
+
+        # Header
+        ttk.Label(parent, text="Workflow Configuration", style="Header.TLabel").pack(anchor="w", pady=(0, 10))
+        ttk.Label(parent, text="Configure which resume sections to include based on AI recommendations", style="Info.TLabel").pack(anchor="w", pady=(0, 15))
+
+        # Analysis status
+        self.analysis_status_frame = ttk.LabelFrame(parent, text="Job Analysis Status", padding=10)
+        self.analysis_status_frame.pack(fill="x", pady=(0, 15))
+
+        self.analysis_status_var = tk.StringVar(value="Not yet analyzed")
+        ttk.Label(self.analysis_status_frame, textvariable=self.analysis_status_var, wraplength=800).pack(anchor="w")
+
+        ttk.Button(self.analysis_status_frame, text="Analyze Job Description", command=self._run_job_analysis).pack(anchor="w", pady=(10, 0))
+
+        # AI Recommendations display
+        self.recommendations_frame = ttk.LabelFrame(parent, text="AI Recommendations", padding=10)
+        self.recommendations_frame.pack(fill="both", expand=True, pady=(0, 15))
+
+        self.recommendations_text = scrolledtext.ScrolledText(self.recommendations_frame, height=12, state="disabled", wrap="word")
+        self.recommendations_text.pack(fill="both", expand=True)
+
+        # Workflow options
+        options_frame = ttk.LabelFrame(parent, text="Workflow Options", padding=10)
+        options_frame.pack(fill="x", pady=(0, 15))
+
+        self.auto_accept_var = tk.BooleanVar(value=True)
+        ttk.Checkbutton(
+            options_frame,
+            text="Automatically accept AI recommendations",
+            variable=self.auto_accept_var,
+            command=self._on_auto_accept_changed
+        ).pack(anchor="w", pady=2)
+
+        ttk.Label(options_frame, text="(When disabled, you can manually customize sections in the next step)", style="Info.TLabel").pack(anchor="w", padx=(20, 0))
+
+        # Action buttons
+        button_frame = ttk.Frame(parent)
+        button_frame.pack(fill="x", pady=(10, 0))
+
+        ttk.Button(button_frame, text="← Back", command=lambda: self.notebook.select(self.tab_job_input)).pack(side="left", padx=5)
+        ttk.Button(button_frame, text="Use Default Workflow", command=self._use_default_workflow).pack(side="left", padx=5)
+        ttk.Button(button_frame, text="Next: Run Pipeline →", command=self._proceed_to_pipeline, style="Primary.TButton").pack(side="right", padx=5)
+
+    def _run_job_analysis(self):
+        """Run job analysis to get workflow recommendations"""
+        if not ORCHESTRATOR_AVAILABLE:
+            messagebox.showerror("Not Available", "Orchestrator not found")
+            return
+
+        # Disable analysis button
+        self.analysis_status_var.set("Analyzing job description...")
+
+        # Run in thread
+        thread = threading.Thread(target=self._execute_job_analysis_thread, daemon=True)
+        thread.start()
+
+    def _execute_job_analysis_thread(self):
+        """Execute job analysis in separate thread"""
+        try:
+            # Get job input
+            method = self.input_method.get()
+            jd_input = None
+
+            if method == "url":
+                jd_input = self.jd_url_var.get().strip()
+            elif method == "file":
+                with open(self.jd_file_var.get(), 'r', encoding='utf-8') as f:
+                    jd_input = f.read()
+            elif method == "text":
+                jd_input = self.jd_text.get("1.0", tk.END).strip()
+
+            # Process JD to get text
+            if DYNAMIC_ORCHESTRATOR:
+                jd_text, company, title, company_info = self.orchestrator.process_job_description_input(
+                    jd_input,
+                    self.company_name_var.get().strip() or None,
+                    self.job_title_var.get().strip() or None,
+                    self.company_url_var.get().strip() or None
+                )
+
+                # Run job analyzer
+                self.job_analysis = self.orchestrator.job_analyzer.analyze(jd_text)
+
+                # Display recommendations
+                self.after(0, self._display_recommendations)
+
+        except Exception as e:
+            self.after(0, lambda: self.analysis_status_var.set(f"Error: {str(e)}"))
+            self.after(0, lambda: messagebox.showerror("Analysis Error", f"Failed to analyze job description:\n\n{str(e)}"))
+
+    def _display_recommendations(self):
+        """Display AI recommendations in the UI"""
+        if not self.job_analysis:
+            return
+
+        # Update status
+        self.analysis_status_var.set(f"✓ Analysis complete: {self.job_analysis.role_type} role at {self.job_analysis.company}")
+
+        # Display recommendations
+        self.recommendations_text.config(state="normal")
+        self.recommendations_text.delete("1.0", tk.END)
+
+        self.recommendations_text.insert(tk.END, "=== JOB ANALYSIS ===\n\n", "header")
+        self.recommendations_text.insert(tk.END, f"Job Title: {self.job_analysis.job_title}\n")
+        self.recommendations_text.insert(tk.END, f"Company: {self.job_analysis.company}\n")
+        self.recommendations_text.insert(tk.END, f"Role Type: {self.job_analysis.role_type}\n")
+        self.recommendations_text.insert(tk.END, f"Role Focus: {self.job_analysis.role_focus}\n\n")
+
+        self.recommendations_text.insert(tk.END, "=== WORKFLOW RECOMMENDATIONS ===\n\n", "header")
+
+        if self.job_analysis.recommended_template:
+            self.recommendations_text.insert(tk.END, f"Recommended Template: {self.job_analysis.recommended_template}\n\n")
+
+        if self.job_analysis.workflow_reasoning:
+            self.recommendations_text.insert(tk.END, "Reasoning:\n", "subheader")
+            self.recommendations_text.insert(tk.END, f"{self.job_analysis.workflow_reasoning}\n\n")
+
+        if self.job_analysis.recommended_sections:
+            self.recommendations_text.insert(tk.END, "Recommended Sections:\n", "subheader")
+            for section in self.job_analysis.recommended_sections:
+                priority = self.job_analysis.section_priorities.get(section, "N/A")
+                self.recommendations_text.insert(tk.END, f"  • {section:30} (priority: {priority}/10)\n")
+            self.recommendations_text.insert(tk.END, "\n")
+
+        if self.job_analysis.recommended_agents:
+            self.recommendations_text.insert(tk.END, "Recommended Specialized Agents:\n", "subheader")
+            for agent in self.job_analysis.recommended_agents:
+                self.recommendations_text.insert(tk.END, f"  • {agent}\n")
+
+        # Configure tags for formatting
+        self.recommendations_text.tag_config("header", font=("Helvetica", 11, "bold"), foreground="#0f172a")
+        self.recommendations_text.tag_config("subheader", font=("Helvetica", 10, "bold"), foreground="#334155")
+
+        self.recommendations_text.config(state="disabled")
+
+    def _on_auto_accept_changed(self):
+        """Handle auto-accept checkbox change"""
+        if self.orchestrator and DYNAMIC_ORCHESTRATOR:
+            self.orchestrator.auto_accept_recommendations = self.auto_accept_var.get()
+
+    def _use_default_workflow(self):
+        """Use default workflow without analysis"""
+        self.workflow_config = None
+        self.job_analysis = None
+        self.analysis_status_var.set("Using default workflow configuration")
+        self.recommendations_text.config(state="normal")
+        self.recommendations_text.delete("1.0", tk.END)
+        self.recommendations_text.insert(tk.END, "Using standard workflow with core sections:\n\n")
+        self.recommendations_text.insert(tk.END, "  • contact\n")
+        self.recommendations_text.insert(tk.END, "  • professional_summary\n")
+        self.recommendations_text.insert(tk.END, "  • technical_expertise\n")
+        self.recommendations_text.insert(tk.END, "  • experience\n")
+        self.recommendations_text.insert(tk.END, "  • bulleted_projects\n")
+        self.recommendations_text.insert(tk.END, "  • education\n")
+        self.recommendations_text.config(state="disabled")
+
+    def _proceed_to_pipeline(self):
+        """Move to pipeline execution tab"""
+        self.notebook.select(self.tab_pipeline)
+
+    # ========================================================================
+    # TAB 3: PIPELINE EXECUTION
         
         self._log_console(f"✓ Input validated - proceeding to pipeline execution", "success")
         self.notebook.select(self.tab_pipeline)
@@ -977,6 +1184,14 @@ class ResumeGeneratorGUI(tk.Tk):
             sys.stdout = TeeOutput(self)
             
             self._log_progress("Starting multi-agent pipeline...")
+
+            # Get job input based on method
+            method = self.input_method.get()
+            jd_input = None
+
+            if method == "url":
+                jd_input = self.jd_url_var.get().strip()
+                self._log_progress(f"Fetching from URL: {jd_input}")
             
             method = self.input_method.get()
             jd_input = None
@@ -994,13 +1209,18 @@ class ResumeGeneratorGUI(tk.Tk):
             elif method == "folder":
                 self.job_folder = self.job_folder_var.get()
                 self._log_progress(f"Resuming from folder: {self.job_folder}")
+
+            # Execute pipeline
             
             if method == "folder":
                 if self.run_phase2.get():
                     self._log_progress("\n=== Phase 2: Resume Generation ===")
-                    self.orchestrator.run_phase2(job_folder=self.job_folder)
+                    if DYNAMIC_ORCHESTRATOR:
+                        self.orchestrator.run_phase2_dynamic(job_folder=self.job_folder)
+                    else:
+                        self.orchestrator.run_phase2(job_folder=self.job_folder)
                     self._log_progress("✓ Phase 2 complete")
-                
+
                 if self.run_phase3.get():
                     self._log_progress("\n=== Phase 3: Polish & QA ===")
                     self.orchestrator.run_phase3(
@@ -1009,6 +1229,33 @@ class ResumeGeneratorGUI(tk.Tk):
                     )
                     self._log_progress("✓ Phase 3 complete")
             else:
+                # Full pipeline
+                if DYNAMIC_ORCHESTRATOR:
+                    # Use dynamic orchestrator with workflow configuration
+                    if self.job_analysis:
+                        self._log_progress("Using job analysis from workflow configuration")
+
+                    if self.workflow_config:
+                        self._log_progress(f"Using workflow config: {self.workflow_config.get('template_name', 'default')}")
+
+                    results = self.orchestrator.generate_resume_dynamic(
+                        jd_input=jd_input,
+                        company_name=self.company_name_var.get().strip() or None,
+                        job_title=self.job_title_var.get().strip() or None,
+                        company_url=self.company_url_var.get().strip() or None,
+                        skip_style_editing=self.skip_style_editing.get(),
+                        job_analysis_result=self.job_analysis  # Pass existing analysis if available
+                    )
+                else:
+                    # Use standard orchestrator
+                    results = self.orchestrator.generate_resume(
+                        jd_input=jd_input,
+                        company_name=self.company_name_var.get().strip() or None,
+                        job_title=self.job_title_var.get().strip() or None,
+                        company_url=self.company_url_var.get().strip() or None,
+                        skip_style_editing=self.skip_style_editing.get()
+                    )
+
                 results = self.orchestrator.generate_resume(
                     jd_input=jd_input,
                     company_name=self.company_name_var.get().strip() or None,
@@ -1020,6 +1267,11 @@ class ResumeGeneratorGUI(tk.Tk):
                 self.job_folder = results['folder_path']
                 self._log_progress(f"\n✓ Pipeline complete!")
                 self._log_progress(f"Results saved to: {self.job_folder}")
+
+                # Save workflow config if using dynamic orchestrator
+                if DYNAMIC_ORCHESTRATOR and self.orchestrator.workflow_config:
+                    self.workflow_config = self.orchestrator.workflow_config
+                    self._log_progress(f"✓ Workflow config saved: {len(self.workflow_config.get('enabled_sections', []))} sections")
             
             self._load_resume_json()
             
