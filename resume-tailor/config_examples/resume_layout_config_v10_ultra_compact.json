@@ -1,0 +1,157 @@
+{
+  "version": "10.0",
+  "page_settings": {
+    "format": "Letter",
+    "margins": {
+      "top": "0.45in",
+      "right": "0.5in",
+      "bottom": "0.45in",
+      "left": "0.5in"
+    },
+    "target_pages": 2
+  },
+  "typography": {
+    "font_family": "Inter",
+    "base_size": "9.5pt",
+    "line_height": 1.45,
+    "scale_factor": 1.0
+  },
+  "colors": {
+    "primary": "#0f172a",
+    "accent": "#0ea5e9",
+    "title": "#b45309",
+    "muted": "#64748b",
+    "border": "#e2e8f0",
+    "pill_bg": "#f1f5f9",
+    "pill_border": "#cbd5e1",
+    "card_bg": "#fafbfc"
+  },
+  "spacing": {
+    "section_margin_bottom": "16px",
+    "subsection_margin_bottom": "10px",
+    "paragraph_margin_bottom": "5px",
+    "compact_mode": false
+  },
+  "header": {
+    "style": "professional",
+    "show_tagline": true,
+    "tagline_position": "inline",
+    "enable_hyperlinks": true,
+    "friendly_link_names": true
+  },
+  "sections": {
+    "professional_summary": {
+      "enabled": true,
+      "order": 1,
+      "style": "paragraph",
+      "visual_treatment": "accent_border",
+      "max_length": 0
+    },
+    "technical_expertise": {
+      "enabled": true,
+      "order": 2,
+      "layout": "columns",
+      "columns": 2,
+      "show_years": true,
+      "show_proficiency": false,
+      "center_align": false,
+      "pill_style": true,
+      "card_style": true
+    },
+    "experience": {
+      "enabled": true,
+      "order": 3,
+      "header_style": "company_first",
+      "compact_header": "ultra",
+      "enable_highlighting": true,
+      "max_highlights_per_bullet": 4,
+      "show_company_logo": false,
+      "card_style": true,
+      "_comment": "ultra-compact: all info on 1 line (Company | Role | Location | Dates)"
+    },
+    "projects": {
+      "enabled": true,
+      "order": 4,
+      "structure": "challenge_approach_impact",
+      "show_org_context": true,
+      "org_context_position": "subtitle",
+      "enable_highlighting": true,
+      "card_style": true,
+      "hide_labels": false
+    },
+    "education": {
+      "enabled": true,
+      "order": 5,
+      "style": "detailed",
+      "show_gpa": true
+    },
+    "publications": {
+      "enabled": true,
+      "order": 6,
+      "enable_hyperlinks": true,
+      "style": "full"
+    },
+    "work_samples": {
+      "enabled": false,
+      "order": 7
+    }
+  },
+  "layout": {
+    "rows": [
+      {
+        "type": "single",
+        "sections": ["technical_expertise"],
+        "widths": ["100%"],
+        "column_gap": "20px",
+        "allow_page_break": false
+      },
+      {
+        "type": "single",
+        "sections": ["professional_summary"],
+        "widths": ["100%"],
+        "column_gap": "20px",
+        "allow_page_break": false
+      },
+      {
+        "type": "single",
+        "sections": ["experience"],
+        "widths": ["100%"],
+        "column_gap": "20px",
+        "allow_page_break": true
+      },
+      {
+        "type": "single",
+        "sections": ["projects"],
+        "widths": ["100%"],
+        "column_gap": "20px",
+        "allow_page_break": true
+      },
+      {
+        "type": "side_by_side",
+        "sections": ["education", "publications"],
+        "widths": ["50%", "50%"],
+        "column_gap": "20px",
+        "allow_page_break": false
+      }
+    ],
+    "auto_layout": false
+  },
+  "highlighting": {
+    "enabled": true,
+    "metrics": {
+      "enabled": true,
+      "style": "bold"
+    },
+    "technologies": {
+      "enabled": true,
+      "style": "subtle",
+      "max_per_bullet": 4
+    },
+    "ats_friendly": true
+  },
+  "advanced": {
+    "enable_orphan_control": true,
+    "enable_smart_compression": false,
+    "debug_mode": false
+  }
+}

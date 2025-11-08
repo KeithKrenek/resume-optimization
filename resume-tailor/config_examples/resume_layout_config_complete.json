@@ -1,0 +1,276 @@
+{
+  "_schema_version": "3.0",
+  "_description": "Comprehensive PDF layout configuration with multi-column support, advanced positioning, and ATS optimization",
+  
+  "layout": {
+    "page_style": "hybrid",
+    "max_pages": 2,
+    "target_pages": 2,
+    "allow_overflow": true,
+    "comments": "Options: single_column, two_column, hybrid (flexible per section)"
+  },
+  
+  "page_settings": {
+    "format": "Letter",
+    "margins": {
+      "top": "0.45in",
+      "right": "0.5in",
+      "bottom": "0.45in",
+      "left": "0.5in"
+    },
+    "include_page_numbers": false,
+    "comments": "Adjust margins only if space optimization needed. Current values maintain professional appearance."
+  },
+  
+  "header": {
+    "style": "professional",
+    "show_tagline": true,
+    "tagline_position": "inline",
+    "tagline_separator": "|",
+    "name_size": "24pt",
+    "tagline_size": "11pt",
+    "contact_layout": "horizontal",
+    "contact_separator": "bullet",
+    "enable_hyperlinks": true,
+    "hyperlink_style": "subtle",
+    "comments": "Header style: professional, compact, bold. Tagline position: inline (next to name), below, hidden. Contact layout: horizontal, vertical, grid"
+  },
+  
+  "professional_summary": {
+    "enabled": true,
+    "style": "hybrid",
+    "max_sentences_opening": 1,
+    "extract_bullets": true,
+    "max_bullets": 3,
+    "visual_treatment": "accent_border",
+    "comments": "Style options: paragraph (block text), hybrid (opening + bullets), two_column, bullets_only. Visual: none, accent_border, background_tint, pullquote"
+  },
+  
+  "sections": {
+    "professional_summary": {
+      "enabled": true,
+      "order": 1,
+      "keep_together": true,
+      "layout": "full_width",
+      "page_break_before": false,
+      "page_break_after": false
+    },
+    
+    "technical_expertise": {
+      "enabled": true,
+      "order": 2,
+      "keep_together": false,
+      "layout": "full_width",
+      "columns": 2,
+      "card_style": "bordered",
+      "show_years": true,
+      "show_proficiency": true,
+      "years_label": "yrs",
+      "proficiency_style": "badge",
+      "page_break_before": false,
+      "page_break_after": false,
+      "comments": "Columns: 1-3 for skills grid. Card style: bordered, minimal, elevated"
+    },
+    
+    "experience": {
+      "enabled": true,
+      "order": 3,
+      "keep_together": false,
+      "layout": "full_width",
+      "header_style": "company_first",
+      "emphasize_company": true,
+      "date_format": "mmm_yyyy",
+      "enable_highlighting": true,
+      "max_highlights_per_bullet": 4,
+      "highlight_metrics": true,
+      "highlight_technologies": true,
+      "metric_style": "bold",
+      "technology_style": "accent_color",
+      "max_items": null,
+      "page_break_before": false,
+      "page_break_after": false,
+      "comments": "Header style: company_first, title_first, balanced. Date format: mmm_yyyy, mm_yyyy, full"
+    },
+    
+    "projects": {
+      "enabled": true,
+      "order": 4,
+      "keep_together": false,
+      "layout": "full_width",
+      "structure": "challenge_approach_impact",
+      "card_layout": false,
+      "show_context": true,
+      "enable_highlighting": true,
+      "max_highlights_per_item": 4,
+      "max_items": null,
+      "page_break_before": false,
+      "page_break_after": false,
+      "comments": "Structure: bullets (legacy), challenge_approach_impact (CAI), structured_bullets. Card layout: true for grid, false for list"
+    },
+    
+    "education": {
+      "enabled": true,
+      "order": 5,
+      "keep_together": true,
+      "layout": "half_width",
+      "page_break_before": false,
+      "page_break_after": false,
+      "comments": "Can be paired with publications in section_rows"
+    },
+    
+    "publications": {
+      "enabled": true,
+      "order": 6,
+      "keep_together": true,
+      "layout": "half_width",
+      "enable_hyperlinks": true,
+      "show_authors": true,
+      "citation_style": "compact",
+      "page_break_before": false,
+      "page_break_after": false,
+      "comments": "Citation style: full, compact, minimal"
+    },
+    
+    "work_samples": {
+      "enabled": false,
+      "order": 7,
+      "keep_together": false,
+      "layout": "full_width",
+      "enable_hyperlinks": true,
+      "card_style": "minimal",
+      "page_break_before": false,
+      "page_break_after": false
+    }
+  },
+  
+  "section_rows": {
+    "enabled": true,
+    "rows": [
+      {
+        "sections": ["education", "publications"],
+        "widths": ["50%", "50%"],
+        "alignment": "top",
+        "gap": "20px",
+        "comments": "Education and publications side by side"
+      }
+    ],
+    "comments": "Group sections horizontally. Widths must sum to 100%. Alignment: top, center, bottom"
+  },
+  
+  "multi_column_sections": {
+    "enabled": false,
+    "layout": "sidebar_main",
+    "sidebar_width": "30%",
+    "main_width": "70%",
+    "gap": "24px",
+    "sidebar_sections": ["technical_expertise"],
+    "main_sections": ["experience", "projects"],
+    "comments": "EXPERIMENTAL: Skills sidebar with experience in main column. May affect ATS parsing. Layout: sidebar_main, two_column_equal"
+  },
+  
+  "typography": {
+    "font_family": "Inter",
+    "base_size": "9.5pt",
+    "heading_sizes": {
+      "name": "24pt",
+      "section": "9pt",
+      "subsection": "10pt",
+      "item_title": "9.5pt"
+    },
+    "line_height": 1.45,
+    "paragraph_spacing": "6px",
+    "weights": {
+      "normal": 400,
+      "medium": 500,
+      "semibold": 600,
+      "bold": 700
+    },
+    "comments": "Inter font optimized for professional documents. Adjust base_size cautiously to maintain readability"
+  },
+  
+  "spacing": {
+    "section_margin": "16px",
+    "item_margin": "10px",
+    "paragraph_margin": "5px",
+    "bullet_spacing": "4px",
+    "card_padding": "10px",
+    "comments": "Reduced from previous version for better space utilization without crowding"
+  },
+  
+  "colors": {
+    "primary": "#0f172a",
+    "primary_light": "#334155",
+    "accent": "#0ea5e9",
+    "accent_dark": "#0284c7",
+    "accent_subtle": "#f0f9ff",
+    "title": "#b45309",
+    "success": "#10b981",
+    "warning": "#f59e0b",
+    "muted": "#64748b",
+    "border": "#e2e8f0",
+    "background": "#ffffff",
+    "comments": "Professional color palette. Accent used sparingly for emphasis."
+  },
+  
+  "highlighting": {
+    "enabled": true,
+    "metrics": {
+      "enabled": true,
+      "style": "bold",
+      "color": null,
+      "patterns": ["\\d+[%×xX+]", "\\$\\d+[KMB]?\\+?", "\\d+\\.\\d+", "\\d+\\+"]
+    },
+    "technologies": {
+      "enabled": true,
+      "style": "accent_color",
+      "max_per_bullet": 3,
+      "extract_from_lists": true
+    },
+    "keywords": {
+      "enabled": false,
+      "custom_keywords": [],
+      "style": "semibold"
+    },
+    "max_total_highlights_per_bullet": 4,
+    "comments": "Strategic highlighting for human reviewers. Metrics: numbers/percentages. Technologies: from technology lists. Keep minimal to avoid overwhelming."
+  },
+  
+  "ats_optimization": {
+    "enabled": true,
+    "avoid_text_boxes": true,
+    "avoid_headers_footers": true,
+    "use_semantic_html": true,
+    "single_column_critical_sections": ["professional_summary", "experience"],
+    "accessible_colors": true,
+    "min_font_size": "9pt",
+    "comments": "ATS-friendly settings. Keep critical content in single column for reliable parsing."
+  },
+  
+  "advanced": {
+    "show_source_ids": false,
+    "debug_mode": false,
+    "watermark": null,
+    "custom_css_file": null,
+    "page_break_strategy": "smart",
+    "orphan_widow_control": true,
+    "comments": "Debug mode shows section boundaries. Page break strategy: smart (avoid orphans), manual (config only), auto (browser default)"
+  },
+  
+  "_usage_notes": {
+    "description": "Place this file as 'resume_layout_config.json' in job folder",
+    "priority": "Settings here override defaults in generate-pdf-enhanced.js",
+    "validation": "Invalid options will fall back to defaults with console warnings",
+    "recommended_workflow": [
+      "1. Run multi-agent pipeline to generate resume_final.json",
+      "2. Customize this config for specific job requirements",
+      "3. Generate PDF and review",
+      "4. Iterate on config as needed"
+    ],
+    "layout_tips": {
+      "space_optimization": "Reduce section_margin and item_margin before touching font sizes or line height",
+      "readability": "Maintain line_height >= 1.4 and base_size >= 9pt for professional appearance",
+      "highlighting": "Less is more - max 3-4 highlights per bullet keeps focus sharp",
+      "columns": "Use section_rows for Education+Publications pairing. Avoid multi_column_sections unless ATS not a concern"
+    }
+  }
+}
