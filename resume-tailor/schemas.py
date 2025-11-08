@@ -1,10 +1,10 @@
 """
-Pydantic Schemas for Multi-Agent Resume Generation
+Pydantic Schemas for Multi-Agent Resume Generation (Enhanced for PDF Compatibility)
 Provides type safety and validation for data passing between agents
 """
 
 from typing import Dict, List, Optional, Any
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
 from enum import Enum
 
 
@@ -66,7 +66,7 @@ class JobAnalysis(BaseModel):
 
 
 # ============================================================================
-# AGENT 2: CONTENT SELECTOR OUTPUT
+# AGENT 2: CONTENT SELECTOR OUTPUT (Enhanced for PDF Compatibility)
 # ============================================================================
 
 class SelectedExperience(BaseModel):
@@ -78,7 +78,7 @@ class SelectedExperience(BaseModel):
     # Exact text from database
     company: str
     title: str
-    dates: str
+    dates: str  # Will be standardized to "MMM YYYY - MMM YYYY" format
     location: str
     core_description: str
     key_achievements: List[str]
@@ -107,7 +107,7 @@ class SelectedProject(BaseModel):
     # Exact text from database
     title: str
     org: str
-    dates: str
+    dates: str  # Will be standardized to "MMM YYYY - MMM YYYY" format
     core_description: str
     key_achievements: List[str]
     quantified_outcomes: Dict[str, Any]
@@ -126,6 +126,25 @@ class SelectedProject(BaseModel):
     persona_achievements: Optional[List[str]] = None
 
 
+class WorkSample(BaseModel):
+    """Work sample/portfolio item"""
+    title: str
+    type: str  # "Demo", "App", "Tool", etc.
+    description: str
+    url: str
+    tech: List[str] = Field(default_factory=list)
+    impact: Optional[str] = None
+
+
+class Publication(BaseModel):
+    """Publication entry (PDF-compatible format)"""
+    title: str
+    authors: str  # Full author list as string
+    journal: str  # Venue or journal name
+    year: str  # Publication year
+    url: str = ""  # DOI or direct URL
+
+
 class ContentSelection(BaseModel):
     """Complete content selection output from Agent 2"""
     # Selected content
@@ -141,9 +160,10 @@ class ContentSelection(BaseModel):
         description="Skills organized by category"
     )
     selected_education: List[Dict[str, Any]]
-    selected_publications: List[Dict[str, Any]] = Field(default_factory=list)
+    selected_publications: List[Any] = Field(default_factory=list)  # Will be Publication objects after standardization
+    selected_work_samples: List[Any] = Field(default_factory=list)  # Will be WorkSample objects
     
-    # Contact info (exact from database)
+    # Contact info (flattened, PDF-compatible)
     contact_info: Dict[str, str]
     
     # Selection metadata
@@ -156,25 +176,107 @@ class ContentSelection(BaseModel):
 
 
 # ============================================================================
-# AGENT 3: RESUME DRAFTER OUTPUT
+# AGENT 3: RESUME DRAFTER OUTPUT (Enhanced for PDF Compatibility)
 # ============================================================================
 
+class TechnicalExpertiseCategory(BaseModel):
+    """Single technical expertise category (PDF-compatible)"""
+    skills: List[str] = Field(description="List of skills in this category")
+    years: str = Field(description="Years of experience (e.g., '6+', '4+')")
+    proficiency: str = Field(description="expert | advanced | intermediate")
+    context: str = Field(description="Evidence-based capability statement")
+
+
+class AchievementBullet(BaseModel):
+    """Single achievement bullet with provenance"""
+    text: str
+    source_id: str
+    metrics: List[str] = Field(default_factory=list, description="Extracted metrics")
+    technologies: List[str] = Field(default_factory=list, description="Technologies mentioned")
+
+
+class ExperienceEntry(BaseModel):
+    """Experience entry (PDF-compatible)"""
+    company: str
+    title: str
+    location: str
+    dates: str  # MUST be "MMM YYYY - MMM YYYY" format
+    achievements: List[Any]  # Can be strings or AchievementBullet objects
+    source_id: str
+    
+    @field_validator('dates')
+    @classmethod
+    def validate_date_format(cls, v):
+        """Ensure dates are in correct format"""
+        import re
+        # Allow formats: "MMM YYYY - MMM YYYY", "MMM YYYY - Present", or just "YYYY"
+        if not re.match(r'^([A-Z][a-z]{2} \d{4} - ([A-Z][a-z]{2} \d{4}|Present)|\d{4})$', v):
+            print(f"Warning: Date format may not be PDF-compatible: {v}")
+        return v
+
+
+class ProjectEntry(BaseModel):
+    """Project entry (PDF-compatible with achievement1-4 structure)"""
+    title: str
+    org_context: str
+    dates: str  # MUST be "MMM YYYY - MMM YYYY" format
+    achievement1: str  # Challenge
+    achievement2: Optional[str] = None  # Approach
+    achievement3: Optional[str] = None  # Impact
+    achievement4: Optional[str] = None  # Additional impact
+    technologies: List[str] = Field(default_factory=list)
+    source_id: str
+
+
+class EducationEntry(BaseModel):
+    """Education entry (PDF-compatible)"""
+    degree: str
+    institution: str
+    location: Optional[str] = None
+    graduation: str  # Year (NOT "graduation_date")
+    details: Optional[str] = None  # GPA, honors, etc.
+
+
+class ContactInfo(BaseModel):
+    """Contact information (PDF-compatible with all expected fields)"""
+    name: str
+    email: str
+    phone: str
+    location: str
+    linkedin: Optional[str] = None
+    github: Optional[str] = None
+    portfolio: Optional[str] = None
+    tagline: Optional[str] = None  # One-line professional identifier
+
+
 class ResumeDraft(BaseModel):
-    """Draft resume JSON (structure matches target output)"""
-    contact: Dict[str, str]
-    professional_summary: str
-    technical_expertise: Dict[str, Any]
-    experience: List[Dict[str, Any]]
-    bulleted_projects: List[Dict[str, Any]]
+    """Draft resume JSON (PDF-compatible structure)"""
+    contact: Dict[str, str]  # Or ContactInfo
+    professional_summary: str  # MUST be plain string (not dict)
+    technical_expertise: Dict[str, Any]  # Dict[str, TechnicalExpertiseCategory]
+    experience: List[Dict[str, Any]]  # List[ExperienceEntry]
+    bulleted_projects: List[Dict[str, Any]]  # List[ProjectEntry]
     work_samples: List[Dict[str, Any]] = Field(default_factory=list)
-    education: List[Dict[str, Any]]
-    publications: List[Dict[str, Any]] = Field(default_factory=list)
+    education: List[Dict[str, Any]]  # List[EducationEntry]
+    publications: List[Dict[str, Any]] = Field(default_factory=list)  # List[Publication]
     awards_recognition: List[str] = Field(default_factory=list)
     
     # Metadata for validation
     citations: Dict[str, str] = Field(
+        default_factory=dict,
         description="Map of content to source_id"
     )
+    
+    @field_validator('professional_summary')
+    @classmethod
+    def validate_summary_is_string(cls, v):
+        """Ensure professional_summary is a plain string"""
+        if isinstance(v, dict):
+            # Try to extract text field
+            if 'text' in v:
+                return v['text']
+            raise ValueError("professional_summary must be a plain string, not a dict")
+        return v
 
 
 # ============================================================================
@@ -228,7 +330,7 @@ class QAReport(BaseModel):
     )
     statistics: Dict[str, Any] = Field(
         default_factory=dict,
-        description="Resume statistics"
+        description="Resume statistics (including page count)"
     )
     final_recommendation: str
 

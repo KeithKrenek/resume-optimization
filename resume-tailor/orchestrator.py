@@ -21,7 +21,7 @@ from rich.table import Table
 from config import config, validate_config
 from state_manager import StateManager
 from job_analyzer import JobAnalyzerAgent
-from content_selector import ContentSelectorAgent
+from parallel_content_selector import ParallelContentSelector
 from resume_drafter import ResumeDrafterAgent
 from fabrication_validator import FabricationValidatorAgent
 from voice_style_editor import VoiceStyleEditorAgent
@@ -75,7 +75,7 @@ class ResumeOrchestrator:
         
         # Initialize all agents
         self.job_analyzer = JobAnalyzerAgent(self.client, self.model)
-        self.content_selector = ContentSelectorAgent(self.client, self.model)
+        self.content_selector = ParallelContentSelector(self.client, self.model)
         self.resume_drafter = ResumeDrafterAgent(self.client, self.model)
         self.fabrication_validator = FabricationValidatorAgent(self.client, self.model)
         self.voice_style_editor = VoiceStyleEditorAgent(self.client, self.model)
@@ -242,6 +242,72 @@ class ResumeOrchestrator:
         
         return company_name, job_title
     
+    def extract_company_job_info(self, jd_text: str) -> Dict[str, str]:
+        """
+        Use AI to extract company name, job title, and optional company URL from job description
+        
+        Args:
+            jd_text: Job description text (can be from URL or pasted text)
+            
+        Returns:
+            Dict with: company, job_title, company_url (optional)
+        """
+        console.print("[cyan]Using AI to extract company and job information...[/cyan]")
+        
+        prompt = f"""
+Extract the following information from this job description:
+1. Company name
+2. Job title
+3. Company website URL (if mentioned)
+
+Return ONLY valid JSON in this exact format:
+{{
+"company": "CompanyName",
+"job_title": "Job Title",
+"company_url": "https://example.com"
+}}
+
+If company_url is not found, use empty string "".
+
+Job Description:
+{jd_text[:3000]}
+
+Return ONLY the JSON, no other text.
+"""
+        
+        try:
+            message = self.client.messages.create(
+                model=self.model,
+                max_tokens=500,
+                temperature=0.1,
+                messages=[{
+                    "role": "user",
+                    "content": prompt
+                }]
+            )
+            
+            response_text = ""
+            for block in message.content:
+                if hasattr(block, 'text'):
+                    response_text += block.text
+            
+            # Extract JSON from response
+            import re
+            json_pattern = r'\{[^{}]*(?:\{[^{}]*\}[^{}]*)*\}'
+            match = re.search(json_pattern, response_text, re.DOTALL)
+            
+            if match:
+                data = json.loads(match.group(0))
+                console.print(f"[green]✓ Extracted: {data.get('company')} - {data.get('job_title')}[/green]")
+                return data
+            else:
+                console.print("[yellow]Could not parse AI response[/yellow]")
+                return {"company": "", "job_title": "", "company_url": ""}
+                
+        except Exception as e:
+            console.print(f"[red]Extraction failed: {e}[/red]")
+            return {"company": "", "job_title": "", "company_url": ""}
+
     def process_job_description_input(
         self,
         jd_input: str,

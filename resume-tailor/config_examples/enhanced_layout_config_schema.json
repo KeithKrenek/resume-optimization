@@ -1,0 +1,332 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Enhanced Resume Layout Configuration",
+  "description": "Flexible layout system supporting complex section arrangements, multi-column layouts, and visual customization",
+  "type": "object",
+  "properties": {
+    "version": {
+      "type": "string",
+      "description": "Config version for migration compatibility",
+      "default": "2.0"
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Configuration metadata",
+      "properties": {
+        "template_name": {
+          "type": "string",
+          "description": "Optional name for reusing this template"
+        },
+        "created_from": {
+          "type": "string",
+          "description": "Path to original template if cloned"
+        },
+        "last_modified": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "page_settings": {
+      "type": "object",
+      "properties": {
+        "format": {
+          "type": "string",
+          "enum": ["Letter", "A4"],
+          "default": "Letter"
+        },
+        "margins": {
+          "type": "object",
+          "properties": {
+            "top": {"type": "string", "default": "0.45in"},
+            "right": {"type": "string", "default": "0.5in"},
+            "bottom": {"type": "string", "default": "0.45in"},
+            "left": {"type": "string", "default": "0.5in"}
+          }
+        },
+        "target_pages": {
+          "type": "integer",
+          "description": "Target number of pages (1-2 typical)",
+          "default": 2
+        }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "properties": {
+        "font_family": {
+          "type": "string",
+          "enum": ["Inter", "Roboto", "Open Sans", "Lato", "Merriweather"],
+          "default": "Inter"
+        },
+        "base_size": {
+          "type": "string",
+          "default": "9.5pt"
+        },
+        "line_height": {
+          "type": "number",
+          "default": 1.45
+        },
+        "scale_factor": {
+          "type": "number",
+          "description": "Global font size multiplier for quick adjustments",
+          "default": 1.0
+        }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "properties": {
+        "primary": {"type": "string", "default": "#0f172a"},
+        "accent": {"type": "string", "default": "#0ea5e9"},
+        "title": {"type": "string", "default": "#b45309"},
+        "muted": {"type": "string", "default": "#64748b"},
+        "border": {"type": "string", "default": "#e2e8f0"}
+      }
+    },
+    "spacing": {
+      "type": "object",
+      "properties": {
+        "section_margin_bottom": {"type": "string", "default": "16px"},
+        "subsection_margin_bottom": {"type": "string", "default": "10px"},
+        "paragraph_margin_bottom": {"type": "string", "default": "5px"},
+        "compact_mode": {
+          "type": "boolean",
+          "description": "Reduce all spacing by 20%",
+          "default": false
+        }
+      }
+    },
+    "header": {
+      "type": "object",
+      "properties": {
+        "style": {
+          "type": "string",
+          "enum": ["professional", "minimal", "bold"],
+          "default": "professional"
+        },
+        "show_tagline": {"type": "boolean", "default": true},
+        "tagline_position": {
+          "type": "string",
+          "enum": ["inline", "below", "hidden"],
+          "default": "inline"
+        },
+        "enable_hyperlinks": {"type": "boolean", "default": true}
+      }
+    },
+    "sections": {
+      "type": "object",
+      "description": "Section-specific configurations",
+      "properties": {
+        "professional_summary": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean", "default": true},
+            "order": {"type": "integer", "default": 1},
+            "style": {
+              "type": "string",
+              "enum": ["paragraph", "bullets", "hybrid"],
+              "default": "paragraph",
+              "description": "paragraph = 2-3 sentences, bullets = 3-4 points, hybrid = sentence + bullets"
+            },
+            "visual_treatment": {
+              "type": "string",
+              "enum": ["none", "accent_border", "background", "box"],
+              "default": "accent_border"
+            },
+            "max_length": {
+              "type": "integer",
+              "description": "Character limit for summary (0 = no limit)",
+              "default": 0
+            }
+          }
+        },
+        "technical_expertise": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean", "default": true},
+            "order": {"type": "integer", "default": 2},
+            "layout": {
+              "type": "string",
+              "enum": ["columns", "grouped", "compact"],
+              "default": "columns"
+            },
+            "columns": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 4,
+              "default": 2
+            },
+            "show_years": {"type": "boolean", "default": true},
+            "show_proficiency": {"type": "boolean", "default": false},
+            "center_align": {"type": "boolean", "default": false}
+          }
+        },
+        "experience": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean", "default": true},
+            "order": {"type": "integer", "default": 3},
+            "header_style": {
+              "type": "string",
+              "enum": ["company_first", "title_first", "stacked"],
+              "default": "company_first"
+            },
+            "enable_highlighting": {"type": "boolean", "default": true},
+            "max_highlights_per_bullet": {"type": "integer", "default": 4},
+            "show_company_logo": {"type": "boolean", "default": false}
+          }
+        },
+        "projects": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean", "default": true},
+            "order": {"type": "integer", "default": 4},
+            "structure": {
+              "type": "string",
+              "enum": ["challenge_approach_impact", "bullets", "paragraph"],
+              "default": "challenge_approach_impact"
+            },
+            "show_org_context": {"type": "boolean", "default": true},
+            "org_context_position": {
+              "type": "string",
+              "enum": ["subtitle", "inline", "hidden"],
+              "default": "subtitle",
+              "description": "Where to show organization name"
+            },
+            "enable_highlighting": {"type": "boolean", "default": true}
+          }
+        },
+        "education": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean", "default": true},
+            "order": {"type": "integer", "default": 5},
+            "style": {
+              "type": "string",
+              "enum": ["detailed", "compact", "minimal"],
+              "default": "detailed"
+            },
+            "show_gpa": {"type": "boolean", "default": true}
+          }
+        },
+        "publications": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean", "default": true},
+            "order": {"type": "integer", "default": 6},
+            "enable_hyperlinks": {"type": "boolean", "default": true},
+            "style": {
+              "type": "string",
+              "enum": ["full", "compact"],
+              "default": "full"
+            }
+          }
+        },
+        "work_samples": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean", "default": false},
+            "order": {"type": "integer", "default": 7}
+          }
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "description": "Advanced layout control for section positioning",
+      "properties": {
+        "rows": {
+          "type": "array",
+          "description": "Define custom rows with flexible section arrangements",
+          "items": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "enum": ["single", "side_by_side", "multi_column"],
+                "description": "single = one section full width, side_by_side = 2 sections, multi_column = 2+ sections"
+              },
+              "sections": {
+                "type": "array",
+                "description": "Section names in this row",
+                "items": {"type": "string"}
+              },
+              "widths": {
+                "type": "array",
+                "description": "Width for each section (e.g., ['60%', '40%'])",
+                "items": {"type": "string"}
+              },
+              "column_gap": {
+                "type": "string",
+                "description": "Gap between sections in this row",
+                "default": "20px"
+              },
+              "allow_page_break": {
+                "type": "boolean",
+                "description": "Allow content to break across pages",
+                "default": true
+              }
+            },
+            "required": ["type", "sections"]
+          }
+        },
+        "auto_layout": {
+          "type": "boolean",
+          "description": "Let system determine optimal layout based on content length",
+          "default": false
+        }
+      }
+    },
+    "highlighting": {
+      "type": "object",
+      "properties": {
+        "enabled": {"type": "boolean", "default": true},
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean", "default": true},
+            "style": {
+              "type": "string",
+              "enum": ["bold", "bold_accent", "background"],
+              "default": "bold"
+            }
+          }
+        },
+        "technologies": {
+          "type": "object",
+          "properties": {
+            "enabled": {"type": "boolean", "default": true},
+            "style": {
+              "type": "string",
+              "enum": ["accent_color", "background", "none"],
+              "default": "accent_color"
+            },
+            "max_per_bullet": {"type": "integer", "default": 3}
+          }
+        }
+      }
+    },
+    "advanced": {
+      "type": "object",
+      "description": "Advanced features",
+      "properties": {
+        "enable_orphan_control": {
+          "type": "boolean",
+          "description": "Prevent orphaned bullets/lines",
+          "default": true
+        },
+        "enable_smart_compression": {
+          "type": "boolean",
+          "description": "Automatically adjust spacing to fit target pages",
+          "default": false
+        },
+        "debug_mode": {
+          "type": "boolean",
+          "description": "Show section boundaries and spacing",
+          "default": false
+        }
+      }
+    }
+  }
+}

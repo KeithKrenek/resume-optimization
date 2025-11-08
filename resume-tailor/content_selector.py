@@ -1,6 +1,7 @@
 """
-Agent 2: Content Selector
+Agent 2: Content Selector (Enhanced with PDF Compatibility)
 Selects relevant database entries WITHOUT modification
+PLUS post-processing for PDF schema compatibility
 """
 
 import json
@@ -9,6 +10,7 @@ from pathlib import Path
 
 from base_agent import BaseAgent
 from schemas import JobAnalysis, ContentSelection
+from date_formatter import standardize_date, extract_year_from_date
 
 
 class ContentSelectorAgent(BaseAgent):
@@ -72,6 +74,9 @@ class ContentSelectorAgent(BaseAgent):
         prompt += "\n\n**PUBLICATIONS:**\n\n"
         prompt += json.dumps(database.get('publications', {}), indent=2)
         
+        prompt += "\n\n**WORK SAMPLES:**\n\n"
+        prompt += json.dumps(database.get('work_samples', []), indent=2)
+        
         prompt += "\n\n**CONTACT INFO:**\n\n"
         contact = database.get('metadata', {}).get('contact', {})
         prompt += json.dumps(contact, indent=2)
@@ -87,8 +92,9 @@ Now select the most relevant content:
 2. Score each selection (0.0 to 1.0 relevance)
 3. Return EXACT text from database with source_ids
 4. Select appropriate persona_variants when available
-5. Explain match_reasons for each selection
-6. Provide coverage analysis
+5. Include work_samples if relevant (2-3 max)
+6. Explain match_reasons for each selection
+7. Provide coverage analysis
 
 Remember: COPY database text exactly. Do not modify or write new content.
 
@@ -136,6 +142,7 @@ Return your selection in the JSON format specified above.
         self.show_summary({
             "Selected Experiences": len(selection.selected_experiences),
             "Selected Projects": len(selection.selected_projects),
+            "Selected Work Samples": len(selection.get('selected_work_samples', [])),
             "Average Exp Relevance": f"{sum(e.relevance_score for e in selection.selected_experiences) / len(selection.selected_experiences):.2f}",
             "Average Proj Relevance": f"{sum(p.relevance_score for p in selection.selected_projects) / len(selection.selected_projects):.2f}" if selection.selected_projects else "N/A",
             "Requirement Coverage": f"{coverage_pct}%",
@@ -155,6 +162,118 @@ Return your selection in the JSON format specified above.
         
         return selection
     
+    def _standardize_for_pdf(self, selection: ContentSelection) -> ContentSelection:
+        """
+        Post-process selection to ensure PDF schema compatibility
+        
+        This method:
+        1. Standardizes all dates to "MMM YYYY - MMM YYYY" format
+        2. Flattens contact info (links → top-level)
+        3. Transforms publications schema (venue→journal, doi→url)
+        4. Ensures all required fields are present
+        
+        Args:
+            selection: Raw selection from agent
+            
+        Returns:
+            Standardized selection ready for PDF generation
+        """
+        self.console.print("\n[cyan]Post-processing for PDF compatibility...[/cyan]")
+        
+        # 1. Standardize dates in experiences
+        for exp in selection.selected_experiences:
+            original_date = exp.dates
+            exp.dates = standardize_date(exp.dates)
+            if original_date != exp.dates:
+                self.console.print(f"[dim]  Date standardized: '{original_date}' → '{exp.dates}'[/dim]")
+        
+        # 2. Standardize dates in projects
+        for proj in selection.selected_projects:
+            original_date = proj.dates
+            proj.dates = standardize_date(proj.dates)
+            if original_date != proj.dates:
+                self.console.print(f"[dim]  Date standardized: '{original_date}' → '{proj.dates}'[/dim]")
+        
+        # 3. Flatten and enhance contact info
+        contact = selection.contact_info.copy()
+        
+        # Flatten nested 'links' if present
+        if 'links' in contact:
+            links = contact.pop('links')
+            if isinstance(links, dict):
+                contact.update(links)
+        
+        # Ensure URLs have https:// prefix
+        for field in ['linkedin', 'github', 'portfolio']:
+            if field in contact and contact[field]:
+                url = contact[field]
+                if not url.startswith('http'):
+                    contact[field] = f"https://{url}"
+        
+        selection.contact_info = contact
+        
+        # 4. Transform publications for PDF compatibility
+        if selection.selected_publications:
+            transformed_pubs = []
+            
+            for pub in selection.selected_publications:
+                # Handle both dict and object formats
+                pub_dict = pub if isinstance(pub, dict) else (
+                    pub.__dict__ if hasattr(pub, '__dict__') else pub
+                )
+                
+                # Map database fields to PDF expectations
+                transformed = {
+                    'title': pub_dict.get('title', ''),
+                    'authors': pub_dict.get('authors', ''),
+                    # venue → journal
+                    'journal': pub_dict.get('venue') or pub_dict.get('journal', ''),
+                    # Extract year from date field
+                    'year': extract_year_from_date(pub_dict.get('date', '')) or pub_dict.get('year', ''),
+                    # doi → url (construct if needed)
+                    'url': self._construct_publication_url(pub_dict)
+                }
+                
+                transformed_pubs.append(transformed)
+            
+            selection.selected_publications = transformed_pubs
+            self.console.print(f"[dim]  Transformed {len(transformed_pubs)} publications for PDF[/dim]")
+        
+        # 5. Ensure work samples have required fields
+        if hasattr(selection, 'selected_work_samples') and selection.selected_work_samples:
+            for sample in selection.selected_work_samples:
+                # Ensure URL is present and formatted
+                if isinstance(sample, dict) and 'url' in sample and sample['url']:
+                    if not sample['url'].startswith('http'):
+                        sample['url'] = f"https://{sample['url']}"
+        
+        self.console.print("[green]✓ PDF compatibility post-processing complete[/green]")
+        
+        return selection
+    
+    def _construct_publication_url(self, pub_dict: Dict[str, Any]) -> str:
+        """
+        Construct publication URL from available fields
+        
+        Priority:
+        1. Use 'url' field if present
+        2. Construct from 'doi' if present
+        3. Return empty string
+        """
+        # Direct URL
+        if pub_dict.get('url'):
+            url = pub_dict['url']
+            return url if url.startswith('http') else f"https://{url}"
+        
+        # Construct from DOI
+        if pub_dict.get('doi'):
+            doi = pub_dict['doi']
+            # Remove https://doi.org/ prefix if present
+            doi = doi.replace('https://doi.org/', '').replace('http://doi.org/', '')
+            return f"https://doi.org/{doi}"
+        
+        return ''
+    
     def select(
         self,
         job_analysis: JobAnalysis,
@@ -168,9 +287,15 @@ Return your selection in the JSON format specified above.
             database: Resume database
             
         Returns:
-            ContentSelection object
+            ContentSelection object (standardized for PDF)
         """
-        return self.execute(
+        # Get raw selection from agent
+        raw_selection = self.execute(
             job_analysis=job_analysis,
             database=database
         )
+        
+        # Post-process for PDF compatibility
+        standardized_selection = self._standardize_for_pdf(raw_selection)
+        
+        return standardized_selection

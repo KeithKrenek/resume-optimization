@@ -140,10 +140,30 @@ const STYLES = `
   }
 
 
-  /* MODIFICATION 1: Increase space after summary text */
-  .summary {
-    margin-bottom: 18px; 
+  /* ========== PROFESSIONAL SUMMARY ========== */
+    .summary {
+      margin-bottom: 8px;
+    }
+    
+    .summary.accent-border {
+    border-left: 3px solid var(--accent);
+    padding-left: 10px;
+    background: linear-gradient(to right, var(--surface) 0%, #ffffff 100%);
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
+    
+    .summary-paragraph {
+      font-size: 9.5pt;
+      line-height: 1.55;
+      color: var(--primary);
+      font-weight: 400;
+    }
+    
+    .summary-paragraph strong {
+      font-weight: 700;
+      color: var(--accent);
+    }
 
   /* ========== MODERN SECTION HEADERS ========== */
   .section {
@@ -152,7 +172,7 @@ const STYLES = `
   }
   
   .section-title {
-    font-size: 9pt;
+    font-size: 11pt;
     font-weight: 700;
     letter-spacing: 0.8px;
     text-transform: uppercase;
@@ -754,18 +774,60 @@ function generateHTML(data) {
   return html;
 }
 
-function getDefaultLayout() {
+function getDefaultLayout2() {
   return {
     sections: [
       { section: 'header' },
-      { section: 'summary' },
+      { section: 'professional_summary' },
       { section: 'technical_skills' },
       { section: 'experience' },
-      { section: 'projects' },
+      { section: 'bulleted_projects' },
       { section: 'education' },
       { section: 'publications' },
       { section: 'portfolio' },
       { section: 'leadership' }
+    ],
+    options: {}
+  };
+}
+
+function getDefaultLayout3() {
+  return {
+    sections: [
+      { section: 'header' },
+      { section: 'professional_summary' },
+      { section: 'technical_skills' },
+      { 
+        section: 'row',
+        columns: [
+          { section: 'education' },
+          { section: 'portfolio' }
+        ]
+      },
+      { section: 'experience' },
+      { section: 'bulleted_projects' }
+    ],
+    options: {}
+  };
+}
+
+function getDefaultLayout() {
+  return {
+    sections: [
+      { section: 'header' },
+      { section: 'professional_summary' },      
+      { 
+        section: 'row',
+        columns: [
+          { section: 'technical_skills' },
+          [
+            { section: 'education' },
+            { section: 'portfolio' }
+          ]
+        ]
+      },
+      { section: 'experience' },
+      { section: 'bulleted_projects' }
     ],
     options: {}
   };
@@ -783,13 +845,13 @@ function renderSection(config, data, options) {
   switch (type) {
     case 'header':
       return renderHeader(data);
-    case 'summary':
+    case 'professional_summary':
       return renderSummary(data);
     case 'technical_skills':
       return renderTechnicalSkills(data, config);
     case 'experience':
       return renderExperience(data, config, options);
-    case 'projects':
+    case 'bulleted_projects':
       return renderProjects(data, config);
     case 'portfolio':
       return renderPortfolio(data, config);
@@ -850,18 +912,26 @@ function renderHeader(data) {
 }
 
 function renderSummary(data) {
-  if (!data.summary || !data.summary.text) return '';
-  if (data.summary.enabled === false) return '';
-  
-  const formatted = processTextFormatting(data.summary.text);
-  return `<div class="summary">${formatted}</div>`;
+  // Check if the summary string exists
+  if (!data.professional_summary) return '';
+
+  let html = '<div class="section';
+  html += ' summary accent-border';
+  html += '" data-section="summary">';
+
+  // Use the summary string directly
+  const highlighted = data.professional_summary;
+  html += `<div class="summary-paragraph">${highlighted}</div>`;
+
+  html += '</div>';
+  return html;
 }
 
 function renderTechnicalSkills(data, config) {
   const skills = data.technical_skills || data.technical_expertise;
   if (!skills || Object.keys(skills).length === 0) return '';
   
-  const cols = config.grid_columns || 2;
+  const cols = config.grid_columns || 1;
   const breakClass = config.keep_together === false ? 'allow-break' : '';
   
   let html = `<div class="section ${breakClass}">
@@ -930,9 +1000,9 @@ function renderExperience(data, config, options) {
 }
 
 function renderProjects(data, config) {
-  if (!data.projects || data.projects.length === 0) return '';
-  
-  const projects = data.projects.slice(0, config.limit || data.projects.length);
+  if (!data.bulleted_projects || data.bulleted_projects.length === 0) return '';
+
+  const projects = data.bulleted_projects.slice(0, config.limit || data.bulleted_projects.length);
   const cols = config.grid_columns || 1;
   const breakClass = config.keep_together === false ? 'allow-break' : '';
 
@@ -945,36 +1015,42 @@ function renderProjects(data, config) {
       <div class="project-header">
         <div class="project-title">${project.title}</div>
         <div class="project-meta">`;
-    
-    if (project.organization) {
-      html += `<span>${project.organization}</span>`;
+
+    // MODIFICATION: Use 'org_context' from your JSON
+    if (project.org_context) { 
+      html += `<span>${project.org_context}</span>`;
     }
     if (project.dates) {
       html += `<span>${project.dates}</span>`;
     }
-    
+
     html += `</div></div><div class="project-content">`;
-    
-    if (project.format === 'impact') {
-      if (project.challenge) {
-        html += `<div class="project-section">
-          <span class="project-label">Challenge:</span> ${processTextFormatting(project.challenge)}
-        </div>`;
-      }
-      if (project.approach) {
-        html += `<div class="project-section">
-          <span class="project-label">Solution:</span> ${processTextFormatting(project.approach)}
-        </div>`;
-      }
-      if (project.impact) {
-        html += `<div class="project-section">
-          <span class="project-label">Impact:</span> ${processTextFormatting(project.impact)}
-        </div>`;
-      }
+
+    // MODIFICATION: Remove 'project.format' check and use 'achievement' keys
+    if (project.achievement1) {
+      /* Add this line to remove the prefix */
+      const challengeText = project.achievement1.replace(/^Challenge:\s*/, '');
+      html += `<div class="project-section">
+        <span class="project-label">Challenge:</span> ${processTextFormatting(challengeText)}
+      </div>`;
     }
-    
+    if (project.achievement2) {
+      /* Add this line to remove the prefix */
+      const approachText = project.achievement2.replace(/^Approach:\s*/, '');
+      html += `<div class="project-section">
+        <span class="project-label">Approach:</span> ${processTextFormatting(approachText)}
+      </div>`;
+    }
+    if (project.achievement3) {
+      /* Add this line to remove the prefix */
+      const impactText = project.achievement3.replace(/^Impact:\s*/, '');
+      html += `<div class="project-section">
+        <span class="project-label">Impact:</span> ${processTextFormatting(impactText)}
+      </div>`;
+    }
+
     html += `</div>`;
-    
+
     if (project.technologies && project.technologies.length > 0) {
       html += `<div class="tech-stack">`;
       for (const tech of project.technologies) {
@@ -1048,6 +1124,11 @@ function renderEducation(data, config) {
     if (edu.honors) {
       const honorsText = Array.isArray(edu.honors) ? edu.honors.join(', ') : edu.honors;
       details.push(honorsText);
+    }
+
+    if (edu.details) {
+      const detailsText = Array.isArray(edu.details) ? edu.details.join(' • ') : edu.details;
+      details.push(detailsText);
     }
 
     if (details.length > 0) {
