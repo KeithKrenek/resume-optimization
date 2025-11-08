@@ -1,0 +1,320 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "description": "Registry of all available agents for resume generation pipeline"
+  },
+  "core_agents": {
+    "job_analyzer": {
+      "name": "Job Analyzer",
+      "class_name": "JobAnalyzer",
+      "module": "job_analyzer",
+      "phase": 1,
+      "order": 1,
+      "required": true,
+      "description": "Analyzes job description and extracts requirements, keywords, and role classification",
+      "inputs": ["job_description_text"],
+      "outputs": ["JobAnalysis"],
+      "prompt_file": "job_analyzer.md",
+      "capabilities": [
+        "Extract must-have and nice-to-have requirements",
+        "Classify role type (IC, lead, manager, director, executive)",
+        "Extract technical, domain, and leadership keywords",
+        "Identify company values and success metrics",
+        "Recommend workflow sections and agents"
+      ]
+    },
+    "content_selector": {
+      "name": "Content Selector",
+      "class_name": "ContentSelector",
+      "module": "content_selector",
+      "phase": 1,
+      "order": 2,
+      "required": true,
+      "description": "Selects most relevant experiences, projects, and skills from database",
+      "inputs": ["JobAnalysis", "database"],
+      "outputs": ["ContentSelection"],
+      "prompt_file": "content_selector.md",
+      "capabilities": [
+        "Select 3-5 most relevant experiences",
+        "Select 2-4 most relevant projects",
+        "Choose appropriate persona variants",
+        "Select skills by category",
+        "Retrieve contact info and education"
+      ]
+    },
+    "resume_drafter": {
+      "name": "Resume Drafter",
+      "class_name": "ResumeDrafter",
+      "module": "resume_drafter",
+      "phase": 2,
+      "order": 3,
+      "required": true,
+      "description": "Generates complete resume draft with strict source citations",
+      "inputs": ["JobAnalysis", "ContentSelection"],
+      "outputs": ["ResumeDraft"],
+      "prompt_file": "resume_drafter.md",
+      "capabilities": [
+        "Generate professional summary",
+        "Structure experience and project sections",
+        "Maintain 100% source traceability",
+        "Tailor content to job requirements",
+        "Ensure ATS optimization"
+      ]
+    },
+    "fabrication_validator": {
+      "name": "Fabrication Validator",
+      "class_name": "FabricationValidator",
+      "module": "fabrication_validator",
+      "phase": 2,
+      "order": 4,
+      "required": true,
+      "description": "Validates all resume claims against source data to prevent fabrication",
+      "inputs": ["ResumeDraft", "ContentSelection"],
+      "outputs": ["ValidationResult"],
+      "prompt_file": "fabrication_validator.md",
+      "capabilities": [
+        "Verify all claims against sources",
+        "Flag unsupported statements",
+        "Check for fabricated metrics",
+        "Validate citations",
+        "Auto-retry on critical issues"
+      ]
+    },
+    "voice_style_editor": {
+      "name": "Voice & Style Editor",
+      "class_name": "VoiceStyleEditor",
+      "module": "voice_style_editor",
+      "phase": 3,
+      "order": 5,
+      "required": false,
+      "description": "Polishes writing style, removes corporate speak, enhances clarity",
+      "inputs": ["ResumeDraft"],
+      "outputs": ["ResumeDraft"],
+      "prompt_file": "voice_style_editor.md",
+      "capabilities": [
+        "Remove corporate jargon",
+        "Add context to metrics",
+        "Improve clarity and impact",
+        "Maintain factual accuracy",
+        "Natural, authentic voice"
+      ]
+    },
+    "final_qa": {
+      "name": "Final QA",
+      "class_name": "FinalQA",
+      "module": "final_qa",
+      "phase": 3,
+      "order": 6,
+      "required": true,
+      "description": "Comprehensive quality assessment across 8 dimensions",
+      "inputs": ["ResumeDraft", "JobAnalysis"],
+      "outputs": ["QAReport"],
+      "prompt_file": "final_qa.md",
+      "capabilities": [
+        "Score across 8 quality dimensions",
+        "Check completeness and consistency",
+        "Verify ATS optimization",
+        "Assess professionalism",
+        "Provide actionable recommendations"
+      ]
+    }
+  },
+  "optional_agents": {
+    "leadership_highlighter": {
+      "name": "Leadership Highlighter",
+      "class_name": "LeadershipHighlighter",
+      "module": "leadership_highlighter",
+      "phase": 2,
+      "order": 3.5,
+      "required": false,
+      "description": "Enhances leadership narratives and team management accomplishments",
+      "inputs": ["JobAnalysis", "ContentSelection"],
+      "outputs": ["LeadershipContent"],
+      "prompt_file": "leadership_highlighter.md",
+      "triggers": [
+        "manager", "director", "vp", "executive",
+        "team lead", "technical lead", "head of",
+        "people management", "mentorship"
+      ],
+      "sections_modified": ["leadership", "experience"],
+      "capabilities": [
+        "Extract leadership achievements from experiences",
+        "Quantify team impact and growth",
+        "Highlight mentorship and development",
+        "Showcase organizational influence",
+        "Structure strategic initiatives"
+      ],
+      "enabled": false,
+      "status": "planned"
+    },
+    "technical_deep_dive": {
+      "name": "Technical Deep Dive",
+      "class_name": "TechnicalDeepDive",
+      "module": "technical_deep_dive",
+      "phase": 2,
+      "order": 3.5,
+      "required": false,
+      "description": "Extracts deep technical details for senior IC and architect roles",
+      "inputs": ["JobAnalysis", "ContentSelection"],
+      "outputs": ["TechnicalContent"],
+      "prompt_file": "technical_deep_dive.md",
+      "triggers": [
+        "senior", "staff", "principal", "architect",
+        "distinguished", "fellow", "technical lead",
+        "systems", "infrastructure", "platform"
+      ],
+      "sections_modified": ["technical_expertise", "experience", "bulleted_projects"],
+      "capabilities": [
+        "Highlight architectural decisions",
+        "Emphasize technical depth and complexity",
+        "Showcase system design experience",
+        "Detail technical leadership",
+        "Quantify technical impact"
+      ],
+      "enabled": false,
+      "status": "planned"
+    },
+    "research_showcase": {
+      "name": "Research Showcase",
+      "class_name": "ResearchShowcase",
+      "module": "research_showcase",
+      "phase": 2,
+      "order": 3.5,
+      "required": false,
+      "description": "Highlights research contributions for academic and research roles",
+      "inputs": ["JobAnalysis", "ContentSelection"],
+      "outputs": ["ResearchContent"],
+      "prompt_file": "research_showcase.md",
+      "triggers": [
+        "research", "scientist", "phd", "postdoc",
+        "research scientist", "applied scientist",
+        "ml researcher", "publications"
+      ],
+      "sections_modified": ["publications", "research_projects", "experience"],
+      "capabilities": [
+        "Structure publications by impact",
+        "Highlight citation metrics",
+        "Showcase research methodology",
+        "Connect research to business impact",
+        "Emphasize innovation and novel contributions"
+      ],
+      "enabled": false,
+      "status": "planned"
+    },
+    "executive_strategist": {
+      "name": "Executive Strategist",
+      "class_name": "ExecutiveStrategist",
+      "module": "executive_strategist",
+      "phase": 2,
+      "order": 3.5,
+      "required": false,
+      "description": "Emphasizes strategic vision and organizational transformation for C-level roles",
+      "inputs": ["JobAnalysis", "ContentSelection"],
+      "outputs": ["StrategicContent"],
+      "prompt_file": "executive_strategist.md",
+      "triggers": [
+        "cto", "cio", "ceo", "vp", "svp",
+        "chief", "executive", "c-level",
+        "transformation", "strategy"
+      ],
+      "sections_modified": ["strategic_initiatives", "leadership", "experience"],
+      "capabilities": [
+        "Highlight organizational transformation",
+        "Showcase strategic vision and execution",
+        "Quantify business impact at scale",
+        "Emphasize board and stakeholder management",
+        "Structure major initiatives and programs"
+      ],
+      "enabled": false,
+      "status": "planned"
+    },
+    "portfolio_curator": {
+      "name": "Portfolio Curator",
+      "class_name": "PortfolioCurator",
+      "module": "portfolio_curator",
+      "phase": 2,
+      "order": 3.5,
+      "required": false,
+      "description": "Curates and presents work samples for design and creative roles",
+      "inputs": ["JobAnalysis", "ContentSelection"],
+      "outputs": ["PortfolioContent"],
+      "prompt_file": "portfolio_curator.md",
+      "triggers": [
+        "design", "ux", "ui", "product design",
+        "visual design", "portfolio", "creative",
+        "designer", "art director"
+      ],
+      "sections_modified": ["work_samples", "bulleted_projects"],
+      "capabilities": [
+        "Select most relevant portfolio pieces",
+        "Structure work samples by impact",
+        "Highlight design process and outcomes",
+        "Connect design to business metrics",
+        "Showcase design thinking and methodology"
+      ],
+      "enabled": false,
+      "status": "planned"
+    }
+  },
+  "agent_phases": {
+    "1": {
+      "name": "Analysis & Selection",
+      "description": "Analyze job requirements and select relevant content",
+      "estimated_time": "30 seconds",
+      "agents": ["job_analyzer", "content_selector"]
+    },
+    "2": {
+      "name": "Generation & Validation",
+      "description": "Generate resume draft and validate against sources",
+      "estimated_time": "90 seconds",
+      "agents": ["resume_drafter", "fabrication_validator"],
+      "optional_agents": [
+        "leadership_highlighter",
+        "technical_deep_dive",
+        "research_showcase",
+        "executive_strategist",
+        "portfolio_curator"
+      ]
+    },
+    "3": {
+      "name": "Polish & Quality Assurance",
+      "description": "Polish writing style and perform comprehensive QA",
+      "estimated_time": "60 seconds",
+      "agents": ["voice_style_editor", "final_qa"]
+    }
+  },
+  "workflow_presets": {
+    "standard": {
+      "description": "Standard workflow for most roles",
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ]
+    },
+    "minimal": {
+      "description": "Minimal workflow without style editing",
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "resume_drafter",
+        "fabrication_validator",
+        "final_qa"
+      ]
+    },
+    "comprehensive": {
+      "description": "Comprehensive workflow with all quality checks",
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ]
+    }
+  }
+}

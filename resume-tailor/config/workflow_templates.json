@@ -1,0 +1,408 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "description": "Pre-configured workflow templates for different role types and scenarios"
+  },
+  "templates": {
+    "individual_contributor": {
+      "name": "Individual Contributor (IC)",
+      "description": "Standard workflow for software engineers, data scientists, and IC roles",
+      "role_types": ["individual_contributor"],
+      "sections": [
+        "contact",
+        "professional_summary",
+        "technical_expertise",
+        "experience",
+        "bulleted_projects",
+        "education"
+      ],
+      "optional_sections": [
+        "certifications",
+        "open_source",
+        "publications",
+        "awards_recognition"
+      ],
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ],
+      "section_priorities": {
+        "technical_expertise": 10,
+        "experience": 9,
+        "bulleted_projects": 8,
+        "professional_summary": 7
+      },
+      "max_pages": 2
+    },
+    "senior_ic": {
+      "name": "Senior Individual Contributor",
+      "description": "For senior, staff, principal engineers and architects",
+      "role_types": ["individual_contributor", "technical_lead"],
+      "sections": [
+        "contact",
+        "professional_summary",
+        "technical_expertise",
+        "experience",
+        "bulleted_projects",
+        "education"
+      ],
+      "optional_sections": [
+        "publications",
+        "patents",
+        "speaking_engagements",
+        "open_source",
+        "awards_recognition"
+      ],
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "technical_deep_dive",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ],
+      "section_priorities": {
+        "technical_expertise": 10,
+        "experience": 10,
+        "bulleted_projects": 9,
+        "professional_summary": 8
+      },
+      "max_pages": 2
+    },
+    "technical_lead": {
+      "name": "Technical Lead",
+      "description": "For tech leads who balance individual contribution and team leadership",
+      "role_types": ["technical_lead"],
+      "sections": [
+        "contact",
+        "professional_summary",
+        "technical_expertise",
+        "experience",
+        "bulleted_projects",
+        "education"
+      ],
+      "optional_sections": [
+        "leadership",
+        "open_source",
+        "speaking_engagements",
+        "certifications"
+      ],
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ],
+      "section_priorities": {
+        "technical_expertise": 9,
+        "experience": 10,
+        "bulleted_projects": 8,
+        "professional_summary": 8
+      },
+      "max_pages": 2
+    },
+    "engineering_manager": {
+      "name": "Engineering Manager",
+      "description": "For people managers balancing technical and leadership responsibilities",
+      "role_types": ["engineering_manager"],
+      "sections": [
+        "contact",
+        "professional_summary",
+        "leadership",
+        "technical_expertise",
+        "experience",
+        "bulleted_projects",
+        "education"
+      ],
+      "optional_sections": [
+        "strategic_initiatives",
+        "speaking_engagements",
+        "certifications"
+      ],
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "leadership_highlighter",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ],
+      "section_priorities": {
+        "leadership": 10,
+        "experience": 9,
+        "technical_expertise": 7,
+        "professional_summary": 8
+      },
+      "max_pages": 2
+    },
+    "senior_manager": {
+      "name": "Senior Manager / Senior Engineering Manager",
+      "description": "For senior managers leading multiple teams",
+      "role_types": ["senior_manager"],
+      "sections": [
+        "contact",
+        "professional_summary",
+        "leadership",
+        "strategic_initiatives",
+        "technical_expertise",
+        "experience",
+        "education"
+      ],
+      "optional_sections": [
+        "bulleted_projects",
+        "speaking_engagements",
+        "board_advisory"
+      ],
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "leadership_highlighter",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ],
+      "section_priorities": {
+        "leadership": 10,
+        "strategic_initiatives": 9,
+        "experience": 9,
+        "professional_summary": 8
+      },
+      "max_pages": 2
+    },
+    "director": {
+      "name": "Director / VP Engineering",
+      "description": "For directors and VPs leading engineering organizations",
+      "role_types": ["director"],
+      "sections": [
+        "contact",
+        "professional_summary",
+        "leadership",
+        "strategic_initiatives",
+        "experience",
+        "technical_expertise",
+        "education"
+      ],
+      "optional_sections": [
+        "board_advisory",
+        "speaking_engagements",
+        "awards_recognition",
+        "publications"
+      ],
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "leadership_highlighter",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ],
+      "section_priorities": {
+        "leadership": 10,
+        "strategic_initiatives": 10,
+        "experience": 9,
+        "professional_summary": 9
+      },
+      "max_pages": 2
+    },
+    "executive": {
+      "name": "Executive (CTO/CIO/VP+)",
+      "description": "For C-level and senior executive roles",
+      "role_types": ["executive"],
+      "sections": [
+        "contact",
+        "professional_summary",
+        "leadership",
+        "strategic_initiatives",
+        "board_advisory",
+        "experience",
+        "education"
+      ],
+      "optional_sections": [
+        "speaking_engagements",
+        "awards_recognition",
+        "publications",
+        "technical_expertise"
+      ],
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "executive_strategist",
+        "leadership_highlighter",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ],
+      "section_priorities": {
+        "leadership": 10,
+        "strategic_initiatives": 10,
+        "board_advisory": 9,
+        "professional_summary": 10
+      },
+      "max_pages": 2
+    },
+    "research_scientist": {
+      "name": "Research Scientist",
+      "description": "For research scientists and applied scientists",
+      "role_types": ["individual_contributor", "technical_lead"],
+      "sections": [
+        "contact",
+        "professional_summary",
+        "publications",
+        "experience",
+        "bulleted_projects",
+        "technical_expertise",
+        "education"
+      ],
+      "optional_sections": [
+        "patents",
+        "speaking_engagements",
+        "awards_recognition",
+        "open_source"
+      ],
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "research_showcase",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ],
+      "section_priorities": {
+        "publications": 10,
+        "experience": 9,
+        "bulleted_projects": 8,
+        "technical_expertise": 9
+      },
+      "max_pages": 2
+    },
+    "product_designer": {
+      "name": "Product Designer / UX Designer",
+      "description": "For design roles requiring portfolio",
+      "role_types": ["individual_contributor"],
+      "sections": [
+        "contact",
+        "professional_summary",
+        "work_samples",
+        "experience",
+        "bulleted_projects",
+        "education"
+      ],
+      "optional_sections": [
+        "awards_recognition",
+        "speaking_engagements",
+        "certifications"
+      ],
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "portfolio_curator",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ],
+      "section_priorities": {
+        "work_samples": 10,
+        "experience": 9,
+        "bulleted_projects": 8,
+        "professional_summary": 8
+      },
+      "max_pages": 2
+    },
+    "career_transition": {
+      "name": "Career Transition",
+      "description": "For candidates changing roles or industries",
+      "role_types": ["individual_contributor", "technical_lead", "engineering_manager"],
+      "sections": [
+        "contact",
+        "professional_summary",
+        "technical_expertise",
+        "experience",
+        "bulleted_projects",
+        "education"
+      ],
+      "optional_sections": [
+        "certifications",
+        "volunteer",
+        "speaking_engagements",
+        "open_source"
+      ],
+      "agents": [
+        "job_analyzer",
+        "content_selector",
+        "resume_drafter",
+        "fabrication_validator",
+        "voice_style_editor",
+        "final_qa"
+      ],
+      "section_priorities": {
+        "professional_summary": 10,
+        "technical_expertise": 9,
+        "bulleted_projects": 9,
+        "experience": 8
+      },
+      "max_pages": 2,
+      "notes": "Emphasize transferable skills and relevant projects"
+    }
+  },
+  "template_selection_rules": {
+    "rules": [
+      {
+        "condition": "role_type == 'executive' OR job_title contains ['CTO', 'CIO', 'VP']",
+        "template": "executive"
+      },
+      {
+        "condition": "role_type == 'director'",
+        "template": "director"
+      },
+      {
+        "condition": "role_type == 'senior_manager'",
+        "template": "senior_manager"
+      },
+      {
+        "condition": "role_type == 'engineering_manager'",
+        "template": "engineering_manager"
+      },
+      {
+        "condition": "job_title contains ['scientist', 'researcher', 'research']",
+        "template": "research_scientist"
+      },
+      {
+        "condition": "job_title contains ['designer', 'design', 'ux', 'ui']",
+        "template": "product_designer"
+      },
+      {
+        "condition": "role_type == 'technical_lead' AND job_title contains ['senior', 'staff', 'principal', 'architect']",
+        "template": "senior_ic"
+      },
+      {
+        "condition": "role_type == 'technical_lead'",
+        "template": "technical_lead"
+      },
+      {
+        "condition": "role_type == 'individual_contributor'",
+        "template": "individual_contributor"
+      }
+    ],
+    "default": "individual_contributor"
+  },
+  "customization_options": {
+    "allow_section_override": true,
+    "allow_agent_override": true,
+    "allow_priority_adjustment": true,
+    "allow_max_pages_override": true,
+    "require_confirmation": true
+  }
+}
