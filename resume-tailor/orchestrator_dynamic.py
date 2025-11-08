@@ -151,7 +151,8 @@ class DynamicResumeOrchestrator(ResumeOrchestrator):
         company_name: str,
         job_title: str,
         job_folder: Optional[str] = None,
-        company_info: Optional[Dict] = None
+        company_info: Optional[Dict] = None,
+        existing_job_analysis: Optional[Any] = None
     ) -> PipelineState:
         """
         Run Phase 1 with dynamic workflow configuration
@@ -165,15 +166,53 @@ class DynamicResumeOrchestrator(ResumeOrchestrator):
             job_title: Job title
             job_folder: Optional existing folder path
             company_info: Optional company information
+            existing_job_analysis: Optional pre-existing JobAnalysis (from GUI)
 
         Returns:
             Pipeline state with results and workflow config
         """
-        # Run standard Phase 1
-        state = super().run_phase1(jd_text, company_name, job_title, job_folder, company_info)
+        # If we have existing job analysis from GUI, use it
+        if existing_job_analysis:
+            # Setup state manager
+            if not job_folder:
+                job_folder = self.setup_job_folder(company_name, job_title)
+            self.state_manager.job_folder = job_folder
+
+            # Create state with existing job analysis
+            state = PipelineState(
+                job_folder=job_folder,
+                job_analysis=existing_job_analysis,
+                current_stage="job_analyzed"
+            )
+            self.state_manager.state = state
+
+            # Save job description
+            jd_path = os.path.join(job_folder, "job_description.md")
+            with open(jd_path, 'w', encoding='utf-8') as f:
+                f.write(jd_text)
+
+            # Still need to run content selection
+            console.print("\n[bold cyan]=== Phase 1: Content Selection ===\n[/bold cyan]")
+            console.print("[cyan]Skipping job analysis (using existing from workflow tab)[/cyan]")
+
+            content_selection = self.content_selector.select(
+                job_analysis=existing_job_analysis,
+                experience_data=self.master_data.get('experience', []),
+                projects_data=self.master_data.get('projects', []),
+                skills_data=self.master_data.get('skills', {})
+            )
+
+            state.content_selection = content_selection
+            state.current_stage = "phase1_complete"
+            self.state_manager.save_state()
+
+            job_analysis = existing_job_analysis
+        else:
+            # Run standard Phase 1
+            state = super().run_phase1(jd_text, company_name, job_title, job_folder, company_info)
+            job_analysis = state.job_analysis
 
         # Configure workflow based on job analysis
-        job_analysis = state.job_analysis
         if job_analysis:
             self.workflow_config = self.configure_workflow(job_analysis)
 
@@ -340,7 +379,8 @@ class DynamicResumeOrchestrator(ResumeOrchestrator):
         job_title: Optional[str] = None,
         company_url: Optional[str] = None,
         auto_generate_pdf: bool = False,
-        skip_style_editing: bool = False
+        skip_style_editing: bool = False,
+        job_analysis_result: Optional[Any] = None
     ) -> Dict[str, Any]:
         """
         Main entry point for dynamic resume generation (all 3 phases)
@@ -354,6 +394,7 @@ class DynamicResumeOrchestrator(ResumeOrchestrator):
             company_url: Optional company website URL
             auto_generate_pdf: Automatically generate PDF at end
             skip_style_editing: Skip Agent 5 if not needed
+            job_analysis_result: Optional pre-existing JobAnalysis (from GUI workflow tab)
 
         Returns:
             Results dictionary including workflow configuration
@@ -364,7 +405,17 @@ class DynamicResumeOrchestrator(ResumeOrchestrator):
         )
 
         # Run Phase 1 with dynamic workflow configuration
-        state = self.run_phase1_dynamic(jd_text, company_name, job_title, company_info=company_info)
+        # If job_analysis_result is provided from GUI, use it to configure workflow
+        if job_analysis_result:
+            console.print("[cyan]Using pre-existing job analysis from workflow configuration[/cyan]")
+            # Still run Phase 1 to get content selection, but with existing job analysis
+            state = self.run_phase1_dynamic(
+                jd_text, company_name, job_title,
+                company_info=company_info,
+                existing_job_analysis=job_analysis_result
+            )
+        else:
+            state = self.run_phase1_dynamic(jd_text, company_name, job_title, company_info=company_info)
 
         # Run Phase 2 with dynamic schema
         state = self.run_phase2_dynamic(self.state_manager.job_folder)
