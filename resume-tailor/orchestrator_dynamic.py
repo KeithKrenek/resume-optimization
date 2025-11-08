@@ -11,7 +11,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 
-from orchestrator_enhanced import ResumeOrchestrator
+from orchestrator import ResumeOrchestrator
 from workflow_configurator import WorkflowConfigurator
 from schema_builder import DynamicSchemaBuilder
 from schemas import PipelineState, JobAnalysis
@@ -284,9 +284,10 @@ class DynamicResumeOrchestrator(ResumeOrchestrator):
 
         # Generate PDF if requested
         if auto_generate_pdf:
-            pdf_path = self.generate_pdf(self.state_manager.job_folder)
-            state.pdf_generated = True
-            state.pdf_path = pdf_path
+            pdf_path = self.generate_pdf()
+            if pdf_path:
+                state.pdf_generated = True
+                state.pdf_path = pdf_path
 
         # Prepare results
         results = {

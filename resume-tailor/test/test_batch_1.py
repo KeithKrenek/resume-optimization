@@ -55,9 +55,9 @@ def test_imports():
     # Try importing orchestrator (optional)
     try:
         from orchestrator import ResumeOrchestrator
-        tests.append(("orchestrator_enhanced", True, ""))
+        tests.append(("orchestrator", True, ""))
     except ImportError:
-        tests.append(("orchestrator_enhanced", False, "Optional - OK if missing"))
+        tests.append(("orchestrator", False, "Optional - OK if missing"))
     
     for name, passed, msg in tests:
         print_test(name, passed, msg)
@@ -123,7 +123,7 @@ def test_orchestrator_import():
         code = f.read()
     
     tests = [
-        ("Uses orchestrator_enhanced", "from orchestrator_enhanced import" in code),
+        ("Uses orchestrator", "from orchestrator import" in code),
         ("Not using orchestrator_complete", "from orchestrator_complete import" not in code),
     ]
     
