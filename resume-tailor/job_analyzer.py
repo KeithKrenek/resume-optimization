@@ -80,15 +80,26 @@ class JobAnalyzerAgent(BaseAgent):
             raise
         
         # Show summary
-        self.show_summary({
+        summary_data = {
             "Role Type": analysis.role_type,
             "Must-Have Requirements": len(analysis.must_have_requirements),
             "Nice-to-Have Requirements": len(analysis.nice_to_have_requirements),
             "Technical Keywords": len(analysis.technical_keywords),
             "Domain Keywords": len(analysis.domain_keywords),
             "Leadership Keywords": len(analysis.leadership_keywords),
-            "Role Focus": analysis.role_focus[:60] + "..." if len(analysis.role_focus) > 60 else analysis.role_focus
-        })
+            "Role Focus": analysis.role_focus[:60] + "..." if len(analysis.role_focus) > 60 else analysis.role_focus,
+        }
+
+        # Add workflow recommendations if available
+        if analysis.recommended_template:
+            summary_data["Recommended Template"] = analysis.recommended_template
+        if analysis.recommended_sections:
+            summary_data["Recommended Sections"] = ", ".join(analysis.recommended_sections[:3]) + \
+                (f" (+{len(analysis.recommended_sections)-3} more)" if len(analysis.recommended_sections) > 3 else "")
+        if analysis.recommended_agents:
+            summary_data["Recommended Agents"] = ", ".join(analysis.recommended_agents)
+
+        self.show_summary(summary_data)
         
         return analysis
     

@@ -1,0 +1,375 @@
+{
+  "metadata": {
+    "version": "1.0.0",
+    "description": "Registry of all possible resume sections with configuration and triggers"
+  },
+  "sections": {
+    "contact": {
+      "enabled_by_default": true,
+      "required": true,
+      "order": 1,
+      "schema_type": "dict",
+      "description": "Contact information",
+      "triggers": [],
+      "fields": {
+        "name": "string",
+        "email": "string",
+        "phone": "string",
+        "location": "string",
+        "linkedin": "string",
+        "github": "string",
+        "website": "string"
+      }
+    },
+    "professional_summary": {
+      "enabled_by_default": true,
+      "required": true,
+      "order": 2,
+      "schema_type": "string",
+      "description": "Brief professional overview and value proposition",
+      "triggers": [],
+      "max_length": 500
+    },
+    "technical_expertise": {
+      "enabled_by_default": true,
+      "required": false,
+      "order": 3,
+      "schema_type": "dict",
+      "description": "Technical skills organized by category",
+      "triggers": ["engineer", "developer", "technical", "software", "architect"],
+      "fields": {
+        "category_name": "list[string]"
+      }
+    },
+    "leadership": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 4,
+      "schema_type": "list",
+      "description": "Leadership experience and team management accomplishments",
+      "triggers": [
+        "management", "manager", "director", "vp", "vice president",
+        "team lead", "technical lead", "head of", "chief",
+        "people management", "team building", "mentorship"
+      ],
+      "item_schema": {
+        "role": "string",
+        "team_size": "string",
+        "scope": "string",
+        "achievements": "list[string]"
+      }
+    },
+    "experience": {
+      "enabled_by_default": true,
+      "required": true,
+      "order": 5,
+      "schema_type": "list",
+      "description": "Work experience entries",
+      "triggers": [],
+      "item_schema": {
+        "company": "string",
+        "title": "string",
+        "dates": "string",
+        "location": "string",
+        "description": "string",
+        "achievements": "list[string]"
+      }
+    },
+    "bulleted_projects": {
+      "enabled_by_default": true,
+      "required": false,
+      "order": 6,
+      "schema_type": "list",
+      "description": "Key projects with impact and outcomes",
+      "triggers": ["project", "built", "developed", "created"],
+      "item_schema": {
+        "title": "string",
+        "org": "string",
+        "dates": "string",
+        "description": "string",
+        "achievements": "list[string]",
+        "tech_stack": "list[string]"
+      }
+    },
+    "work_samples": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 7,
+      "schema_type": "list",
+      "description": "Portfolio items, demos, and work samples",
+      "triggers": [
+        "portfolio", "samples", "design", "writing", "creative",
+        "github", "demo", "showcase", "ux", "ui"
+      ],
+      "item_schema": {
+        "title": "string",
+        "url": "string",
+        "description": "string",
+        "type": "string"
+      }
+    },
+    "certifications": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 8,
+      "schema_type": "list",
+      "description": "Professional certifications and licenses",
+      "triggers": [
+        "certified", "certification", "license", "credential",
+        "aws", "azure", "gcp", "pmp", "cpa", "cfa"
+      ],
+      "item_schema": {
+        "name": "string",
+        "issuer": "string",
+        "date": "string",
+        "credential_id": "string"
+      }
+    },
+    "publications": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 9,
+      "schema_type": "list",
+      "description": "Academic publications, research papers, and articles",
+      "triggers": [
+        "research", "scientist", "phd", "publications", "papers",
+        "academic", "scholar", "peer-reviewed", "journal", "conference"
+      ],
+      "item_schema": {
+        "title": "string",
+        "authors": "list[string]",
+        "venue": "string",
+        "date": "string",
+        "url": "string",
+        "citations": "integer"
+      }
+    },
+    "patents": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 10,
+      "schema_type": "list",
+      "description": "Patents and intellectual property",
+      "triggers": ["patent", "invention", "intellectual property", "ip"],
+      "item_schema": {
+        "title": "string",
+        "patent_number": "string",
+        "status": "string",
+        "date": "string",
+        "inventors": "list[string]"
+      }
+    },
+    "speaking_engagements": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 11,
+      "schema_type": "list",
+      "description": "Conference talks, presentations, and speaking engagements",
+      "triggers": [
+        "speaker", "conference", "presentation", "talk", "keynote",
+        "workshop", "panel", "thought leader"
+      ],
+      "item_schema": {
+        "title": "string",
+        "event": "string",
+        "date": "string",
+        "location": "string",
+        "audience_size": "string"
+      }
+    },
+    "open_source": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 12,
+      "schema_type": "list",
+      "description": "Open source contributions and maintainership",
+      "triggers": [
+        "open source", "oss", "contributor", "maintainer",
+        "github", "gitlab", "community"
+      ],
+      "item_schema": {
+        "project": "string",
+        "role": "string",
+        "contributions": "string",
+        "url": "string",
+        "impact": "string"
+      }
+    },
+    "education": {
+      "enabled_by_default": true,
+      "required": true,
+      "order": 13,
+      "schema_type": "list",
+      "description": "Educational background",
+      "triggers": [],
+      "item_schema": {
+        "degree": "string",
+        "field": "string",
+        "institution": "string",
+        "year": "string",
+        "gpa": "string",
+        "honors": "string"
+      }
+    },
+    "awards_recognition": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 14,
+      "schema_type": "list",
+      "description": "Awards, honors, and recognition",
+      "triggers": ["award", "recognition", "honor", "winner", "prize"],
+      "item_schema": {
+        "award": "string",
+        "issuer": "string",
+        "date": "string",
+        "description": "string"
+      }
+    },
+    "volunteer": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 15,
+      "schema_type": "list",
+      "description": "Volunteer work and community involvement",
+      "triggers": [
+        "volunteer", "community", "nonprofit", "pro bono",
+        "board", "advisor", "mentorship program"
+      ],
+      "item_schema": {
+        "organization": "string",
+        "role": "string",
+        "dates": "string",
+        "description": "string"
+      }
+    },
+    "languages": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 16,
+      "schema_type": "dict",
+      "description": "Language proficiencies",
+      "triggers": ["bilingual", "multilingual", "fluent", "language"],
+      "fields": {
+        "language": "proficiency_level"
+      }
+    },
+    "strategic_initiatives": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 17,
+      "schema_type": "list",
+      "description": "Major strategic initiatives and organizational impact",
+      "triggers": [
+        "director", "vp", "executive", "strategy", "transformation",
+        "initiative", "program", "organizational"
+      ],
+      "item_schema": {
+        "initiative": "string",
+        "scope": "string",
+        "impact": "string",
+        "timeline": "string"
+      }
+    },
+    "board_advisory": {
+      "enabled_by_default": false,
+      "required": false,
+      "order": 18,
+      "schema_type": "list",
+      "description": "Board positions and advisory roles",
+      "triggers": [
+        "board", "advisor", "advisory", "board member",
+        "board of directors", "executive"
+      ],
+      "item_schema": {
+        "organization": "string",
+        "role": "string",
+        "dates": "string",
+        "contributions": "string"
+      }
+    }
+  },
+  "section_groups": {
+    "core": [
+      "contact",
+      "professional_summary",
+      "experience",
+      "education"
+    ],
+    "technical": [
+      "technical_expertise",
+      "bulleted_projects",
+      "work_samples",
+      "open_source"
+    ],
+    "leadership": [
+      "leadership",
+      "strategic_initiatives",
+      "board_advisory"
+    ],
+    "academic": [
+      "publications",
+      "patents",
+      "speaking_engagements"
+    ],
+    "supplementary": [
+      "certifications",
+      "awards_recognition",
+      "volunteer",
+      "languages"
+    ]
+  },
+  "role_type_defaults": {
+    "individual_contributor": [
+      "contact",
+      "professional_summary",
+      "technical_expertise",
+      "experience",
+      "bulleted_projects",
+      "education"
+    ],
+    "technical_lead": [
+      "contact",
+      "professional_summary",
+      "technical_expertise",
+      "experience",
+      "bulleted_projects",
+      "education"
+    ],
+    "engineering_manager": [
+      "contact",
+      "professional_summary",
+      "leadership",
+      "technical_expertise",
+      "experience",
+      "bulleted_projects",
+      "education"
+    ],
+    "senior_manager": [
+      "contact",
+      "professional_summary",
+      "leadership",
+      "strategic_initiatives",
+      "technical_expertise",
+      "experience",
+      "education"
+    ],
+    "director": [
+      "contact",
+      "professional_summary",
+      "leadership",
+      "strategic_initiatives",
+      "experience",
+      "technical_expertise",
+      "education"
+    ],
+    "executive": [
+      "contact",
+      "professional_summary",
+      "leadership",
+      "strategic_initiatives",
+      "board_advisory",
+      "experience",
+      "education"
+    ]
+  }
+}

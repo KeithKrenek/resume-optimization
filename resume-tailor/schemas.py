@@ -42,25 +42,47 @@ class JobAnalysis(BaseModel):
     job_title: str
     company: str
     role_type: RoleType
-    
+
     # Core requirements
     must_have_requirements: List[JobRequirement]
     nice_to_have_requirements: List[JobRequirement]
-    
+
     # Keywords for matching
     technical_keywords: List[str] = Field(description="Technical skills, tools, frameworks")
     domain_keywords: List[str] = Field(description="Industry, application domain")
     leadership_keywords: List[str] = Field(description="Leadership, management terms")
-    
+
     # Company/role context
     company_values: List[str] = Field(default_factory=list, description="Company culture/values")
     role_focus: str = Field(description="Primary focus of role (e.g., 'production ML systems')")
-    
+
     # Meta information
     years_experience_required: Optional[int] = None
     team_size_mentioned: Optional[int] = None
     success_metrics: List[str] = Field(default_factory=list, description="How success is measured")
-    
+
+    # Workflow recommendations (NEW - for dynamic configuration)
+    recommended_sections: List[str] = Field(
+        default_factory=list,
+        description="Resume sections recommended based on job requirements (e.g., ['leadership', 'publications'])"
+    )
+    recommended_agents: List[str] = Field(
+        default_factory=list,
+        description="Optional agents recommended for this role (e.g., ['leadership_highlighter'])"
+    )
+    section_priorities: Dict[str, int] = Field(
+        default_factory=dict,
+        description="Priority ranking for each section (1-10, higher = more important)"
+    )
+    workflow_reasoning: str = Field(
+        default="",
+        description="Explanation of why specific sections/agents were recommended"
+    )
+    recommended_template: Optional[str] = Field(
+        default=None,
+        description="Suggested workflow template name (e.g., 'engineering_manager', 'senior_ic')"
+    )
+
     # Raw for reference
     raw_jd_excerpt: str = Field(description="Key excerpt from JD for context")
 
