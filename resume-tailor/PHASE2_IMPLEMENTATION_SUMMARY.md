@@ -217,7 +217,7 @@ applications/20250108_1430_TechCorp_VP_Engineering/
    - Now properly combines AI recommendations with templates
 
 ### Unchanged (Existing System Continues to Work)
-- `orchestrator_enhanced.py` - Original orchestrator untouched
+- `orchestrator.py` - Original orchestrator untouched
 - All agents (job_analyzer, content_selector, etc.) - Unchanged
 - State manager - Unchanged (for now)
 - Resume drafter - Unchanged (Phase 3 will enhance)
@@ -236,7 +236,7 @@ applications/20250108_1430_TechCorp_VP_Engineering/
 **Migration Path:**
 ```python
 # Old way (still works)
-from orchestrator_enhanced import ResumeOrchestrator
+from orchestrator import ResumeOrchestrator
 orchestrator = ResumeOrchestrator()
 orchestrator.generate_resume(jd_input="job.txt", ...)
 

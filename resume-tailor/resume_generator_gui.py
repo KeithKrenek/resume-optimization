@@ -942,7 +942,7 @@ class ResumeGeneratorGUI(tk.Tk):
     def _run_pipeline(self):
         """Execute the multi-agent pipeline"""
         if not ORCHESTRATOR_AVAILABLE:
-            messagebox.showerror("Not Available", "Orchestrator not found. Please deploy orchestrator_enhanced.py")
+            messagebox.showerror("Not Available", "Orchestrator not found. Please deploy orchestrator.py")
             return
         
         self.run_button.config(state="disabled", text="Running...")
