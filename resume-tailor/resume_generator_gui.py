@@ -23,13 +23,17 @@ from urllib.parse import urlparse
 # Import orchestrator - try dynamic first, fall back to standard
 try:
     from orchestrator_dynamic import DynamicResumeOrchestrator
-# Import orchestrator
+    DYNAMIC_ORCHESTRATOR = True
+except ImportError:
+    DYNAMIC_ORCHESTRATOR = False
+    DynamicResumeOrchestrator = None
+
 try:
     from orchestrator import ResumeOrchestrator
     ORCHESTRATOR_AVAILABLE = True
-    DYNAMIC_ORCHESTRATOR = True
 except ImportError:
     ORCHESTRATOR_AVAILABLE = False
+    ResumeOrchestrator = None
     print("Warning: orchestrator.py not found - demo mode only")
 
 
@@ -510,23 +514,17 @@ class ResumeGeneratorGUI(tk.Tk):
         
         # Create tabs
         self.tab_job_input = ttk.Frame(self.notebook, padding=15)
-        self.tab_workflow = ttk.Frame(self.notebook, padding=15)  # NEW: Workflow configuration
+        self.tab_workflow = ttk.Frame(self.notebook, padding=15)  # Workflow configuration
         self.tab_pipeline = ttk.Frame(self.notebook, padding=15)
         self.tab_layout = ttk.Frame(self.notebook, padding=15)
         self.tab_generate = ttk.Frame(self.notebook, padding=15)
+        self.tab_console = ttk.Frame(self.notebook, padding=15)
 
         self.notebook.add(self.tab_job_input, text="1. Job Description")
-        self.notebook.add(self.tab_workflow, text="2. Workflow Config")  # NEW
+        self.notebook.add(self.tab_workflow, text="2. Workflow Config")
         self.notebook.add(self.tab_pipeline, text="3. Run Pipeline")
         self.notebook.add(self.tab_layout, text="4. Customize Layout")
         self.notebook.add(self.tab_generate, text="5. Generate PDF")
-
-        self.tab_console = ttk.Frame(self.notebook, padding=15)
-        
-        self.notebook.add(self.tab_job_input, text="1. Job Description")
-        self.notebook.add(self.tab_pipeline, text="2. Run Pipeline")
-        self.notebook.add(self.tab_layout, text="3. Customize Layout")
-        self.notebook.add(self.tab_generate, text="4. Generate PDF")
         self.notebook.add(self.tab_console, text="Console")
         
         self.notebook.pack(expand=True, fill="both", padx=10, pady=10)
@@ -833,10 +831,6 @@ class ResumeGeneratorGUI(tk.Tk):
         """Validate input and move to workflow configuration tab"""
         method = self.input_method.get()
 
-        if method == "url" and not self.jd_url_var.get().strip():
-            messagebox.showwarning("Missing Input", "Please enter a job description URL")
-            return
-        
         if method == "url_or_text":
             text = self.jd_url_text.get("1.0", tk.END).strip()
             if not text:
@@ -933,13 +927,11 @@ class ResumeGeneratorGUI(tk.Tk):
             method = self.input_method.get()
             jd_input = None
 
-            if method == "url":
-                jd_input = self.jd_url_var.get().strip()
+            if method == "url_or_text":
+                jd_input = self.jd_url_text.get("1.0", tk.END).strip()
             elif method == "file":
                 with open(self.jd_file_var.get(), 'r', encoding='utf-8') as f:
                     jd_input = f.read()
-            elif method == "text":
-                jd_input = self.jd_text.get("1.0", tk.END).strip()
 
             # Process JD to get text
             if DYNAMIC_ORCHESTRATOR:
@@ -1031,13 +1023,7 @@ class ResumeGeneratorGUI(tk.Tk):
         self.notebook.select(self.tab_pipeline)
 
     # ========================================================================
-    # TAB 3: PIPELINE EXECUTION
-        
-        self._log_console(f"✓ Input validated - proceeding to pipeline execution", "success")
-        self.notebook.select(self.tab_pipeline)
-    
-    # ========================================================================
-    # TAB 2: PIPELINE EXECUTION (WITH MODEL SELECTION)
+    # TAB 3: PIPELINE EXECUTION (WITH MODEL SELECTION)
     # ========================================================================
     
     def _create_pipeline_tab(self):
@@ -1182,20 +1168,13 @@ class ResumeGeneratorGUI(tk.Tk):
                     old_stdout.flush()
             
             sys.stdout = TeeOutput(self)
-            
+
             self._log_progress("Starting multi-agent pipeline...")
 
             # Get job input based on method
             method = self.input_method.get()
             jd_input = None
 
-            if method == "url":
-                jd_input = self.jd_url_var.get().strip()
-                self._log_progress(f"Fetching from URL: {jd_input}")
-            
-            method = self.input_method.get()
-            jd_input = None
-            
             if method == "url_or_text":
                 jd_input = self.jd_url_text.get("1.0", tk.END).strip()
                 if self._is_url(jd_input):
@@ -1255,14 +1234,6 @@ class ResumeGeneratorGUI(tk.Tk):
                         company_url=self.company_url_var.get().strip() or None,
                         skip_style_editing=self.skip_style_editing.get()
                     )
-
-                results = self.orchestrator.generate_resume(
-                    jd_input=jd_input,
-                    company_name=self.company_name_var.get().strip() or None,
-                    job_title=self.job_title_var.get().strip() or None,
-                    company_url=self.company_url_var.get().strip() or None,
-                    skip_style_editing=self.skip_style_editing.get()
-                )
                 
                 self.job_folder = results['folder_path']
                 self._log_progress(f"\n✓ Pipeline complete!")
